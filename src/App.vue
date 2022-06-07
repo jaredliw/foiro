@@ -1,12 +1,9 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
 </template>
 
 <script>
@@ -22,24 +19,31 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+$primary: #6868ab;
+$body-color: #3a5743;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/solid.min.css";
+@import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
+
+@font-face {
+  font-family: MontserratLight;
+  src: url(assets/fonts/Montserrat/Montserrat-Light.ttf);
+  font-style: normal;
+  font-weight: 200;
 }
 
-#nav {
-  padding: 30px;
+@font-face {
+  font-family: Montserrat;
+  src: url(assets/fonts/Montserrat/Montserrat-Regular.ttf);
+  font-style: normal;
+  font-weight: normal;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 </style>
