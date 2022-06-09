@@ -4,28 +4,16 @@
 
     <v-container>
       <v-row class="mb-2 mt-4 align-center">
-        <v-col id="header" cols="6" sm="7" class="me-auto">
+        <v-col id="header" cols="6" class="me-auto">
           <h5 class="text-h5 font-weight-medium">Senarai Pengguna</h5>
         </v-col>
-        <v-col cols="6" sm="5">
-          <div class="d-flex">
-            <v-text-field
-              id="searchBar"
-              v-model="search"
-              prepend-inner-icon="mdi-magnify"
-              class="pe-3 d-none d-sm-block"
-              aria-label="Cari"
-              placeholder="Cari..."
-              hide-details
-              dense
-            />
-            <v-btn
-              id="addUserBtn"
-              class="darken-1"
-              color="success"
-              data-bs-toggle="modal"
-              data-bs-target="#userDataModal"
-            >
+        <v-col cols="6">
+          <div class="d-flex justify-end">
+            <v-btn class="me-3">
+              <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
+              <v-icon right>mdi-database-import</v-icon>
+            </v-btn>
+            <v-btn class="darken-1" color="success">
               <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
               <v-icon right>mdi-account-plus-outline</v-icon>
             </v-btn>
@@ -41,8 +29,39 @@
               :items="users"
               :items-per-page="5"
               :search="search"
+              :loading="is_loading"
+              loading-text="Data sedang dimuatkan..."
+              v-model="selected"
+              item-key="username"
               multi-sort
+              show-select
             >
+              <template v-slot:top>
+                <v-row no-gutters>
+                  <v-col cols="6">
+                    <v-text-field
+                      v-model="search"
+                      prepend-inner-icon="mdi-magnify"
+                      class="mx-4"
+                      aria-label="Cari"
+                      placeholder="Cari..."
+                      hide-details
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="6" class="d-flex justify-end align-end">
+                    <v-btn
+                      :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
+                      class="mx-4"
+                    >
+                      <span class="d-none d-sm-inline text-uppercase">
+                        EKSPORT CSV
+                      </span>
+                      <v-icon right>mdi-database-export</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </template>
               <template v-slot:item.username="{ item }">
                 <v-badge color="success" inline left dot small></v-badge>
                 {{ item.username }}
@@ -69,8 +88,8 @@
                 >
                   mdi-account-cancel
                 </v-icon>
-                <v-icon small color="red" @click="deleteUser(item)"
-                  >mdi-delete
+                <v-icon small color="red" @click="deleteUser(item)">
+                  mdi-delete
                 </v-icon>
               </template>
               <template v-slot:no-data>
@@ -101,6 +120,8 @@ export default {
   data() {
     return {
       search: "",
+      selected: [],
+      is_loading: true,
       headers: [
         {
           text: "Nama Pengguna",
@@ -127,6 +148,7 @@ export default {
   },
   methods: {
     loadAllUsers() {
+      this.is_loading = true;
       this.axios
         .get("/api/admin/user")
         .then((response) => {
@@ -138,6 +160,7 @@ export default {
             title: "Data pengguna tidak dapat dimuatkan.",
           });
         });
+      this.is_loading = false;
     },
     getColor(text) {
       if (text === "admin") {
