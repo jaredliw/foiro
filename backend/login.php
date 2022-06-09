@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/_utils/database.php';
+require_once __DIR__ . '/_utils/sql.php';
 require_once __DIR__ . '/_utils/json.php';
 
 function user_dispatch(string $privilege): ?string
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $password = hash('sha512', $password);
     /** @noinspection PhpUndefinedVariableInspection */
-    $data = mysqli_query($conn, <<<EOD
+    $data = mysqli_query($MYSQL_CONNECTION, <<<EOD
             SELECT *
             FROM user
             WHERE username = '$username' AND password = '$password';

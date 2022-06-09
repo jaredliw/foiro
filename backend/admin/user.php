@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . '/../_utils/database.php';
+require_once __DIR__ . '/../_utils/sql.php';
 require_once __DIR__ . '/../_utils/json.php';
 require_once __DIR__ . '/../_utils/security.php';
 check_access('admin');
 
 function check_user_exists(string $username, bool $expect_to_be): void
 {
-    global $conn;
-    $query_status = mysqli_query($conn, <<<EOD
+    global $MYSQL_CONNECTION;
+    $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
             SELECT username
             FROM user
             WHERE username = '$username'; 
@@ -27,7 +28,7 @@ function check_user_exists(string $username, bool $expect_to_be): void
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($conn, <<<EOD
+        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
             SELECT username, name, role
             FROM user
             ORDER BY username;
@@ -71,7 +72,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         check_user_exists($username, false);
         $password = hash('sha512', $password);
         /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($conn, <<<EOD
+        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
             INSERT INTO user (username, name, password, role)
             VALUES ('$username', '$name', '$password', '$role');
         EOD
@@ -108,7 +109,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         check_user_exists($username, true);
         if ($password == '') {
             /** @noinspection PhpUndefinedVariableInspection */
-            $query_status = mysqli_query($conn, <<<EOD
+            $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
                 UPDATE user
                 SET name='$name', role='$role'
                 WHERE username='$username';
@@ -118,7 +119,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $password = hash('sha512', $password);
             error_log($password);
             /** @noinspection PhpUndefinedVariableInspection */
-            $query_status = mysqli_query($conn, <<<EOD
+            $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
                 UPDATE user
                 SET name='$name', password='$password', role='$role'
                 WHERE username='$username';
@@ -137,7 +138,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         check_user_exists($username, true);
         /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($conn, <<<EOD
+        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
             DELETE FROM user
             WHERE username = '$username';
         EOD
