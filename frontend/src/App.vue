@@ -1,9 +1,15 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <component :is="Component"></component>
-    </transition>
-  </router-view>
+  <v-app>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+  </v-app>
 </template>
 
 <script>
@@ -18,32 +24,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-$primary: #6868ab;
-$body-color: #3a5743;
-
-@import "../node_modules/bootstrap/scss/bootstrap";
-@import "../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css";
-@import "../node_modules/@fortawesome/fontawesome-free/css/solid.min.css";
-@import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
-
-@font-face {
-  font-family: MontserratLight;
-  src: url(assets/fonts/Montserrat/Montserrat-Light.ttf);
-  font-style: normal;
-  font-weight: 200;
-}
-
-@font-face {
-  font-family: Montserrat;
-  src: url(assets/fonts/Montserrat/Montserrat-Regular.ttf);
-  font-style: normal;
-  font-weight: normal;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-}
+<style>
+@import "~sweetalert2/dist/sweetalert2.min.css";
+@import "~@mdi/font/css/materialdesignicons.min.css";
+@import "~vuetify/dist/vuetify.min.css";
 </style>
