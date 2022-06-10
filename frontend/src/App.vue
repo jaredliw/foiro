@@ -24,8 +24,14 @@ export default {
 };
 </script>
 
+<!--suppress CssUnusedSymbol -->
 <style>
 @import "~sweetalert2/dist/sweetalert2.min.css";
 @import "~@mdi/font/css/materialdesignicons.min.css";
 @import "~vuetify/dist/vuetify.min.css";
+
+.swal2-title {
+  font-family: Roboto, sans-serif !important;
+  font-weight: 400 !important;
+}
 </style>

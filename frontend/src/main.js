@@ -8,6 +8,8 @@ import App from "./App";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 
+import "sweetalert2/dist/sweetalert2.all.min.js";
+
 Vue.config.productionTip = false;
 Vue.use(VueMeta);
 Vue.use(VueAxios, axios);
@@ -15,7 +17,7 @@ Vue.use(VueSweetalert2, {
   toast: true,
   position: "bottom-end",
   showConfirmButton: false,
-  timer: 2000,
+  // timer: 2000,
 });
 
 new Vue({
