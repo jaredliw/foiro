@@ -13,10 +13,14 @@
               <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
               <v-icon right>mdi-database-import</v-icon>
             </v-btn>
-            <v-btn class="darken-1" color="success">
+            <v-btn class="darken-1" color="success" @click.stop="dialog = true">
               <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
               <v-icon right>mdi-account-plus-outline</v-icon>
             </v-btn>
+            <user-form-dialog
+              :dialog="dialog"
+              v-on:close="dialog = false"
+            ></user-form-dialog>
           </div>
         </v-col>
       </v-row>
@@ -107,12 +111,14 @@
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar";
+import Sidebar from "@/components/Sidebar";
+import UserFormDialog from "@/components/UserFormDialog";
 
 export default {
   name: "UserList",
   components: {
     Sidebar,
+    UserFormDialog,
   },
   metaInfo: {
     title: "Senarai Pengguna",
@@ -122,6 +128,7 @@ export default {
       search: "",
       selected: [],
       is_loading: true,
+      dialog: false,
       headers: [
         {
           text: "Nama Pengguna",
@@ -180,7 +187,27 @@ export default {
       console.log(user);
     },
     deleteUser(user) {
-      console.log(user);
+      this.axios
+        .delete("/api/admin/user", {
+          data: {
+            username: user.username,
+          },
+        })
+        .then((response) => {
+          this.$swal.fire({
+            icon: "success",
+            title: response.data["message"],
+          });
+          this.loadAllUsers();
+        })
+        .catch((error) => {
+          this.$swal.fire({
+            icon: "error",
+            title:
+              error.response.data["message"] ??
+              "Ralat yang tidak diketahui berlaku.",
+          });
+        });
     },
   },
   mounted() {
