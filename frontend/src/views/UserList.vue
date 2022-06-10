@@ -57,6 +57,7 @@
                     <v-btn
                       :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
                       class="mx-4"
+                      @click="exportCSV()"
                     >
                       <span class="d-none d-sm-inline text-uppercase">
                         EKSPORT CSV
@@ -111,6 +112,8 @@
 </template>
 
 <script>
+import Papa from "papaparse";
+import moment from "moment";
 import Sidebar from "@/components/Sidebar";
 import UserFormDialog from "@/components/UserFormDialog";
 
@@ -208,6 +211,33 @@ export default {
               "Ralat yang tidak diketahui berlaku.",
           });
         });
+    },
+    exportCSV() {
+      let csvContent = Papa.unparse({
+        fields: ["Nama Pengguna", "Nama", "Peranan"],
+        data: this.selected.map((user) => Object.values(user)),
+      });
+
+      let filename = `senarai_pengguna_${moment().format(
+        "YYYY-MM-DD_HH-mm-ss"
+      )}.csv`;
+      let file = new File([csvContent], filename, {
+        type: "text/csv;charset=utf-8;",
+      });
+
+      this.download(file);
+    },
+    download(file) {
+      let link = document.createElement("a");
+      let url = URL.createObjectURL(file);
+
+      link.href = url;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     },
   },
   mounted() {
