@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/_utils/database.php';
-require_once __DIR__ . '/_utils/sql.php';
 require_once __DIR__ . '/_utils/json.php';
 
 function user_dispatch(string $privilege): ?string
@@ -26,13 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($json->username, $json->password)) {
         response(400, 'Parameter wajib tidak dibekalkan.');
     }
-    $username = sql_sanitize($json->username);
-    $password = sql_sanitize($json->password);
+    $username = MySQL::sanitize($json->username);
+    $password = MySQL::sanitize($json->password);
     $remember = isset($json->remember) && $json->remember === 'on';
 
     $password = hash('sha512', $password);
-    /** @noinspection PhpUndefinedVariableInspection */
-    $data = mysqli_query($MYSQL_CONNECTION, <<<EOD
+    $data = MySQL::connection()->query(<<<EOD
             SELECT *
             FROM user
             WHERE username = '$username' AND password = '$password';

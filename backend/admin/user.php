@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../_utils/database.php';
-require_once __DIR__ . '/../_utils/sql.php';
 require_once __DIR__ . '/../_utils/json.php';
 require_once __DIR__ . '/../_utils/security.php';
 check_access('admin');
@@ -8,7 +7,7 @@ check_access('admin');
 function check_user_exists(string $username, bool $expect_to_be): void
 {
     global $MYSQL_CONNECTION;
-    $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+    $query_status = MySQL::connection()->query(<<<EOD
             SELECT username
             FROM user
             WHERE username = '$username'; 
@@ -27,8 +26,7 @@ function check_user_exists(string $username, bool $expect_to_be): void
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+        $query_status = MySQL::connection()->query(<<<EOD
             SELECT username, name, role
             FROM user
             ORDER BY username;
@@ -51,10 +49,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (!isset($_POST['username'], $_POST['name'], $_POST['password'], $_POST['role'])) {
             response(400, 'Parameter wajib tidak dibekalkan.');
         }
-        $username = sql_sanitize($_POST['username']);
-        $name = sql_sanitize($_POST['name']);
-        $password = sql_sanitize($_POST['password']);
-        $role = sql_sanitize($_POST['role']);
+        $username = MySQL::sanitize($_POST['username']);
+        $name = MySQL::sanitize($_POST['name']);
+        $password = MySQL::sanitize($_POST['password']);
+        $role = MySQL::sanitize($_POST['role']);
         // todo: stricter check
         if (!preg_match('/^[a-z\d_]{3,20}$/i', $username)) {
             response(400, 'Nama pengguna tidak sah.');
@@ -71,8 +69,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         check_user_exists($username, false);
         $password = hash('sha512', $password);
-        /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+        $query_status = MySQL::connection()->query(<<<EOD
             INSERT INTO user (username, name, password, role)
             VALUES ('$username', '$name', '$password', '$role');
         EOD
@@ -88,10 +85,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (!isset($_PUT['username'], $_PUT['name'], $_PUT['password'], $_PUT['role'])) {
             response(400, 'Parameter wajib tidak dibekalkan.');
         }
-        $username = sql_sanitize($_PUT['username']);
-        $name = sql_sanitize($_PUT['name']);
-        $password = sql_sanitize($_PUT['password']);
-        $role = sql_sanitize($_PUT['role']);
+        $username = MySQL::sanitize($_PUT['username']);
+        $name = MySQL::sanitize($_PUT['name']);
+        $password = MySQL::sanitize($_PUT['password']);
+        $role = MySQL::sanitize($_PUT['role']);
 
         if (!preg_match('/^[a-z\d_]{3,20}$/i', $username)) {
             response(400, 'Nama pengguna tidak sah.');
@@ -108,8 +105,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         check_user_exists($username, true);
         if ($password == '') {
-            /** @noinspection PhpUndefinedVariableInspection */
-            $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+            $query_status = MySQL::connection()->query(<<<EOD
                 UPDATE user
                 SET name='$name', role='$role'
                 WHERE username='$username';
@@ -118,8 +114,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } else {
             $password = hash('sha512', $password);
             error_log($password);
-            /** @noinspection PhpUndefinedVariableInspection */
-            $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+            $query_status = MySQL::connection()->query(<<<EOD
                 UPDATE user
                 SET name='$name', password='$password', role='$role'
                 WHERE username='$username';
@@ -130,15 +125,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;  // This line is unreachable, code exited
 
     case 'DELETE':
-        parse_str(file_get_contents('php://input'), $_DELETE);  // Access DELETE data
-        if (!isset($_DELETE['username'])) {
+        $raw = file_get_contents('php://input');
+        $json = json_decode($raw);
+
+        if (!isset($json->username)) {
             response(400, 'Parameter wajib tidak dibekalkan.');
         }
-        $username = sql_sanitize($_DELETE['username']);
+        $username = MySQL::sanitize($json->username);
 
         check_user_exists($username, true);
-        /** @noinspection PhpUndefinedVariableInspection */
-        $query_status = mysqli_query($MYSQL_CONNECTION, <<<EOD
+        $query_status = MySQL::connection()->query(<<<EOD
             DELETE FROM user
             WHERE username = '$username';
         EOD
