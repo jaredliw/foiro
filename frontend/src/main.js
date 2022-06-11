@@ -17,7 +17,7 @@ Vue.use(VueSweetalert2, {
   toast: true,
   position: "bottom-end",
   showConfirmButton: false,
-  // timer: 2000,
+  timer: 2000,
 });
 
 new Vue({
