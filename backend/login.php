@@ -7,7 +7,7 @@ function user_dispatch(string $privilege): ?string
     switch ($privilege) {
         case 'student':
             return '/student/student';
-        case 'teacher':
+        case 'judge':
             return '/judge/judge';
         case 'admin':
             return '/admin/user';

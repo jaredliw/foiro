@@ -10,7 +10,7 @@ function check_user_exists(string $username, bool $expect_to_be): void
     $query_status = MySQL::connection()->query(<<<EOD
             SELECT username
             FROM user
-            WHERE username = '$username'; 
+            WHERE username = '$username';
         EOD
     );
 
@@ -46,13 +46,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;  // This line is unreachable, code exited
 
     case 'POST':  // todo duplicate code segment
-        if (!isset($_POST['username'], $_POST['name'], $_POST['password'], $_POST['role'])) {
+        $raw = file_get_contents('php://input');
+        $json = json_decode($raw);
+
+        if (!isset($json->username, $json->name, $json->password, $json->role)) {
             response(400, 'Parameter wajib tidak dibekalkan.');
         }
-        $username = MySQL::sanitize($_POST['username']);
-        $name = MySQL::sanitize($_POST['name']);
-        $password = MySQL::sanitize($_POST['password']);
-        $role = MySQL::sanitize($_POST['role']);
+        $username = MySQL::sanitize($json->username);
+        $name = MySQL::sanitize($json->name);
+        $password = MySQL::sanitize($json->password);
+        $role = MySQL::sanitize($json->role);
         // todo: stricter check
         if (!preg_match('/^[a-z\d_]{3,20}$/i', $username)) {
             response(400, 'Nama pengguna tidak sah.');
@@ -63,7 +66,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (!preg_match('/^[a-zA-Z\d .,\/<>?;:"\'`~!@#$%^&*()\[\]{}_+=|\\-]{8,}$/', $password)) {
             response(400, 'Kata laluan tidak sah.');
         }
-        if (!in_array($role, ['student', 'teacher', 'admin'])) {
+        if (!in_array($role, ['student', 'judge', 'admin'])) {
             response(400, 'Peranan akaun tidak sah.');
         }
 
