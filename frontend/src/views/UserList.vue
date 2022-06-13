@@ -13,13 +13,22 @@
               <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
               <v-icon right>mdi-database-import</v-icon>
             </v-btn>
-            <v-btn class="darken-1" color="success" @click.stop="dialog = true">
+            <v-btn
+              class="darken-1"
+              color="success"
+              @click.stop="
+                dialog = true;
+                dialogUpdateMode = false;
+              "
+            >
               <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
               <v-icon right>mdi-account-plus-outline</v-icon>
             </v-btn>
             <user-form-dialog
               :dialog="dialog"
               v-on:close="dialog = false"
+              :updateMode="dialogUpdateMode"
+              ref="dialog"
             ></user-form-dialog>
           </div>
         </v-col>
@@ -131,6 +140,7 @@ export default {
       search: "",
       selected: [],
       is_loading: true,
+      dialogUpdateMode: false,
       dialog: false,
       headers: [
         {
@@ -175,7 +185,7 @@ export default {
     getColor(text) {
       if (text === "admin") {
         return "#8390fa";
-      } else if (text === "teacher") {
+      } else if (text === "judge") {
         return "#fac748";
       } else if (text === "student") {
         return "#f88dad";
@@ -184,7 +194,11 @@ export default {
       }
     },
     editUser(user) {
-      console.log(user);
+      this.$refs.dialog.setUsername(user.username);
+      this.$refs.dialog.setName(user.name);
+      this.$refs.dialog.setRole(user.role);
+      this.dialogUpdateMode = true;
+      this.dialog = true;
     },
     suspendUser(user) {
       console.log(user);

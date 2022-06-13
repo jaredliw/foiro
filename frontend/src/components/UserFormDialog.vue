@@ -1,6 +1,7 @@
 <template>
   <form-dialog
-    form-title="Tambah Pengguna"
+    ref="dialog"
+    :form-title="updateMode ? 'Kemas Kini Pengguna' : 'Tambah Pengguna'"
     :save="addUser"
     :dialog="dialog"
     v-on:close="$emit('close')"
@@ -10,8 +11,6 @@
         <v-text-field
           label="Nama Pengguna"
           counter="15"
-          required
-          aria-required="true"
           :rules="[
             rules.required,
             rules.minLength(3),
@@ -19,14 +18,13 @@
             rules.alnumUnderscoreOnly,
           ]"
           v-model="username"
+          :readonly="updateMode"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
           label="Nama"
           counter="80"
-          required
-          aria-required="true"
           :rules="[
             rules.required,
             rules.maxLength(80),
@@ -40,46 +38,45 @@
     <v-row>
       <v-col cols="6">
         <v-text-field
-          label="Kata Laluan"
+          :label="updateMode ? 'Kata Laluan Baharu (jika ada)' : 'Kata Laluan'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
-          required
-          aria-required="true"
           :rules="[
-            rules.required,
-            rules.minLength(8),
-            rules.maxLength(12),
-            rules.asciiPrintableOnly,
-            rules.containsLowercase,
-            rules.containsUppercase,
-            rules.containsNumber,
-            rules.containsSymbol,
+            rules.optional(rules.required),
+            rules.optional(rules.minLength(8)),
+            rules.optional(rules.maxLength(12)),
+            rules.optional(rules.asciiPrintableOnly),
+            rules.optional(rules.containsLowercase),
+            rules.optional(rules.containsUppercase),
+            rules.optional(rules.containsNumber),
+            rules.optional(rules.containsSymbol),
           ]"
           v-model="password"
+          :validate-on-blur="true"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
-          label="Sahkan Kata Laluan"
+          :label="
+            updateMode
+              ? 'Sahkan Kata Laluan Baharu (jika ada)'
+              : 'Sahkan Kata Laluan'
+          "
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showConfirmPassword ? 'text' : 'password'"
           @click:append="showConfirmPassword = !showConfirmPassword"
-          required
-          aria-required="true"
-          :rules="[rules.required, rules.passwordMatch]"
+          :rules="[
+            rules.optional(rules.required),
+            rules.optional(rules.passwordMatch),
+          ]"
+          :validate-on-blur="true"
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
-        <v-radio-group
-          row
-          label="Jantina"
-          v-model="gender"
-          required
-          aria-required="true"
-        >
+        <v-radio-group row label="Jantina" v-model="gender" mandatory>
           <v-radio value="M" color="primary">
             <template v-slot:label>
               <span :class="{ 'primary--text': gender === 'M' }">Lelaki</span>
@@ -98,13 +95,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-radio-group
-          row
-          label="Peranan"
-          v-model="role"
-          required
-          aria-required="true"
-        >
+        <v-radio-group row label="Peranan" v-model="role" mandatory>
           <v-radio value="student">
             <template v-slot:label>
               <span :class="{ 'primary--text': role === 'student' }">
@@ -142,6 +133,10 @@ export default {
   },
   props: {
     dialog: Boolean,
+    updateMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -180,12 +175,55 @@ export default {
           "Mesti mengandungi simbol.",
         passwordMatch: (v) =>
           v === this.password || "Kata laluan tidak sepadan.",
+        // If updateMode is true, then the field is optional.
+        optional: (f) => (v) => {
+          console.log(
+            this.updateMode,
+            this.updateMode && !v,
+            f(v),
+            (this.updateMode && !v) || f(v)
+          );
+          return (this.updateMode && !v) || f(v);
+        },
       },
     };
   },
   methods: {
     addUser() {
-      console.log("addUser");
+      this.axios
+        .post("/api/admin/user", {
+          username: this.username,
+          name: this.name,
+          password: this.password,
+          role: this.role,
+        })
+        .then((response) => {
+          this.$swal.fire({
+            icon: "success",
+            title: response.data["message"],
+          });
+          this.showPassword = false;
+          this.showConfirmPassword = false;
+          this.$refs.dialog.close();
+        })
+        .catch((error) => {
+          this.$swal.fire({
+            icon: "error",
+            title:
+              error.response.data["message"] ??
+              "Ralat yang tidak diketahui berlaku.",
+          });
+        });
+      this.$parent.loadAllUsers();
+    },
+    setUsername(username) {
+      this.username = username;
+    },
+    setName(name) {
+      this.name = name;
+    },
+    setRole(role) {
+      this.role = role;
     },
   },
 };
