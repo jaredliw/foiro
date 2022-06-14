@@ -13,7 +13,9 @@ function handle_exception(Throwable $ex): void
             " message=" .
             $ex->getMessage() .
             " line=" .
-            $ex->getLine()
+            $ex->getLine() .
+            " file=" .
+            $ex->getFile()
     );
     ob_end_clean(); # try to purge content sent so far
     require_once __DIR__ . "/_utils/io.php";
