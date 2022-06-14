@@ -1,46 +1,22 @@
 <?php
 require_once __DIR__ . "/_utils/database.php";
-require_once __DIR__ . "/_utils/json.php";
-
-function user_dispatch(string $privilege): ?string
-{
-    switch ($privilege) {
-        case "student":
-            return "/student/student";
-        case "judge":
-            return "/judge/judge";
-        case "admin":
-            return "/admin/user";
-        default:
-            return null;
-    }
-}
+require_once __DIR__ . "/_utils/io.php";
+require_once __DIR__ . "/_utils/user.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     session_start();
-    // Read json input
-    $raw = file_get_contents("php://input");
-    $json = json_decode($raw);
 
-    if (!isset($json->username, $json->password)) {
-        response(400, "Parameter wajib tidak dibekalkan.");
-    }
-    $username = MySQL::sanitize($json->username);
-    $password = MySQL::sanitize($json->password);
-    $remember = isset($json->remember) && $json->remember === "on";
+    $json = json_read();
+    $username = compulsory_param($json->username);
+    $raw_password = compulsory_param($json->password);
+    $remember = isset($json->remember) && $json->remember === "on"; // todo
 
-    $password = hash("sha512", $password);
-    $data = MySQL::connection()->query(
-        <<<EOD
-    SELECT *
-    FROM user
-    WHERE username = '$username' AND password = '$password';
-EOD
+    $user = search_user_on_username_and_password(
+        $username,
+        hash_password($raw_password)
     );
-
-    $user = mysqli_fetch_array($data);
-    if (is_null($user)) {
-        response(403, "Nama pengguna atau kata laluan tidak sah.");
+    if ($user === null) {
+        json_write(403, "Nama pengguna atau kata laluan tidak sah.");
     }
 
     $role = $user["role"];
