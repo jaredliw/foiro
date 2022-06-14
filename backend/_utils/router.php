@@ -8,8 +8,19 @@ function route(string $paths, callable $callback = null): void
     if (is_null($callback)) {
         // Use default callback
         $callback = function ($uri) {
-            /** @noinspection PhpIncludeInspection */
-            require_once __DIR__ . "/../" . $uri . ".php";
+            // Filename format: <name>.<request_method>.php
+            $filename =
+                __DIR__ .
+                "/../" .
+                $uri .
+                "." .
+                strtolower($_SERVER["REQUEST_METHOD"]) .
+                ".php";
+            if (!file_exists($filename)) {
+                error_log("File not found: " . $filename);
+                json_write(405, "Kaedah tidak dibenarkan.");
+            }
+            require_once $filename;
             return true;
         };
     }

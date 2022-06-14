@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/io.php";
+require_once __DIR__ . "/database.php";
 
 function user_dispatch(string $privilege): ?string
 {
@@ -87,7 +88,7 @@ function check_user_exists(string $username, bool $expect_to_be): void
     $stmt->bind_param("s", $username);
     $stmt->execute();
 
-    if ($expect_to_be xor $stmt->num_rows() !== 0) {
+    if ($expect_to_be xor $stmt->get_result()->num_rows !== 0) {
         json_write(
             $expect_to_be ? 404 : 409,
             'Nama pengguna \'' .
