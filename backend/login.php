@@ -45,17 +45,16 @@ EOD
 
     $role = $user["role"];
     $redirect_url = user_dispatch($role);
-    if (is_null($redirect_url)) {
-        error_log("Unrecognized role: " . $role . ".");
-        response(500, "Ralat pelayan dalaman.");
-    } else {
-        $_SESSION["username"] = $username;
-        $_SESSION["role"] = $role;
-
-        response(200, "Log masuk berjaya.", [
-            "redirect_url" => $redirect_url,
-        ]);
+    if ($redirect_url === null) {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        throw new Exception("Unrecognized role: " . $role . "."); // Error handler is set in app.php
     }
+
+    $_SESSION["username"] = $username;
+    $_SESSION["role"] = $role;
+    json_write(200, "Log masuk berjaya.", [
+        "redirect_url" => $redirect_url,
+    ]);
 } else {
-    response(405, "Kaedah tidak dibenarkan.");
+    json_write(405, "Kaedah tidak dibenarkan.");
 }

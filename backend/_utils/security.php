@@ -6,7 +6,7 @@ function check_access($role_required): void
         return;
     }
 
-    require_once __DIR__ . "/json.php";
-    response(401, "Permisi tidak diberikan.");
+    require_once __DIR__ . "/io.php";
+    json_write(401, "Permisi tidak diberikan.");
     exit();
 }

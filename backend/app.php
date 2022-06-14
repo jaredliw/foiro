@@ -5,7 +5,7 @@ $white_list = ["/login", "/logout", "/me", "/admin/user"];
 
 route(join(" ", $white_list));
 
-function handleException(Throwable $ex): void
+function handle_exception(Throwable $ex): void
 {
     error_log(
         "Uncaught exception class=" .
@@ -16,10 +16,10 @@ function handleException(Throwable $ex): void
             $ex->getLine()
     );
     ob_end_clean(); # try to purge content sent so far
-    require_once __DIR__ . "/_utils/json.php";
-    response(500, "Ralat pelayan dalaman.");
+    require_once __DIR__ . "/_utils/io.php";
+    json_write(500, "Ralat pelayan dalaman."); # Response 500 on any exception
 }
 
-set_exception_handler("handleException");
+set_exception_handler("handle_exception");
 
 run();

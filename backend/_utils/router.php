@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/json.php";
+require_once __DIR__ . "/io.php";
 
 $routes = [];
 
@@ -46,6 +46,6 @@ function run(): void
     }
 
     if (!$found) {
-        response(404, "Halaman tidak ditemui.");
+        json_write(404, "Halaman tidak ditemui.");
     }
 }

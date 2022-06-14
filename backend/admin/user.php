@@ -46,7 +46,8 @@ EOD
             ];
             $records[] = $formatted;
         }
-        response(200, "Berjaya.", $records);
+
+        json_write(200, "Berjaya.", $records);
         break; // This line is unreachable, code exited
 
     case "POST": // todo duplicate code segment
@@ -64,10 +65,10 @@ EOD
         $role = MySQL::sanitize($json->role);
         // todo: stricter check
         if (!preg_match('/^[a-z\d_]{3,20}$/i', $username)) {
-            response(400, "Nama pengguna tidak sah.");
+            json_write(400, "Nama pengguna tidak sah.");
         }
         if ($name === "") {
-            response(400, "Nama tidak sah.");
+            json_write(400, "Nama tidak sah.");
         }
         if (
             !preg_match(
@@ -75,10 +76,10 @@ EOD
                 $password
             )
         ) {
-            response(400, "Kata laluan tidak sah.");
+            json_write(400, "Kata laluan tidak sah.");
         }
         if (!in_array($role, ["student", "judge", "admin"])) {
-            response(400, "Peranan akaun tidak sah.");
+            json_write(400, "Peranan akaun tidak sah.");
         }
 
         check_user_exists($username, false);
@@ -90,7 +91,7 @@ EOD
 EOD
         );
 
-        response(201, 'Akaun \'' . $username . '\' telah dicipta.');
+        json_write(201, "Akaun '" . $username . "' telah dicipta.");
         break; // This line is unreachable, code exited
 
     case "PUT":
@@ -113,10 +114,10 @@ EOD
         $role = MySQL::sanitize($_PUT["role"]);
 
         if (!preg_match('/^[a-z\d_]{3,20}$/i', $username)) {
-            response(400, "Nama pengguna tidak sah.");
+            json_write(400, "Nama pengguna tidak sah.");
         }
         if ($name === "") {
-            response(400, "Nama tidak sah.");
+            json_write(400, "Nama tidak sah.");
         }
         if (
             $password != "" &&
@@ -125,10 +126,10 @@ EOD
                 $password
             )
         ) {
-            response(400, "Kata laluan tidak sah.");
+            json_write(400, "Kata laluan tidak sah.");
         }
         if (!in_array($role, ["student", "teacher", "admin"])) {
-            response(400, "Peranan akaun tidak sah.");
+            json_write(400, "Peranan akaun tidak sah.");
         }
 
         check_user_exists($username, true);
@@ -151,7 +152,8 @@ EOD
 EOD
             );
         }
-        response(200, 'Akaun \'' . $username . '\' telah dikemas kini.');
+
+        json_write(200, "Akaun '" . $username . "' telah dikemas kini.");
         break; // This line is unreachable, code exited
 
     case "DELETE":
@@ -171,9 +173,9 @@ EOD
 EOD
         );
 
-        response(200, 'Akaun \'' . $username . '\' telah dihapuskan.');
+        json_write(200, "Akaun '" . $username . "' telah dihapuskan.");
         break; // This line is unreachable, code exited
 
     default:
-        response(405, "Kaedah tidak dibenarkan.");
+        json_write(405, "Kaedah tidak dibenarkan.");
 }
