@@ -3,15 +3,15 @@
     <v-list>
       <v-list-item class="px-2">
         <v-list-item-avatar class="my-1">
-          <avatar username="Jared Liw Zhi Long" :size="40"></avatar>
+          <avatar :username="myName" :size="40"></avatar>
         </v-list-item-avatar>
         <v-list-item-content class="py-1">
           <v-list-item-title class="text-h6">
-            Jared Liw Zhi Long
+            {{ myName }}
           </v-list-item-title>
-          <v-list-item-subtitle>jaredliw</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ myUsername }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action class="my-1">
+        <v-list-item-action class="my-1" @click="logout()">
           <v-btn icon>
             <v-icon color="error">mdi-logout</v-icon>
           </v-btn>
@@ -23,7 +23,11 @@
 
     <v-list nav dense>
       <v-list-item-group mandatory v-model="selectedNavItem">
-        <v-list-item link v-for="item in navItems" :key="item.text">
+        <v-list-item
+          v-for="item in navItems"
+          :key="item.text"
+          :href="item.href"
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -44,22 +48,69 @@ export default {
   },
   data() {
     return {
-      selectedNavItem: 0,
+      myName: "",
+      myUsername: "",
       navItems: [
         {
           icon: "mdi-account-multiple",
           text: "Pengguna",
+          href: "/admin/user", // Warning: always use absolute path
         },
         {
           icon: "mdi-town-hall",
           text: "Sekolah",
+          href: "/admin/school",
         },
         {
           icon: "mdi-calendar-star",
           text: "Pertandingan",
+          href: "/admin/contest",
         },
       ],
     };
+  },
+  computed: {
+    selectedNavItem() {
+      for (let i = 0; i < this.navItems.length; i++) {
+        if (this.$route.path === this.navItems[i].href) {
+          return i;
+        }
+      }
+      return -1; // Still default to the first item
+    },
+  },
+  methods: {
+    getUserInfo() {
+      this.axios
+        .get("/api/me")
+        .then((response) => {
+          console.log(response);
+          this.myUsername = response.data["data"]["username"];
+          this.myName = response.data["data"]["name"];
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "Data pengguna tidak dapat dimuatkan.",
+          });
+        });
+    },
+    logout() {
+      this.axios
+        .post("/api/logout")
+        .then(() => {
+          this.$router.push("/login");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "Ralat yang tidak diketahui berlaku.",
+          });
+        });
+    },
+  },
+  mounted() {
+    this.getUserInfo();
   },
 };
 </script>

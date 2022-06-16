@@ -5,7 +5,7 @@ require_once __DIR__ . "/_utils/user.php";
 
 session_start();
 $my_username = $_SESSION["username"];
-if ($my_username) {
+if (!$my_username) {
     json_write(403, "Sila log masuk terlebih dahulu.");
 }
 
