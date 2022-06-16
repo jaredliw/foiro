@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "@/views/Login";
-import UserList from "@/views/UserList";
 
 Vue.use(VueRouter);
 
@@ -9,12 +7,17 @@ const routes = [
   {
     path: "/",
     name: "Login",
-    component: Login,
+    component: () => import("@/views/Login"),
   },
   {
     path: "/admin/user",
     name: "UserList",
-    component: UserList,
+    component: () => import("@/views/UserList"),
+  },
+  {
+    path: "/admin/school",
+    name: "SchoolList",
+    component: () => import("@/views/SchoolList"),
   },
 ];
 
