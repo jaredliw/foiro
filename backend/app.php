@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/_utils/router.php";
 
-$white_list = ["/login", "/logout", "/me", "/admin/user"];
+$white_list = ["/login", "/logout", "/me", "/admin/user", "/admin/school"];
 
 route(join(" ", $white_list));
 
