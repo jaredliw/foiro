@@ -82,9 +82,9 @@
               <span :class="{ 'primary--text': gender === 'M' }">Lelaki</span>
             </template>
           </v-radio>
-          <v-radio value="P" color="pink">
+          <v-radio value="F" color="pink">
             <template v-slot:label>
-              <span :class="{ 'pink--text': gender === 'P' }">Perempuan</span>
+              <span :class="{ 'pink--text': gender === 'F' }">Perempuan</span>
             </template>
           </v-radio>
         </v-radio-group>
@@ -165,10 +165,7 @@ export default {
           /[a-z]/.test(v) || "Mesti mengandungi huruf kecil.",
         containsUppercase: (v) =>
           /[A-Z]/.test(v) || "Mesti mengandungi huruf besar.",
-        containsAlpha: (v) =>
-          this.rules.containsLowercase(v) ||
-          this.rules.containsUppercase(v) ||
-          "Mesti mengandungi abjad.",
+        containsAlpha: (v) => /[A-Za-z]/.test(v) || "Mesti mengandungi abjad.",
         containsNumber: (v) => /\d/.test(v) || "Mesti mengandungi nombor.",
         containsSymbol: (v) =>
           /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/.test(v) ||
@@ -176,27 +173,23 @@ export default {
         passwordMatch: (v) =>
           v === this.password || "Kata laluan tidak sepadan.",
         // If updateMode is true, then the field is optional.
-        optional: (f) => (v) => {
-          console.log(
-            this.updateMode,
-            this.updateMode && !v,
-            f(v),
-            (this.updateMode && !v) || f(v)
-          );
-          return (this.updateMode && !v) || f(v);
-        },
+        optional: (f) => (v) => (this.updateMode && !v) || f(v),
       },
     };
   },
   methods: {
     addUser() {
-      this.axios
-        .post("/api/admin/user", {
+      this.axios({
+        method: "POST",
+        url: "/api/admin/user",
+        data: {
           username: this.username,
           name: this.name,
           password: this.password,
+          gender: this.gender,
           role: this.role,
-        })
+        },
+      })
         .then((response) => {
           this.$swal.fire({
             icon: "success",
@@ -204,6 +197,7 @@ export default {
           });
           this.showPassword = false;
           this.showConfirmPassword = false;
+          this.$parent.loadAllUsers();
           this.$refs.dialog.close();
         })
         .catch((error) => {
@@ -214,7 +208,6 @@ export default {
               "Ralat yang tidak diketahui berlaku.",
           });
         });
-      this.$parent.loadAllUsers();
     },
     setUsername(username) {
       this.username = username;

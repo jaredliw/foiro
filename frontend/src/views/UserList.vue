@@ -153,6 +153,10 @@ export default {
           value: "name",
         },
         {
+          text: "Jantina",
+          value: "gender",
+        },
+        {
           text: "Peranan",
           value: "role",
         },

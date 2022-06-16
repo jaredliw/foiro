@@ -12,6 +12,7 @@ foreach ($all_users as $user) {
     $formatted = [
         "username" => $user["username"],
         "name" => $user["name"],
+        "gender" => $user["gender"] == "M" ? "L" : "P",
         "role" => $user["role"],
     ];
     $records[] = $formatted;

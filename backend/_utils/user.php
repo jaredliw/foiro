@@ -103,14 +103,15 @@ function check_user_exists(string $username, bool $expect_to_be): void
 function add_new_user(
     string $username,
     string $name,
+    string $gender,
     string $password,
     string $role
 ): void {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO user (username, name, password, role)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO user (username, name, password, gender, role)
+        VALUES (?, ?, ?, ?, ?);
     ");
-    $stmt->bind_param("ssss", $username, $name, $password, $role);
+    $stmt->bind_param("sssss", $username, $name, $password, $gender, $role);
     $stmt->execute();
 }
 
