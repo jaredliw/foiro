@@ -97,7 +97,7 @@ export default {
     },
     logout() {
       this.axios
-        .post("/api/logout")
+        .get("/api/logout")
         .then(() => {
           this.$router.push("/login");
         })
