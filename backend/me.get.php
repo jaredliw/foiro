@@ -6,7 +6,7 @@ require_once __DIR__ . "/_utils/user.php";
 session_start();
 $my_username = $_SESSION["username"];
 if (!$my_username) {
-    json_write(403, "Sila log masuk terlebih dahulu.");
+    json_write(401, "Sila log masuk terlebih dahulu.");
 }
 
 $user = search_user_on_username($my_username);
