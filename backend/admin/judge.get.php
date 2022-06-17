@@ -3,8 +3,8 @@ require_once __DIR__ . "/../_utils/security.php";
 check_access("admin");
 
 require_once __DIR__ . "/../_utils/io.php";
-require_once __DIR__ . "/../_utils/user.php";
+require_once __DIR__ . "/../_utils/judge.php";
 
-$users = fetch_all_users();
+$judges = fetch_all_judges();
 
-json_write(200, "Berjaya.", $users);
+json_write(200, "Berjaya.", $judges);

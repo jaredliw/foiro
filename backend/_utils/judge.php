@@ -2,12 +2,12 @@
 require_once __DIR__ . "/io.php";
 require_once __DIR__ . "/database.php";
 
-function search_student_on_username(string $username): ?array
+function search_judge_on_username(string $username): ?array
 {
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM student
+        FROM judge
         WHERE username = ?;
     ");
     $stmt->bind_param("s", $username);
@@ -15,14 +15,14 @@ function search_student_on_username(string $username): ?array
     return $stmt->get_result()->fetch_assoc();
 }
 
-function search_student_on_username_and_password(
+function search_judge_on_username_and_password(
     string $username,
     string $password
 ): ?array {
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM student
+        FROM judge
         WHERE username = ? AND password = ?;
     ");
     $stmt->bind_param("ss", $username, $password);
@@ -30,22 +30,22 @@ function search_student_on_username_and_password(
     return $stmt->get_result()->fetch_assoc();
 }
 
-function fetch_all_students(): array
+function fetch_all_judges(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username, `name`, IF(gender = 'M', 'L', 'P') AS gender, school
-        FROM student
+        SELECT username, `name`
+        FROM judge
         ORDER BY username;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-function check_student_exists(string $username, bool $expect_to_be): void
+function check_judge_exists(string $username, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
         SELECT username
-        FROM student
+        FROM judge
         WHERE username = ?
     ");
     $stmt->bind_param("s", $username);
@@ -54,7 +54,7 @@ function check_student_exists(string $username, bool $expect_to_be): void
     if ($expect_to_be xor $stmt->get_result()->num_rows !== 0) {
         json_write(
             $expect_to_be ? 404 : 409,
-            'Nama pengguna pelajar \'' .
+            'Nama pengguna hakim \'' .
             htmlspecialchars($username) .
             '\' ' .
             ($expect_to_be ? "tidak" : "telah") .
@@ -63,32 +63,31 @@ function check_student_exists(string $username, bool $expect_to_be): void
     }
 }
 
-function add_new_student(
+function add_new_judge(
     string $username,
     string $name,
-    string $gender,
     string $password
 ): void {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO user (username, name, password, gender)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO user (username, name, password)
+        VALUES (?, ?, ?);
     ");
-    $stmt->bind_param("ssss", $username, $name, $password, $gender);
+    $stmt->bind_param("sss", $username, $name, $password);
     $stmt->execute();
 }
 
-function update_student_info(string $username, string $name, string $gender): void
+function update_judge_info(string $username, string $name): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET name = ?, gender = ?
+        SET name = ?
         WHERE username = ?;
     ");
-    $stmt->bind_param("sss", $name, $username, $gender);
+    $stmt->bind_param("ss", $name, $username);
     $stmt->execute();
 }
 
-function change_student_password(string $username, string $password): void
+function change_judge_password(string $username, string $password): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
@@ -99,10 +98,10 @@ function change_student_password(string $username, string $password): void
     $stmt->execute();
 }
 
-function delete_student(string $username): void
+function delete_judge(string $username): void
 {
     $stmt = MySQL::connection()->prepare("
-        DELETE FROM student
+        DELETE FROM judge
         WHERE username = ?;
     ");
     $stmt->bind_param("s", $username);
