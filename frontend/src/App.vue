@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
+      <transition mode="out-in" name="fade">
         <component :is="Component"></component>
       </transition>
     </router-view>

@@ -1,6 +1,5 @@
 <template>
   <data-page
-    title="Senarai Pelajar"
     :headers="[
       {
         text: 'Nama Pengguna',
@@ -19,8 +18,9 @@
         value: 'school',
       },
     ]"
-    item-key="username"
     api-url="/api/admin/student"
+    item-key="username"
+    title="Senarai Pelajar"
   ></data-page>
 </template>
 

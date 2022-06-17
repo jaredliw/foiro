@@ -1,6 +1,5 @@
 <template>
   <data-page
-    title="Senarai Sekolah"
     :headers="[
       {
         text: 'Kod',
@@ -15,8 +14,9 @@
         value: 'student_count',
       },
     ]"
-    item-key="code"
     api-url="/api/admin/school"
+    item-key="code"
+    title="Senarai Sekolah"
   ></data-page>
 </template>
 
@@ -30,5 +30,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

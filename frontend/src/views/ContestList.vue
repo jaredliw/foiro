@@ -1,6 +1,5 @@
 <template>
   <data-page
-    title="Senarai Pertandingan"
     :headers="[
       {
         text: 'Kod',
@@ -19,8 +18,9 @@
         value: 'end_date',
       },
     ]"
-    item-key="id"
     api-url="/api/admin/contest"
+    item-key="id"
+    title="Senarai Pertandingan"
   ></data-page>
 </template>
 

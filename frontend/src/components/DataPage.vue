@@ -4,7 +4,7 @@
 
     <v-container>
       <v-row class="mb-2 mt-4 align-center">
-        <v-col id="header" cols="6" class="me-auto">
+        <v-col id="header" class="me-auto" cols="6">
           <h5 class="text-h5 font-weight-medium">{{ title }}</h5>
         </v-col>
         <v-col cols="6">
@@ -25,10 +25,10 @@
               <v-icon right>mdi-plus</v-icon>
             </v-btn>
             <user-form-dialog
-              :dialog="dialog"
-              v-on:close="dialog = false"
-              :updateMode="dialogUpdateMode"
               ref="dialog"
+              :dialog="dialog"
+              :updateMode="dialogUpdateMode"
+              v-on:close="dialog = false"
             ></user-form-dialog>
           </div>
         </v-col>
@@ -37,15 +37,15 @@
         <div class="col-12 mb-4">
           <div class="data-table-container">
             <v-data-table
-              class="elevation-1"
+              v-model="selected"
               :headers="processedHeaders"
+              :item-key="itemKey"
               :items="items"
               :items-per-page="5"
-              :search="search"
               :loading="is_loading"
+              :search="search"
+              class="elevation-1"
               loading-text="Data sedang dimuatkan..."
-              v-model="selected"
-              :item-key="itemKey"
               multi-sort
               show-select
             >
@@ -54,15 +54,15 @@
                   <v-col cols="6">
                     <v-text-field
                       v-model="search"
-                      prepend-inner-icon="mdi-magnify"
-                      class="mx-4"
                       aria-label="Cari"
-                      placeholder="Cari..."
+                      class="mx-4"
                       hide-details
+                      placeholder="Cari..."
+                      prepend-inner-icon="mdi-magnify"
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col cols="6" class="d-flex justify-end align-end">
+                  <v-col class="d-flex justify-end align-end" cols="6">
                     <v-btn
                       :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
                       class="mx-4"
@@ -77,10 +77,10 @@
                 </v-row>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon small color="blue" class="mr-2" @click="editItem(item)">
+                <v-icon class="mr-2" color="blue" small @click="editItem(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon small color="red" @click="deleteItem(item)">
+                <v-icon color="red" small @click="deleteItem(item)">
                   mdi-delete
                 </v-icon>
               </template>

@@ -11,8 +11,13 @@ const routes = [
   },
   {
     path: "/admin/student",
-    name: "Student",
+    name: "StudentList",
     component: () => import("@/views/StudentList"),
+  },
+  {
+    path: "/admin/judge",
+    name: "JudgeList",
+    component: () => import("@/views/JudgeList"),
   },
   {
     path: "/admin/school",

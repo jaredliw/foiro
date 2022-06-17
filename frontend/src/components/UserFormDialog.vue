@@ -1,47 +1,46 @@
 <template>
   <form-dialog
     ref="dialog"
+    :dialog="dialog"
     :form-title="updateMode ? 'Kemas Kini Pengguna' : 'Tambah Pengguna'"
     :save="addUser"
-    :dialog="dialog"
     v-on:close="$emit('close')"
   >
     <v-row>
       <v-col cols="6">
         <v-text-field
-          label="Nama Pengguna"
-          counter="15"
+          v-model="username"
+          :readonly="updateMode"
           :rules="[
             rules.required,
             rules.minLength(3),
             rules.maxLength(15),
             rules.alnumUnderscoreOnly,
           ]"
-          v-model="username"
-          :readonly="updateMode"
+          counter="15"
+          label="Nama Pengguna"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
-          label="Nama"
-          counter="80"
+          v-model="name"
           :rules="[
             rules.required,
             rules.maxLength(80),
             rules.alphaSpaceOnly,
             rules.containsAlpha,
           ]"
-          v-model="name"
+          counter="80"
+          label="Nama"
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
         <v-text-field
-          :label="updateMode ? 'Kata Laluan Baharu (jika ada)' : 'Kata Laluan'"
+          v-model="password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
-          @click:append="showPassword = !showPassword"
+          :label="updateMode ? 'Kata Laluan Baharu (jika ada)' : 'Kata Laluan'"
           :rules="[
             rules.optional(rules.required),
             rules.optional(rules.minLength(8)),
@@ -52,37 +51,38 @@
             rules.optional(rules.containsNumber),
             rules.optional(rules.containsSymbol),
           ]"
-          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
           :validate-on-blur="true"
+          @click:append="showPassword = !showPassword"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
+          :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :label="
             updateMode
               ? 'Sahkan Kata Laluan Baharu (jika ada)'
               : 'Sahkan Kata Laluan'
           "
-          :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showConfirmPassword ? 'text' : 'password'"
-          @click:append="showConfirmPassword = !showConfirmPassword"
           :rules="[
             rules.optional(rules.required),
             rules.optional(rules.passwordMatch),
           ]"
+          :type="showConfirmPassword ? 'text' : 'password'"
           :validate-on-blur="true"
+          @click:append="showConfirmPassword = !showConfirmPassword"
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
-        <v-radio-group row label="Jantina" v-model="gender" mandatory>
-          <v-radio value="M" color="primary">
+        <v-radio-group v-model="gender" label="Jantina" mandatory row>
+          <v-radio color="primary" value="M">
             <template v-slot:label>
               <span :class="{ 'primary--text': gender === 'M' }">Lelaki</span>
             </template>
           </v-radio>
-          <v-radio value="F" color="pink">
+          <v-radio color="pink" value="F">
             <template v-slot:label>
               <span :class="{ 'pink--text': gender === 'F' }">Perempuan</span>
             </template>
@@ -95,7 +95,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-radio-group row label="Peranan" v-model="role" mandatory>
+        <v-radio-group v-model="role" label="Peranan" mandatory row>
           <v-radio value="student">
             <template v-slot:label>
               <span :class="{ 'primary--text': role === 'student' }">

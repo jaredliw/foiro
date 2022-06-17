@@ -28,29 +28,29 @@
           <form @submit="formSubmit">
             <div class="row">
               <div class="col">
-                <label for="usernameField" class="col-form-label fw-600"
+                <label class="col-form-label fw-600" for="usernameField"
                   >Nama Pengguna</label
                 >
                 <input
-                  type="text"
-                  class="form-control"
                   id="usernameField"
-                  name="username"
                   v-model="username"
+                  class="form-control"
+                  name="username"
+                  type="text"
                 />
               </div>
             </div>
             <div class="row pt-2">
               <div class="col">
-                <label for="passwordField" class="col-form-label"
+                <label class="col-form-label" for="passwordField"
                   >Kata Laluan</label
                 >
                 <input
-                  type="password"
-                  class="form-control"
                   id="passwordField"
-                  name="password"
                   v-model="password"
+                  class="form-control"
+                  name="password"
+                  type="password"
                 />
               </div>
             </div>
@@ -58,10 +58,10 @@
               <div class="col">
                 <input
                   id="remember"
-                  class="align-middle me-1"
-                  type="checkbox"
-                  name="remember"
                   v-model="remember"
+                  class="align-middle me-1"
+                  name="remember"
+                  type="checkbox"
                 />
                 <label for="remember">Ingatkan saya</label>
               </div>
@@ -69,10 +69,10 @@
             <div class="row pt-4">
               <div class="col d-grid">
                 <button
-                  type="submit"
-                  class="btn btn-primary btn-block"
                   :class="{ loading: is_loading_state }"
                   :disabled="is_loading_state"
+                  class="btn btn-primary btn-block"
+                  type="submit"
                 >
                   Log Masuk
                 </button>

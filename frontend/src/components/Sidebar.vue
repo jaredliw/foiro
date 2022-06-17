@@ -1,9 +1,9 @@
 <template>
-  <v-navigation-drawer permanent expand-on-hover>
+  <v-navigation-drawer expand-on-hover permanent>
     <v-list>
       <v-list-item class="px-2">
         <v-list-item-avatar class="my-1">
-          <avatar :username="myName" :size="40"></avatar>
+          <avatar :size="40" :username="myName"></avatar>
         </v-list-item-avatar>
         <v-list-item-content class="py-1">
           <v-list-item-title class="text-h6">
@@ -21,8 +21,8 @@
 
     <v-divider></v-divider>
 
-    <v-list nav dense>
-      <v-list-item-group mandatory v-model="selectedNavItem">
+    <v-list dense nav>
+      <v-list-item-group v-model="selectedNavItem" mandatory>
         <v-list-item
           v-for="item in navItems"
           :key="item.text"

@@ -1,6 +1,5 @@
 <template>
   <data-page
-    title="Senarai Hakim"
     :headers="[
       {
         text: 'Nama Pengguna',
@@ -11,8 +10,9 @@
         value: 'name',
       },
     ]"
-    item-key="username"
     api-url="/api/admin/judge"
+    item-key="username"
+    title="Senarai Hakim"
   ></data-page>
 </template>
 
