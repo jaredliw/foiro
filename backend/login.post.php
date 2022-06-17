@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/_utils/database.php";
 require_once __DIR__ . "/_utils/io.php";
-require_once __DIR__ . "/_utils/user.php";
+require_once __DIR__ . "/_utils/login_logout.php";
 
 session_start();
 

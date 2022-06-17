@@ -54,7 +54,7 @@ export default {
         {
           icon: "mdi-account-multiple",
           text: "Pengguna",
-          href: "/admin/user", // Warning: always use absolute path
+          href: "/admin/student", // Warning: always use absolute path
         },
         {
           icon: "mdi-town-hall",
