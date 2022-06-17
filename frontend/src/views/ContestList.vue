@@ -3,6 +3,10 @@
     title="Senarai Pertandingan"
     :headers="[
       {
+        text: 'Kod',
+        value: 'id',
+      },
+      {
         text: 'Acara',
         value: 'name',
       },
@@ -15,7 +19,7 @@
         value: 'end_date',
       },
     ]"
-    item-key="code"
+    item-key="id"
     api-url="/api/admin/contest"
   ></data-page>
 </template>
