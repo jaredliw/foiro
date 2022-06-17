@@ -175,11 +175,15 @@ export default {
       this.dialogUpdateMode = true;
       this.dialog = true;
     },
-    deleteItem(user) {
+    deleteItem(item) {
+      console.log(item);
+      console.log({
+        [this.itemKey]: item[this.itemKey],
+      });
       this.axios
         .delete(this.apiUrl, {
           data: {
-            username: user.username,
+            [this.itemKey]: item[this.itemKey],
           },
         })
         .then((response) => {
