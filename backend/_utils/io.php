@@ -1,4 +1,13 @@
 <?php
+function compulsory_param(?string $param): string
+{
+    # Make sure the parameter is not null, throw 400 error if it is
+    if ($param === null) {
+        json_write(400, "Parameter wajib tidak dibekalkan.");
+    }
+    return $param;
+}
+
 function json_read()
 {
     // Read json input

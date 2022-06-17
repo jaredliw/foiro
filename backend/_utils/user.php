@@ -17,15 +17,6 @@ function user_dispatch(string $privilege): ?string
     }
 }
 
-function compulsory_param(?string $param): string
-{
-    # Make sure the parameter is not null, throw 400 error if it is
-    if ($param === null) {
-        json_write(400, "Parameter wajib tidak dibekalkan.");
-    }
-    return $param;
-}
-
 function hash_password(string $password): string
 {
     # SHA512 hash the password
