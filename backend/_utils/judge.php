@@ -18,7 +18,8 @@ function search_judge_on_username(string $username): ?array
 function search_judge_on_username_and_password(
     string $username,
     string $password
-): ?array {
+): ?array
+{
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
@@ -67,7 +68,8 @@ function add_new_judge(
     string $username,
     string $name,
     string $password
-): void {
+): void
+{
     $stmt = MySQL::connection()->prepare("
         INSERT INTO user (username, name, password)
         VALUES (?, ?, ?);

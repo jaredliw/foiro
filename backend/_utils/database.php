@@ -7,6 +7,11 @@ class MySQL
 {
     private static $connection;
 
+    public static function sanitize(string $string): string
+    {
+        return mysqli_real_escape_string(self::connection(), $string);
+    }
+
     public static function connection()
     {
         if (is_null(self::$connection)) {
@@ -19,10 +24,5 @@ class MySQL
         }
 
         return self::$connection;
-    }
-
-    public static function sanitize(string $string): string
-    {
-        return mysqli_real_escape_string(self::connection(), $string);
     }
 }

@@ -55,10 +55,10 @@ function check_student_exists(string $username, bool $expect_to_be): void
         json_write(
             $expect_to_be ? 404 : 409,
             'Nama pengguna pelajar \'' .
-            htmlspecialchars($username) .
-            '\' ' .
-            ($expect_to_be ? "tidak" : "telah") .
-            " wujud dalam pangkalan data."
+                htmlspecialchars($username) .
+                '\' ' .
+                ($expect_to_be ? "tidak" : "telah") .
+                " wujud dalam pangkalan data."
         );
     }
 }
@@ -77,8 +77,11 @@ function add_new_student(
     $stmt->execute();
 }
 
-function update_student_info(string $username, string $name, string $gender): void
-{
+function update_student_info(
+    string $username,
+    string $name,
+    string $gender
+): void {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
         SET name = ?, gender = ?

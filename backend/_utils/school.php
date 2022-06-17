@@ -15,10 +15,10 @@ function check_school_exists(string $code, bool $expect_to_be): void
         json_write(
             $expect_to_be ? 404 : 409,
             'Sekolah degan kod \'' .
-            htmlspecialchars($code) .
-            '\' ' .
-            ($expect_to_be ? "tidak" : "telah") .
-            " wujud dalam pangkalan data."
+                htmlspecialchars($code) .
+                '\' ' .
+                ($expect_to_be ? "tidak" : "telah") .
+                " wujud dalam pangkalan data."
         );
     }
 }
