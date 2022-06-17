@@ -61,7 +61,7 @@ function search_user_on_username_and_password(
 function fetch_all_users(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT *
+        SELECT username, `name`, IF(gender = 'M', 'L', 'P') AS gender, school
         FROM user
         ORDER BY username;
     ");
