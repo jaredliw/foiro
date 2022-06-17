@@ -17,6 +17,10 @@
         text: 'Sekolah',
         value: 'school',
       },
+      {
+        text: 'Bil. Penyertaan',
+        value: 'participation_count',
+      },
     ]"
     api-url="/api/admin/student"
     item-key="username"

@@ -4,9 +4,9 @@ require_once __DIR__ . "/database.php";
 
 function search_student_on_username(string $username): ?array
 {
-    # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
-        SELECT *
+        SELECT username,
+               name
         FROM   student
         WHERE  username = ?;
     ");
@@ -19,7 +19,6 @@ function search_student_on_username_and_password(
     string $username,
     string $password
 ): ?array {
-    # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
         FROM   student
@@ -34,12 +33,15 @@ function search_student_on_username_and_password(
 function fetch_all_students(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username,
-               `name`,
-               IF(gender = 'M', 'L', 'P') AS gender,
-               school
-        FROM   student
-        ORDER  BY username;
+        SELECT    s.username,
+                  s.name,
+                  IF(s.gender = 'M', 'L', 'P') AS gender,
+                  s.school,
+                  COUNT(scl.contest_id) AS participation_count
+        FROM      student AS s
+                  NATURAL LEFT JOIN student_contest_lnk AS scl
+        GROUP BY  s.username
+        ORDER BY  s.username;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

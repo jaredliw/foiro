@@ -4,9 +4,9 @@ require_once __DIR__ . "/database.php";
 
 function search_judge_on_username(string $username): ?array
 {
-    # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
-        SELECT *
+        SELECT username,
+               name
         FROM   judge
         WHERE  username = ?;
     ");
@@ -20,7 +20,6 @@ function search_judge_on_username_and_password(
     string $password
 ): ?array
 {
-    # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
         FROM   judge
@@ -35,10 +34,13 @@ function search_judge_on_username_and_password(
 function fetch_all_judges(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username,
-               `name`
-        FROM judge
-        ORDER  BY username; 
+        SELECT    j.username,
+                  j.name,
+                  COUNT(jcl.contest_id) AS involved_count
+        FROM      judge AS j
+                  NATURAL LEFT JOIN judge_contest_lnk AS jcl
+        GROUP BY  j.username
+        ORDER BY  j.username;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -75,7 +77,7 @@ function add_new_judge(
     $stmt = MySQL::connection()->prepare("
         INSERT INTO USER
                     (username,
-                     `name`,
+                     name,
                      password)
         VALUES      (?,
                      ?,
@@ -89,7 +91,7 @@ function update_judge_info(string $username, string $name): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET    `name` = ?
+        SET    name = ?
         WHERE  username = ?; 
     ");
     $stmt->bind_param("ss", $name, $username);

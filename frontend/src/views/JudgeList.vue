@@ -9,6 +9,10 @@
         text: 'Nama',
         value: 'name',
       },
+      {
+        text: 'Bil. Pertandingan Terlibat',
+        value: 'involved_count',
+      },
     ]"
     api-url="/api/admin/judge"
     item-key="username"
