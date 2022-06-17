@@ -19,6 +19,11 @@ const routes = [
     name: "SchoolList",
     component: () => import("@/views/SchoolList"),
   },
+  {
+    path: "/admin/contest",
+    name: "ContestList",
+    component: () => import("@/views/ContestList"),
+  },
 ];
 
 const router = new VueRouter({
