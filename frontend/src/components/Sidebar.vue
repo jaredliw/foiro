@@ -52,9 +52,14 @@ export default {
       myUsername: "",
       navItems: [
         {
-          icon: "mdi-account-multiple",
-          text: "Pengguna",
+          icon: "mdi-account-school-outline",
+          text: "Pelajar",
           href: "/admin/student", // Warning: always use absolute path
+        },
+        {
+          icon: "mdi-account-tie-hat-outline",
+          text: "Hakim",
+          href: "/admin/judge",
         },
         {
           icon: "mdi-town-hall",
@@ -91,7 +96,7 @@ export default {
         .catch(() => {
           this.$swal.fire({
             icon: "error",
-            title: "Data pengguna tidak dapat dimuatkan.",
+            title: "Data akaun anda tidak dapat dimuatkan.",
           });
         });
     },
