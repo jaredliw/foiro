@@ -5,8 +5,8 @@ function check_school_exists(string $code, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
         SELECT code
-        FROM school
-        WHERE code = ?
+        FROM   school
+        WHERE  code = ?;
     ");
     $stmt->bind_param("s", $code);
     $stmt->execute();
@@ -46,7 +46,7 @@ function delete_school($code): void
 {
     $stmt = MySQL::connection()->prepare("
         DELETE FROM school
-        WHERE code = ?;
+        WHERE  code = ?;
     ");
     $stmt->bind_param("s", $code);
     $stmt->execute();

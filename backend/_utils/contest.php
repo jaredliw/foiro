@@ -5,8 +5,8 @@ function check_contest_exists(string $id, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
         SELECT id
-        FROM contest
-        WHERE id = ?
+        FROM   contest
+        WHERE  id = ?;
     ");
     $stmt->bind_param("s", $id);
     $stmt->execute();
@@ -27,8 +27,11 @@ function fetch_all_contests(): array
 {
     # Return all schools
     $stmt = MySQL::connection()->prepare("
-        SELECT id, `name`, start_date, end_date
-        FROM contest
+        SELECT id,
+               `name`,
+               start_date,
+               end_date
+        FROM   contest;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -38,7 +41,7 @@ function delete_contest($id): void
 {
     $stmt = MySQL::connection()->prepare("
         DELETE FROM contest
-        WHERE id = ?;
+        WHERE  id = ?;
     ");
     $stmt->bind_param("s", $id);
     $stmt->execute();

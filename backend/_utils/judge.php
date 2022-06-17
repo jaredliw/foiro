@@ -7,8 +7,8 @@ function search_judge_on_username(string $username): ?array
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM judge
-        WHERE username = ?;
+        FROM   judge
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -23,8 +23,9 @@ function search_judge_on_username_and_password(
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM judge
-        WHERE username = ? AND password = ?;
+        FROM   judge
+        WHERE  username = ?
+               AND password = ?;
     ");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
@@ -34,9 +35,10 @@ function search_judge_on_username_and_password(
 function fetch_all_judges(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username, `name`
+        SELECT username,
+               `name`
         FROM judge
-        ORDER BY username;
+        ORDER  BY username; 
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -46,8 +48,8 @@ function check_judge_exists(string $username, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
         SELECT username
-        FROM judge
-        WHERE username = ?
+        FROM   judge
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -71,8 +73,13 @@ function add_new_judge(
 ): void
 {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO user (username, name, password)
-        VALUES (?, ?, ?);
+        INSERT INTO USER
+                    (username,
+                     `name`,
+                     password)
+        VALUES      (?,
+                     ?,
+                     ?);
     ");
     $stmt->bind_param("sss", $username, $name, $password);
     $stmt->execute();
@@ -82,8 +89,8 @@ function update_judge_info(string $username, string $name): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET name = ?
-        WHERE username = ?;
+        SET    `name` = ?
+        WHERE  username = ?; 
     ");
     $stmt->bind_param("ss", $name, $username);
     $stmt->execute();
@@ -93,8 +100,8 @@ function change_judge_password(string $username, string $password): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET password = ?
-        WHERE username = ?;
+        SET    password = ?
+        WHERE  username = ?;
     ");
     $stmt->bind_param("ss", $password, $username);
     $stmt->execute();
@@ -104,7 +111,7 @@ function delete_judge(string $username): void
 {
     $stmt = MySQL::connection()->prepare("
         DELETE FROM judge
-        WHERE username = ?;
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();

@@ -7,8 +7,8 @@ function search_student_on_username(string $username): ?array
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM student
-        WHERE username = ?;
+        FROM   student
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -22,8 +22,9 @@ function search_student_on_username_and_password(
     # Return user record if found, null otherwise
     $stmt = MySQL::connection()->prepare("
         SELECT *
-        FROM student
-        WHERE username = ? AND password = ?;
+        FROM   student
+        WHERE  username = ?
+               AND password = ?;
     ");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
@@ -33,9 +34,12 @@ function search_student_on_username_and_password(
 function fetch_all_students(): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username, `name`, IF(gender = 'M', 'L', 'P') AS gender, school
-        FROM student
-        ORDER BY username;
+        SELECT username,
+               `name`,
+               IF(gender = 'M', 'L', 'P') AS gender,
+               school
+        FROM   student
+        ORDER  BY username;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -45,8 +49,8 @@ function check_student_exists(string $username, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
         SELECT username
-        FROM student
-        WHERE username = ?
+        FROM   student
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -70,8 +74,15 @@ function add_new_student(
     string $password
 ): void {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO user (username, name, password, gender)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO USER
+                    (username,
+                     NAME,
+                     password,
+                     gender)
+        VALUES      (?,
+                     ?,
+                     ?,
+                     ?);
     ");
     $stmt->bind_param("ssss", $username, $name, $password, $gender);
     $stmt->execute();
@@ -84,8 +95,9 @@ function update_student_info(
 ): void {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET name = ?, gender = ?
-        WHERE username = ?;
+        SET    NAME = ?,
+               gender = ?
+        WHERE  username = ?;
     ");
     $stmt->bind_param("sss", $name, $username, $gender);
     $stmt->execute();
@@ -95,8 +107,8 @@ function change_student_password(string $username, string $password): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET password = ?
-        WHERE username = ?;
+        SET    password = ?
+        WHERE  username = ?;
     ");
     $stmt->bind_param("ss", $password, $username);
     $stmt->execute();
@@ -106,7 +118,7 @@ function delete_student(string $username): void
 {
     $stmt = MySQL::connection()->prepare("
         DELETE FROM student
-        WHERE username = ?;
+        WHERE  username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();
