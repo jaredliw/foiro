@@ -43,32 +43,21 @@
           v-model="password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :label="updateMode ? 'Kata Laluan Baharu (jika ada)' : 'Kata Laluan'"
-          :rules="[
-            rules.optional(rules.required),
-            rules.optional(rules.minLength(8)),
-            rules.optional(rules.maxLength(12)),
-            rules.optional(rules.asciiPrintableOnly),
-            rules.optional(rules.containsLowercase),
-            rules.optional(rules.containsUppercase),
-            rules.optional(rules.containsNumber),
-            rules.optional(rules.containsSymbol),
-          ]"
+          :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
+          v-model="confirmPassword"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :label="
             updateMode
               ? 'Sahkan Kata Laluan Baharu (jika ada)'
               : 'Sahkan Kata Laluan'
           "
-          :rules="[
-            rules.optional(rules.required),
-            rules.optional(rules.passwordMatch),
-          ]"
+          :rules="confirmPasswordRules"
           :type="showConfirmPassword ? 'text' : 'password'"
           @click:append="showConfirmPassword = !showConfirmPassword"
         ></v-text-field>
@@ -114,9 +103,10 @@ export default {
       username: "",
       name: "",
       password: "",
+      confirmPassword: "",
+      school: null,
       showPassword: false,
       showConfirmPassword: false,
-      school: null,
       schools: [],
       rules: {
         required: (v) => !!v || "Ruangan ini wajib diisi.",
@@ -143,8 +133,6 @@ export default {
           "Mesti mengandungi simbol.",
         passwordMatch: (v) =>
           v === this.password || "Kata laluan tidak sepadan.",
-        // If updateMode is true, then the field is optional.
-        optional: (f) => (v) => (this.updateMode && !v) || f(v),
       },
     };
   },
@@ -154,7 +142,7 @@ export default {
     },
     addStudent() {
       this.axios({
-        method: "POST",
+        method: this.updateMode ? "PUT" : "POST",
         url: this.apiUrl,
         data: {
           username: this.username,
@@ -182,26 +170,28 @@ export default {
           });
         });
     },
-    setUsername(username) {
-      this.username = username;
-    },
-    setName(name) {
-      this.name = name;
-    },
-    setRole(role) {
-      this.role = role;
+    setItem(item) {
+      this.username = item.username;
+      this.name = item.name;
+      this.school = item.school;
     },
   },
   async mounted() {
     this.schools = await this.axios
       .get("/api/admin/school")
       .then((response) => {
-        return response.data["data"].map((school) => {
-          return {
-            text: `(${school["code"]}) ${school["name"]}`,
-            value: school["code"],
-          };
-        });
+        return [
+          {
+            text: "Sila pilih",
+            value: null,
+          },
+          ...response.data["data"].map((school) => {
+            return {
+              text: `(${school["code"]}) ${school["name"]}`,
+              value: school["code"],
+            };
+          }),
+        ];
       })
       .catch((error) => {
         this.$swal.fire({
@@ -211,6 +201,27 @@ export default {
             "Ralat yang tidak diketahui berlaku.",
         });
       });
+  },
+  computed: {
+    passwordRules() {
+      return this.updateMode && !this.password
+        ? []
+        : [
+            this.rules.required,
+            this.rules.minLength(8),
+            this.rules.maxLength(12),
+            this.rules.asciiPrintableOnly,
+            this.rules.containsLowercase,
+            this.rules.containsUppercase,
+            this.rules.containsNumber,
+            this.rules.containsSymbol,
+          ];
+    },
+    confirmPasswordRules() {
+      return this.updateMode && !this.confirmPassword
+        ? []
+        : [this.rules.required, this.rules.passwordMatch];
+    },
   },
 };
 </script>
