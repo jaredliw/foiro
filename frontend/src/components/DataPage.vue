@@ -199,13 +199,12 @@ export default {
     },
     exportCSV() {
       let csvContent = Papa.unparse({
-        fields: ["Nama Pengguna", "Nama", "Peranan"],
+        fields: this.headers.map((header) => header.text),
         data: this.selected.map((user) => Object.values(user)),
       });
 
-      let filename = `senarai_pengguna_${moment().format(
-        "YYYY-MM-DD_HH-mm-ss"
-      )}.csv`;
+      let prefix = this.title.toLowerCase().split(" ").join("_");
+      let filename = `${prefix}_${moment().format("YYYY-MM-DD_HH-mm-ss")}.csv`;
       let file = new File([csvContent], filename, {
         type: "text/csv;charset=utf-8;",
       });
