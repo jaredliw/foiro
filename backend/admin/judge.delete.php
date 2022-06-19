@@ -6,7 +6,7 @@ require_once __DIR__ . "/../_utils/io.php";
 require_once __DIR__ . "/../_utils/judge.php";
 
 $json = json_read();
-$username = compulsory_param($json->username);
+$username = compulsory_param(@$json->username);
 
 check_judge_exists($username, true);
 delete_judge($username);

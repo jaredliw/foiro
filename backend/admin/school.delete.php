@@ -6,7 +6,7 @@ require_once __DIR__ . "/../_utils/io.php";
 require_once __DIR__ . "/../_utils/school.php";
 
 $json = json_read();
-$school_code = compulsory_param($json->code);
+$school_code = compulsory_param(@$json->code);
 
 check_school_exists($school_code, true);
 delete_school($school_code);

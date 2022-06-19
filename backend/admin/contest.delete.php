@@ -6,7 +6,7 @@ require_once __DIR__ . "/../_utils/io.php";
 require_once __DIR__ . "/../_utils/contest.php";
 
 $json = json_read();
-$contest_id = compulsory_param($json->id);
+$contest_id = compulsory_param(@$json->id);
 
 check_contest_exists($contest_id, true);
 delete_contest($contest_id);

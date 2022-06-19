@@ -6,7 +6,7 @@ require_once __DIR__ . "/../_utils/io.php";
 require_once __DIR__ . "/../_utils/student.php";
 
 $json = json_read();
-$username = compulsory_param($json->username);
+$username = compulsory_param(@$json->username);
 
 check_student_exists($username, true);
 delete_student($username);
