@@ -6,7 +6,7 @@ function search_student_on_username(string $username): ?array
 {
     $stmt = MySQL::connection()->prepare("
         SELECT username,
-               name
+               `name`
         FROM   student
         WHERE  username = ?;
     ");
@@ -23,7 +23,7 @@ function search_student_on_username_and_password(
         SELECT *
         FROM   student
         WHERE  username = ?
-               AND password = ?;
+               AND `password` = ?;
     ");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
@@ -35,7 +35,6 @@ function fetch_all_students(): array
     $stmt = MySQL::connection()->prepare("
         SELECT    s.username,
                   s.name,
-                  IF(s.gender = 'M', 'L', 'P') AS gender,
                   s.school,
                   COUNT(scl.contest_id) AS participation_count
         FROM      student AS s
@@ -72,21 +71,21 @@ function check_student_exists(string $username, bool $expect_to_be): void
 function add_new_student(
     string $username,
     string $name,
-    string $gender,
-    string $password
+    string $password,
+    ?string $school
 ): void {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO USER
+        INSERT INTO student
                     (username,
-                     NAME,
-                     password,
-                     gender)
+                     `name`,
+                     `password`,
+                     school)
         VALUES      (?,
                      ?,
                      ?,
                      ?);
     ");
-    $stmt->bind_param("ssss", $username, $name, $password, $gender);
+    $stmt->bind_param("ssss", $username, $name, $password, $school);
     $stmt->execute();
 }
 
@@ -97,7 +96,7 @@ function update_student_info(
 ): void {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET    NAME = ?,
+        SET    `name` = ?,
                gender = ?
         WHERE  username = ?;
     ");
@@ -109,7 +108,7 @@ function change_student_password(string $username, string $password): void
 {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
-        SET    password = ?
+        SET    `password` = ?
         WHERE  username = ?;
     ");
     $stmt->bind_param("ss", $password, $username);

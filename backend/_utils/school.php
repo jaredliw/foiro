@@ -27,16 +27,14 @@ function fetch_all_schools(): array
 {
     # Return all schools
     $stmt = MySQL::connection()->prepare("
-        SELECT s.code,
-               s.name,
-               COUNT(u.username) AS student_count
-        FROM   school s
-               LEFT JOIN (SELECT username,
-                                 school
-                          FROM   user
-                          WHERE  user.role = 'student') u
-                      ON u.school = s.code
-        GROUP  BY s.code; 
+        SELECT sc.code,
+               sc.name,
+               COUNT(s.username) AS student_count
+        FROM   school AS sc
+               LEFT JOIN student AS s
+                      ON sc.code = s.school
+        GROUP  BY sc.code
+        ORDER  BY sc.code;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

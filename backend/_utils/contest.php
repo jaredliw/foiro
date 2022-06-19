@@ -28,7 +28,7 @@ function fetch_all_contests(): array
     # Return all schools
     $stmt = MySQL::connection()->prepare("
         SELECT id,
-               `name`,
+               name,
                start_date,
                end_date
         FROM   contest;
