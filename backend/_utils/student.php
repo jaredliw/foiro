@@ -92,15 +92,16 @@ function add_new_student(
 function update_student_info(
     string $username,
     string $name,
-    string $gender
+    ?string $school
 ): void {
     $stmt = MySQL::connection()->prepare("
         UPDATE student
         SET    `name` = ?,
-               gender = ?
+               school = ?
         WHERE  username = ?;
     ");
-    $stmt->bind_param("sss", $name, $username, $gender);
+    $stmt->bind_param("sss", $name, $school, $username);
+    error_log(mysqli_error(MySQL::connection()));
     $stmt->execute();
 }
 

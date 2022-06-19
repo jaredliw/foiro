@@ -12,20 +12,29 @@ require_once __DIR__ . "/../_utils/login_logout.php";
 $json = json_read();
 $username = strtolower(compulsory_param(@$json->username));
 $name = compulsory_param(@$json->name);
-$raw_password = compulsory_param(@$json->password);
+$raw_password = @$json->password;
 $school = @$json->school;
 
 // Check
 validate_username($username);
 validate_name($name);
-validate_password($raw_password);
+if ($raw_password !== null && $raw_password !== "") {
+    validate_password($raw_password);
+}
 if ($school !== null && $school !== "") {
     check_school_exists($school, true);
 }
-check_student_exists($username, false);
-$password = hash_password($raw_password);
+check_student_exists($username, true);
 
-// Add
-add_new_student($username, $name, $password, $school);
+// Update
+error_log("Updating student: " . $username);
+error_log("Name: " . $name);
+error_log("Password: " . $raw_password);
+error_log("School: " . $school);
+update_student_info($username, $name, $school);
+if ($raw_password !== null) {
+    $password = hash_password($raw_password);
+    change_student_password($username, $password);
+}
 
-json_write(201, "Akaun '" . $username . "' telah dicipta.");
+json_write(200, "Akaun '" . $username . "' telah dikemas kini.");
