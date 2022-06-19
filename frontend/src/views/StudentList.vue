@@ -10,10 +10,6 @@
         value: 'name',
       },
       {
-        text: 'Jantina',
-        value: 'gender',
-      },
-      {
         text: 'Sekolah',
         value: 'school',
       },

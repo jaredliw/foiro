@@ -2,12 +2,13 @@
   <form-dialog
     ref="dialog"
     :dialog="dialog"
-    :form-title="updateMode ? 'Kemas Kini Pengguna' : 'Tambah Pengguna'"
-    :save="addUser"
+    :form-title="updateMode ? 'Kemas Kini Pelajar' : 'Tambah Pelajar Baharu'"
+    :save="addStudent"
     v-on:close="$emit('close')"
   >
     <v-row>
       <v-col cols="6">
+        <!-- todo readonly-->
         <v-text-field
           v-model="username"
           :readonly="updateMode"
@@ -19,6 +20,7 @@
           ]"
           counter="15"
           label="Nama Pengguna"
+          @keyup="lowercaseUsername"
         ></v-text-field>
       </v-col>
       <v-col cols="6">
@@ -52,7 +54,6 @@
             rules.optional(rules.containsSymbol),
           ]"
           :type="showPassword ? 'text' : 'password'"
-          :validate-on-blur="true"
           @click:append="showPassword = !showPassword"
         ></v-text-field>
       </v-col>
@@ -69,55 +70,18 @@
             rules.optional(rules.passwordMatch),
           ]"
           :type="showConfirmPassword ? 'text' : 'password'"
-          :validate-on-blur="true"
           @click:append="showConfirmPassword = !showConfirmPassword"
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6">
-        <v-radio-group v-model="gender" label="Jantina" mandatory row>
-          <v-radio color="primary" value="M">
-            <template v-slot:label>
-              <span :class="{ 'primary--text': gender === 'M' }">Lelaki</span>
-            </template>
-          </v-radio>
-          <v-radio color="pink" value="F">
-            <template v-slot:label>
-              <span :class="{ 'pink--text': gender === 'F' }">Perempuan</span>
-            </template>
-          </v-radio>
-        </v-radio-group>
-      </v-col>
-      <v-col cols="6">
-        <v-select label="Sekolah" no-data-text="Tiada rekod."></v-select>
-      </v-col>
-    </v-row>
-    <v-row>
       <v-col>
-        <v-radio-group v-model="role" label="Peranan" mandatory row>
-          <v-radio value="student">
-            <template v-slot:label>
-              <span :class="{ 'primary--text': role === 'student' }">
-                Pelajar
-              </span>
-            </template>
-          </v-radio>
-          <v-radio value="judge">
-            <template v-slot:label>
-              <span :class="{ 'primary--text': role === 'judge' }">
-                Hakim
-              </span>
-            </template>
-          </v-radio>
-          <v-radio value="admin">
-            <template v-slot:label>
-              <span :class="{ 'primary--text': role === 'admin' }">
-                Admin
-              </span>
-            </template>
-          </v-radio>
-        </v-radio-group>
+        <v-select
+          label="Sekolah"
+          no-data-text="Tiada rekod."
+          :items="schools"
+          v-model="school"
+        ></v-select>
       </v-col>
     </v-row>
   </form-dialog>
@@ -127,15 +91,22 @@
 import FormDialog from "@/components/abstract/FormDialog";
 
 export default {
-  name: "UserFormDialog",
+  name: "StudentFormDialog",
   components: {
     FormDialog,
   },
   props: {
-    dialog: Boolean,
+    dialog: {
+      type: Boolean,
+      required: true,
+    },
     updateMode: {
       type: Boolean,
       default: false,
+    },
+    apiUrl: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -143,10 +114,10 @@ export default {
       username: "",
       name: "",
       password: "",
-      gender: "M",
-      role: "student",
       showPassword: false,
       showConfirmPassword: false,
+      school: null,
+      schools: [],
       rules: {
         required: (v) => !!v || "Ruangan ini wajib diisi.",
         minLength: (length) => (v) =>
@@ -162,9 +133,9 @@ export default {
           /^[ -~]+$/.test(v) ||
           "Hanya abjad, nombor, ruang dan simbol dibenarkan.",
         containsLowercase: (v) =>
-          /[a-z]/.test(v) || "Mesti mengandungi huruf kecil.",
+          /[a-z]/.test(v) || "Mesti mengandungi abjad huruf kecil.",
         containsUppercase: (v) =>
-          /[A-Z]/.test(v) || "Mesti mengandungi huruf besar.",
+          /[A-Z]/.test(v) || "Mesti mengandungi abjad huruf besar.",
         containsAlpha: (v) => /[A-Za-z]/.test(v) || "Mesti mengandungi abjad.",
         containsNumber: (v) => /\d/.test(v) || "Mesti mengandungi nombor.",
         containsSymbol: (v) =>
@@ -178,16 +149,18 @@ export default {
     };
   },
   methods: {
-    addUser() {
+    lowercaseUsername() {
+      this.username = this.username.toLowerCase();
+    },
+    addStudent() {
       this.axios({
         method: "POST",
-        url: "/api/admin/user",
+        url: this.apiUrl,
         data: {
           username: this.username,
           name: this.name,
           password: this.password,
-          gender: this.gender,
-          role: this.role,
+          school: this.school,
         },
       })
         .then((response) => {
@@ -197,7 +170,7 @@ export default {
           });
           this.showPassword = false;
           this.showConfirmPassword = false;
-          this.$parent.loadAllUsers();
+          this.$parent.loadAll();
           this.$refs.dialog.close();
         })
         .catch((error) => {
@@ -218,6 +191,26 @@ export default {
     setRole(role) {
       this.role = role;
     },
+  },
+  async mounted() {
+    this.schools = await this.axios
+      .get("/api/admin/school")
+      .then((response) => {
+        return response.data["data"].map((school) => {
+          return {
+            text: `(${school["code"]}) ${school["name"]}`,
+            value: school["code"],
+          };
+        });
+      })
+      .catch((error) => {
+        this.$swal.fire({
+          icon: "error",
+          title:
+            error.response.data["message"] ??
+            "Ralat yang tidak diketahui berlaku.",
+        });
+      });
   },
 };
 </script>
