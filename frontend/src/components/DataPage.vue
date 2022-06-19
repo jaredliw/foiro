@@ -169,18 +169,12 @@ export default {
         });
       this.is_loading = false;
     },
-    editItem(user) {
-      this.$refs.dialog.setUsername(user.username);
-      this.$refs.dialog.setName(user.name);
-      this.$refs.dialog.setRole(user.role);
+    editItem(item) {
+      this.$refs.dialog.setItem(item);
       this.dialogUpdateMode = true;
       this.dialog = true;
     },
     deleteItem(item) {
-      console.log(item);
-      console.log({
-        [this.itemKey]: item[this.itemKey],
-      });
       this.axios
         .delete(this.apiUrl, {
           data: {
