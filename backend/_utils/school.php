@@ -4,9 +4,9 @@ require_once __DIR__ . "/database.php";
 function check_school_exists(string $code, bool $expect_to_be): void
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT code
+        SELECT `code`
         FROM   school
-        WHERE  code = ?;
+        WHERE  `code` = ?;
     ");
     $stmt->bind_param("s", $code);
     $stmt->execute();
@@ -40,11 +40,35 @@ function fetch_all_schools(): array
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
+function add_new_school(string $code, string $name): void
+{
+    $stmt = MySQL::connection()->prepare("
+        INSERT INTO school
+                    (`code`,
+                     `name`)
+        VALUES      (?,
+                     ?);
+    ");
+    $stmt->bind_param("ss", $code, $name);
+    $stmt->execute();
+}
+
+function update_school_info(string $code, string $name): void
+{
+    $stmt = MySQL::connection()->prepare("
+        UPDATE school
+        SET    `name` = ?
+        WHERE  `code` = ?;
+    ");
+    $stmt->bind_param("ss", $name, $code);
+    $stmt->execute();
+}
+
 function delete_school($code): void
 {
     $stmt = MySQL::connection()->prepare("
         DELETE FROM school
-        WHERE  code = ?;
+        WHERE  `code` = ?;
     ");
     $stmt->bind_param("s", $code);
     $stmt->execute();

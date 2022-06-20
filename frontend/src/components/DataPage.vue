@@ -106,6 +106,7 @@ import moment from "moment";
 import Sidebar from "@/components/Sidebar";
 import StudentFormDialog from "@/components/StudentFormDialog";
 import JudgeFormDialog from "@/components/JudgeFormDialog";
+import SchoolFormDialog from "@/components/SchoolFormDialog";
 
 export default {
   name: "DataPage",
@@ -113,6 +114,7 @@ export default {
     Sidebar,
     StudentFormDialog,
     JudgeFormDialog,
+    SchoolFormDialog,
   },
   props: {
     title: {

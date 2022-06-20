@@ -54,3 +54,32 @@ function validate_password(string $password): void
         json_write(400, "Kata laluan mesti mengandungi simbol.");
     }
 }
+
+function validate_school_code(string $code): void
+{
+    if (strlen($code) < 1) {
+        json_write(400, "Kod sekolah perlu diisi.");
+    }
+    if (strlen($code) !== 7) {
+        json_write(400, "Panjang kod sekolah 7 aksara.");
+    }
+    if (!preg_match("/^[A-Z]{3}\d{4}$/", $code)) {
+        json_write(400, "Format kod sekolah tidak betul.");
+    }
+}
+
+function validate_school_name(string $name): void
+{
+    if (strlen($name) < 1) {
+        json_write(400, "Nama sekolah perlu diisi.");
+    }
+    if (strlen($name) > 80) {
+        json_write(400, "Panjang maksimum nama sekolah 80 aksara.");
+    }
+    if (!preg_match("/^[ -~]+$/", $name)) {
+        json_write(400, "Nama sekolah hanya boleh mengandungi abjad, nombor, ruang dan simbol.");
+    }
+    if (!preg_match("/[A-Za-z]/", $name)) {
+        json_write(400, "Nama sekolah mesti mengandungi abjad.");
+    }
+}

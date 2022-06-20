@@ -17,6 +17,7 @@
     api-url="/api/admin/school"
     item-key="code"
     title="Senarai Sekolah"
+    dialog-component="school-form-dialog"
   ></data-page>
 </template>
 
