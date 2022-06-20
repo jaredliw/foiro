@@ -2,8 +2,8 @@
   <form-dialog
     ref="dialog"
     :dialog="dialog"
-    :form-title="updateMode ? 'Kemas Kini Pelajar' : 'Tambah Pelajar Baharu'"
-    :save="addStudent"
+    :form-title="updateMode ? 'Kemas Kini Hakim' : 'Tambah Hakim Baharu'"
+    :save="addJudge"
     v-on:close="$emit('close')"
   >
     <v-row>
@@ -63,18 +63,6 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-select
-          label="Sekolah (jika ada)"
-          no-data-text="Tiada rekod."
-          :items="schools"
-          v-model="school"
-          append-outer-icon="mdi-close"
-          @click:append-outer="school = null"
-        ></v-select>
-      </v-col>
-    </v-row>
   </form-dialog>
 </template>
 
@@ -106,8 +94,10 @@ export default {
       name: "",
       password: "",
       confirmPassword: "",
+      school: null,
       showPassword: false,
       showConfirmPassword: false,
+      schools: [],
       rules: {
         required: (v) => !!v || "Ruangan ini wajib diisi.",
         minLength: (length) => (v) =>
@@ -140,7 +130,7 @@ export default {
     lowercaseUsername() {
       this.username = this.username.toLowerCase();
     },
-    addStudent() {
+    addJudge() {
       this.axios({
         method: this.updateMode ? "PUT" : "POST",
         url: this.apiUrl,
@@ -148,6 +138,7 @@ export default {
           username: this.username,
           name: this.name,
           password: this.password,
+          school: this.school,
         },
       })
         .then((response) => {
@@ -172,7 +163,28 @@ export default {
     setItem(item) {
       this.username = item.username;
       this.name = item.name;
+      this.school = item.school;
     },
+  },
+  async mounted() {
+    this.schools = await this.axios
+      .get("/api/admin/school")
+      .then((response) => {
+        return response.data["data"].map((school) => {
+          return {
+            text: `(${school["code"]}) ${school["name"]}`,
+            value: school["code"],
+          };
+        });
+      })
+      .catch((error) => {
+        this.$swal.fire({
+          icon: "error",
+          title:
+            error.response.data["message"] ??
+            "Ralat yang tidak diketahui berlaku.",
+        });
+      });
   },
   computed: {
     passwordRules() {

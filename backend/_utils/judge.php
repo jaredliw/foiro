@@ -75,7 +75,7 @@ function add_new_judge(
 ): void
 {
     $stmt = MySQL::connection()->prepare("
-        INSERT INTO USER
+        INSERT INTO judge
                     (username,
                      name,
                      password)
@@ -90,7 +90,7 @@ function add_new_judge(
 function update_judge_info(string $username, string $name): void
 {
     $stmt = MySQL::connection()->prepare("
-        UPDATE student
+        UPDATE judge
         SET    name = ?
         WHERE  username = ?; 
     ");
@@ -101,7 +101,7 @@ function update_judge_info(string $username, string $name): void
 function change_judge_password(string $username, string $password): void
 {
     $stmt = MySQL::connection()->prepare("
-        UPDATE student
+        UPDATE judge
         SET    password = ?
         WHERE  username = ?;
     ");

@@ -24,13 +24,14 @@
               <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
               <v-icon right>mdi-plus</v-icon>
             </v-btn>
-            <student-form-dialog
+            <component
+              :is="dialogComponent"
               ref="dialog"
               :dialog="dialog"
               :updateMode="dialogUpdateMode"
               v-on:close="dialog = false"
               :api-url="apiUrl"
-            ></student-form-dialog>
+            ></component>
           </div>
         </v-col>
       </v-row>
@@ -104,12 +105,14 @@ import Papa from "papaparse";
 import moment from "moment";
 import Sidebar from "@/components/Sidebar";
 import StudentFormDialog from "@/components/StudentFormDialog";
+import JudgeFormDialog from "@/components/JudgeFormDialog";
 
 export default {
   name: "DataPage",
   components: {
     Sidebar,
     StudentFormDialog,
+    JudgeFormDialog,
   },
   props: {
     title: {
@@ -125,6 +128,10 @@ export default {
       required: true,
     },
     apiUrl: {
+      type: String,
+      required: true,
+    },
+    dialogComponent: {
       type: String,
       required: true,
     },

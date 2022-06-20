@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="800px" persistent>
+  <v-dialog v-model="dialog" max-width="700px" persistent>
     <v-card>
       <v-card-title>
         <h5 class="text-h5">{{ formTitle }}</h5>

@@ -21,6 +21,7 @@
     api-url="/api/admin/student"
     item-key="username"
     title="Senarai Pelajar"
+    dialog-component="student-form-dialog"
   ></data-page>
 </template>
 

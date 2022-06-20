@@ -17,6 +17,7 @@
     api-url="/api/admin/judge"
     item-key="username"
     title="Senarai Hakim"
+    dialog-component="judge-form-dialog"
   ></data-page>
 </template>
 
