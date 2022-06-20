@@ -10,17 +10,14 @@
         value: 'name',
       },
       {
-        text: 'Tarikh Mula',
-        value: 'start_date',
-      },
-      {
-        text: 'Tarikh Tamat',
-        value: 'end_date',
+        text: 'Tarikh',
+        value: 'date',
       },
     ]"
     api-url="/api/admin/contest"
     item-key="id"
     title="Senarai Pertandingan"
+    dialog-component="contest-form-dialog"
   ></data-page>
 </template>
 

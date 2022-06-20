@@ -70,7 +70,7 @@
 import FormDialog from "@/components/abstract/FormDialog";
 
 export default {
-  name: "StudentFormDialog",
+  name: "JudgeFormDialog",
   components: {
     FormDialog,
   },
@@ -94,10 +94,8 @@ export default {
       name: "",
       password: "",
       confirmPassword: "",
-      school: null,
       showPassword: false,
       showConfirmPassword: false,
-      schools: [],
       rules: {
         required: (v) => !!v || "Ruangan ini wajib diisi.",
         minLength: (length) => (v) =>
@@ -163,28 +161,7 @@ export default {
     setItem(item) {
       this.username = item.username;
       this.name = item.name;
-      this.school = item.school;
     },
-  },
-  async mounted() {
-    this.schools = await this.axios
-      .get("/api/admin/school")
-      .then((response) => {
-        return response.data["data"].map((school) => {
-          return {
-            text: `(${school["code"]}) ${school["name"]}`,
-            value: school["code"],
-          };
-        });
-      })
-      .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
-      });
   },
   computed: {
     passwordRules() {

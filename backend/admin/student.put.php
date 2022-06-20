@@ -22,6 +22,7 @@ if ($raw_password !== null && $raw_password !== "") {
     validate_password($raw_password);
 }
 if ($school !== null && $school !== "") {
+    validate_school_code($school);
     check_school_exists($school, true);
 }
 check_student_exists($username, true);

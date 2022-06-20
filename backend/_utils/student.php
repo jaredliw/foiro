@@ -101,7 +101,6 @@ function update_student_info(
         WHERE  username = ?;
     ");
     $stmt->bind_param("sss", $name, $school, $username);
-    error_log(mysqli_error(MySQL::connection()));
     $stmt->execute();
 }
 

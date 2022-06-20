@@ -14,7 +14,7 @@ $name = compulsory_param(@$json->name);
 
 // Check
 validate_school_code($code);
-validate_school_name($name);
+validate_general_name($name);
 check_school_exists($code, false);
 
 // Add

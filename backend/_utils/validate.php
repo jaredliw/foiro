@@ -68,7 +68,7 @@ function validate_school_code(string $code): void
     }
 }
 
-function validate_school_name(string $name): void
+function validate_general_name(string $name): void
 {
     if (strlen($name) < 1) {
         json_write(400, "Nama sekolah perlu diisi.");
@@ -81,5 +81,22 @@ function validate_school_name(string $name): void
     }
     if (!preg_match("/[A-Za-z]/", $name)) {
         json_write(400, "Nama sekolah mesti mengandungi abjad.");
+    }
+}
+
+function validate_date($date): void
+{
+    // Format: YYYY-MM-DD
+    if (date_create_from_format("Y-m-d", $date) === false) {
+        json_write(400, "Format tarikh tidak betul, sila mengikut format 'YYYY-MM-DD'.");
+    }
+}
+
+function validate_contest_id($id): void
+{
+    error_log((!is_int($id)) ? 't' : 'f');
+//    error_log(((int) $id < 1 ? 't' : 'f');
+    if ((!ctype_digit($id)) || ((int) $id) < 1) {
+        json_write(400, "ID pertandingan tidak sah.");
     }
 }

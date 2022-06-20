@@ -25,16 +25,39 @@ function check_contest_exists(string $id, bool $expect_to_be): void
 
 function fetch_all_contests(): array
 {
-    # Return all schools
     $stmt = MySQL::connection()->prepare("
         SELECT id,
-               name,
-               start_date,
-               end_date
+               `name`,
+               `date`
         FROM   contest;
     ");
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function add_new_contest(string $name, string $date): void
+{
+    $stmt = MySQL::connection()->prepare("
+        INSERT INTO contest
+                    (`name`,
+                     `date`)
+        VALUES      (?,
+                     ?);
+    ");
+    $stmt->bind_param("ss", $name, $date);
+    $stmt->execute();
+}
+
+function update_contest($id, $name, $date): void
+{
+    $stmt = MySQL::connection()->prepare("
+        UPDATE contest
+        SET    `name` = ?,
+               `date` = ?
+        WHERE  id = ?;
+    ");
+    $stmt->bind_param("sss", $name, $date, $id);
+    $stmt->execute();
 }
 
 function delete_contest($id): void

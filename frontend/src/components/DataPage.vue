@@ -107,6 +107,7 @@ import Sidebar from "@/components/Sidebar";
 import StudentFormDialog from "@/components/StudentFormDialog";
 import JudgeFormDialog from "@/components/JudgeFormDialog";
 import SchoolFormDialog from "@/components/SchoolFormDialog";
+import ContestFormDialog from "@/components/ContestFormDialog";
 
 export default {
   name: "DataPage",
@@ -115,6 +116,7 @@ export default {
     StudentFormDialog,
     JudgeFormDialog,
     SchoolFormDialog,
+    ContestFormDialog,
   },
   props: {
     title: {
