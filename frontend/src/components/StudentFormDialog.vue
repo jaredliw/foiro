@@ -66,10 +66,12 @@
     <v-row>
       <v-col>
         <v-select
-          label="Sekolah"
+          label="Sekolah (jika ada)"
           no-data-text="Tiada rekod."
           :items="schools"
           v-model="school"
+          append-outer-icon="mdi-close"
+          @click:append-outer="school = null"
         ></v-select>
       </v-col>
     </v-row>
@@ -180,18 +182,12 @@ export default {
     this.schools = await this.axios
       .get("/api/admin/school")
       .then((response) => {
-        return [
-          {
-            text: "Sila pilih",
-            value: null,
-          },
-          ...response.data["data"].map((school) => {
-            return {
-              text: `(${school["code"]}) ${school["name"]}`,
-              value: school["code"],
-            };
-          }),
-        ];
+        return response.data["data"].map((school) => {
+          return {
+            text: `(${school["code"]}) ${school["name"]}`,
+            value: school["code"],
+          };
+        });
       })
       .catch((error) => {
         this.$swal.fire({
