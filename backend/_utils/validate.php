@@ -94,8 +94,6 @@ function validate_date($date): void
 
 function validate_contest_id($id): void
 {
-    error_log((!is_int($id)) ? 't' : 'f');
-//    error_log(((int) $id < 1 ? 't' : 'f');
     if ((!ctype_digit($id)) || ((int) $id) < 1) {
         json_write(400, "ID pertandingan tidak sah.");
     }

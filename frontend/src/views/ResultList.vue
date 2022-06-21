@@ -22,7 +22,7 @@
         value: 'school_name',
       },
     ]"
-    api-url="/api/admin/result"
+    api-url="/api/admin/contest/result"
     :get-params-func="params"
     item-key="username"
     title="Keputusan Pertandingan"

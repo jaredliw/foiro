@@ -13,7 +13,8 @@ $white_list = [
     "/admin/judge",
     "/admin/school",
     "/admin/contest",
-    "/admin/result",
+    "/admin/contest/judge",
+    "/admin/contest/result",
 ];
 
 route(join(" ", $white_list));

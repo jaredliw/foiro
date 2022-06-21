@@ -10,7 +10,7 @@
         value: 'name',
       },
     ]"
-    api-url="/api/admin/judge_registration"
+    api-url="/api/admin/contest/judge"
     :get-params-func="params"
     item-key="username"
     title="Pendaftaran Hakim"
