@@ -71,6 +71,11 @@ export default {
           text: "Pertandingan",
           href: "/admin/contest",
         },
+        {
+          icon: "mdi-note-search-outline",
+          text: "Keputusan",
+          href: "/admin/result",
+        },
       ],
     };
   },

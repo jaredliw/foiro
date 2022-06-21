@@ -1,0 +1,64 @@
+<template>
+  <data-page
+    :headers="[
+      {
+        text: 'Kedudukan',
+        value: 'rank',
+      },
+      {
+        text: 'Nama Pengguna Pelajar',
+        value: 'username',
+      },
+      {
+        text: 'Nama Pelajar',
+        value: 'name',
+      },
+    ]"
+    api-url="/api/admin/result"
+    item-key="rank"
+    title="Keputusan Pertandingan"
+    dialog-component="school-form-dialog"
+    :no-crud="true"
+    :no-import-csv="true"
+  >
+    <v-select :items="contests" label="Pertandingan" class="px-6" v-model="contest"></v-select>
+  </data-page>
+</template>
+
+<script>
+import DataPage from "@/components/DataPage";
+
+export default {
+  name: "ResultList",
+  components: {
+    DataPage,
+  },
+  data() {
+    return {
+      contest: null,
+      contests: null,
+    };
+  },
+  async mounted() {
+    this.contests = await this.axios
+      .get("/api/admin/contest")
+      .then((response) => {
+        return response.data["data"].map((contest) => {
+          return {
+            text: contest["name"],
+            value: contest["id"],
+          };
+        });
+      })
+      .catch((error) => {
+        this.$swal.fire({
+          icon: "error",
+          title:
+            error.response.data["message"] ??
+            "Ralat yang tidak diketahui berlaku.",
+        });
+      });
+    this.contest = this.contests[0];
+  },
+};
+</script>
