@@ -26,7 +26,6 @@
     :get-params-func="params"
     item-key="username"
     title="Keputusan Pertandingan"
-    dialog-component="school-form-dialog"
     :no-crud="true"
     :no-import-csv="true"
     ref="dataPage"

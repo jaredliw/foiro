@@ -138,10 +138,7 @@ export default {
       type: String,
       required: true,
     },
-    dialogComponent: {
-      type: String,
-      required: true,
-    },
+    dialogComponent: String,
     noCrud: {
       type: Boolean,
       default: false,
