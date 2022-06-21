@@ -256,6 +256,22 @@ export default {
     },
   },
   mounted() {
+    // Localisation: Change English to Malay manually
+    document.getElementsByClassName(
+      "v-data-footer__select"
+    )[0].childNodes[0].nodeValue = "Bil. baris per halaman:";
+    document
+      .getElementsByClassName("v-data-footer__pagination")[0]
+      .childNodes[0].addEventListener("DOMSubtreeModified", (event) => {
+        let before = event.target.nodeValue;
+        // drpd. === daripada
+        let after = before.replaceAll("of", "drpd.");
+        // Prevent max call stack size exceeded error
+        if (before !== after) {
+          event.target.nodeValue = after;
+        }
+      });
+
     if (sessionStorage.getItem("show_login_success_toast") === "1") {
       this.$swal.fire({
         icon: "success",
