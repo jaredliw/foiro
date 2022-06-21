@@ -150,6 +150,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    // Params to be sent when requesting `apiUrl` with GET method
+    getParamsFunc: {
+      type: Function,
+      default: () => ({}),
+    },
+    // Do not call `loadAll` on mounted
+    lazyLoad: {
+      type: Boolean,
+      default: false,
+    },
   },
   metaInfo() {
     return {
@@ -179,7 +189,9 @@ export default {
     loadAll() {
       this.is_loading = true;
       this.axios
-        .get(this.apiUrl)
+        .get(this.apiUrl, {
+          params: this.getParamsFunc(),
+        })
         .then((response) => {
           this.items = response.data["data"];
         })
@@ -254,7 +266,10 @@ export default {
       });
       sessionStorage.removeItem("show_login_success_toast");
     }
-    this.loadAll();
+
+    if (!this.lazyLoad) {
+      this.loadAll();
+    }
   },
 };
 </script>

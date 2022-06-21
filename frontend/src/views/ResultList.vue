@@ -13,15 +13,31 @@
         text: 'Nama Pelajar',
         value: 'name',
       },
+      {
+        text: 'Kod Sekolah',
+        value: 'school_code',
+      },
+      {
+        text: 'Sekolah',
+        value: 'school_name',
+      },
     ]"
     api-url="/api/admin/result"
-    item-key="rank"
+    :get-params-func="params"
+    item-key="username"
     title="Keputusan Pertandingan"
     dialog-component="school-form-dialog"
     :no-crud="true"
     :no-import-csv="true"
+    ref="dataPage"
+    :lazy-load="true"
   >
-    <v-select :items="contests" label="Pertandingan" class="px-6" v-model="contest"></v-select>
+    <v-select
+      :items="contests"
+      label="Pertandingan"
+      class="px-6"
+      v-model="contest"
+    ></v-select>
   </data-page>
 </template>
 
@@ -38,6 +54,18 @@ export default {
       contest: null,
       contests: null,
     };
+  },
+  methods: {
+    params() {
+      return {
+        contest_id: this.contest,
+      };
+    },
+  },
+  watch: {
+    contest() {
+      this.$refs.dataPage.loadAll();
+    },
   },
   async mounted() {
     this.contests = await this.axios
@@ -58,7 +86,7 @@ export default {
             "Ralat yang tidak diketahui berlaku.",
         });
       });
-    this.contest = this.contests[0];
+    this.contest = this.contests[0]?.value;
   },
 };
 </script>
