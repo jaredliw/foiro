@@ -30,7 +30,12 @@ const routes = [
     component: () => import("@/views/ContestList"),
   },
   {
-    path: "/admin/result",
+    path: "/admin/contest/judge",
+    name: "JudgeRegistrationList",
+    component: () => import("@/views/JudgeRegistrationList"),
+  },
+  {
+    path: "/admin/contest/result",
     name: "ResultList",
     component: () => import("@/views/ResultList"),
   },

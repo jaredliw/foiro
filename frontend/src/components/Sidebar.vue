@@ -22,17 +22,38 @@
     <v-divider></v-divider>
 
     <v-list dense nav>
-      <v-list-item-group v-model="selectedNavItem" mandatory>
-        <v-list-item
-          v-for="item in navItems"
-          :key="item.text"
-          :href="item.href"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>{{ item.text }}</v-list-item-title>
-        </v-list-item>
+      <v-list-item-group mandatory>
+        <template v-for="item in navItems">
+          <v-list-group
+            v-if="item.children"
+            :prepend-icon="item.icon"
+            :key="item.text"
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+              v-for="child in item.children"
+              :key="child.text"
+              link
+              :href="child.href"
+            >
+              <v-list-item-icon>
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ child.text }}</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-item v-else :href="item.href" :key="item.text">
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
+          </v-list-item>
+        </template>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -69,25 +90,31 @@ export default {
         {
           icon: "mdi-calendar-star",
           text: "Pertandingan",
-          href: "/admin/contest",
-        },
-        {
-          icon: "mdi-note-search-outline",
-          text: "Keputusan",
-          href: "/admin/result",
+          children: [
+            {
+              icon: "mdi-newspaper",
+              text: "Acara",
+              href: "/admin/contest",
+            },
+            {
+              icon: "mdi-badge-account-horizontal-outline",
+              text: "Pendaftaran Pelajar",
+              href: "/admin/contest/student",
+            },
+            {
+              icon: "mdi-ballot-outline",
+              text: "Pendaftaran Hakim",
+              href: "/admin/contest/judge",
+            },
+            {
+              icon: "mdi-note-search-outline",
+              text: "Keputusan",
+              href: "/admin/contest/result",
+            },
+          ],
         },
       ],
     };
-  },
-  computed: {
-    selectedNavItem() {
-      for (let i = 0; i < this.navItems.length; i++) {
-        if (this.$route.path === this.navItems[i].href) {
-          return i;
-        }
-      }
-      return -1; // Still default to the first item
-    },
   },
   methods: {
     getUserInfo() {
