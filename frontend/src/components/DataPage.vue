@@ -9,7 +9,7 @@
         </v-col>
         <v-col cols="6">
           <div class="d-flex justify-end">
-            <v-btn class="me-3">
+            <v-btn class="me-3" v-if="!noImportCsv">
               <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
               <v-icon right>mdi-database-import</v-icon>
             </v-btn>
@@ -20,6 +20,7 @@
                 dialog = true;
                 dialogUpdateMode = false;
               "
+              v-if="!noCrud"
             >
               <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
               <v-icon right>mdi-plus</v-icon>
@@ -31,6 +32,7 @@
               :updateMode="dialogUpdateMode"
               v-on:close="dialog = false"
               :api-url="apiUrl"
+              v-if="!noCrud"
             ></component>
           </div>
         </v-col>
@@ -38,9 +40,10 @@
       <div class="row">
         <div class="col-12 mb-4">
           <div class="data-table-container">
+            <slot></slot>
             <v-data-table
               v-model="selected"
-              :headers="processedHeaders"
+              :headers="noCrud ? headers : processedHeaders"
               :item-key="itemKey"
               :items="items"
               :items-per-page="5"
@@ -138,6 +141,14 @@ export default {
     dialogComponent: {
       type: String,
       required: true,
+    },
+    noCrud: {
+      type: Boolean,
+      default: false,
+    },
+    noImportCsv: {
+      type: Boolean,
+      default: false,
     },
   },
   metaInfo() {
