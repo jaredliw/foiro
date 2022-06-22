@@ -38,7 +38,8 @@ function fetch_all_students(): array
                   s.school,
                   COUNT(scl.contest_id) AS participation_count
         FROM      student AS s
-                  NATURAL LEFT JOIN student_contest_lnk AS scl
+        LEFT JOIN student_contest_lnk AS scl
+        ON        s.username = scl.student_username
         GROUP BY  s.username
         ORDER BY  s.username;
     ");

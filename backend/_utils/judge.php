@@ -38,7 +38,8 @@ function fetch_all_judges(): array
                   j.name,
                   COUNT(jcl.contest_id) AS involved_count
         FROM      judge AS j
-                  NATURAL LEFT JOIN judge_contest_lnk AS jcl
+        LEFT JOIN judge_contest_lnk AS jcl
+        ON        j.username = jcl.judge_username
         GROUP BY  j.username
         ORDER BY  j.username;
     ");
