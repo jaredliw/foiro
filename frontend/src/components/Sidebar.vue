@@ -107,6 +107,11 @@ export default {
               href: "/admin/contest/judge",
             },
             {
+              icon: "mdi-counter",
+              text: "Papan Markah",
+              href: "/admin/contest/scoreboard",
+            },
+            {
               icon: "mdi-note-search-outline",
               text: "Keputusan",
               href: "/admin/contest/result",

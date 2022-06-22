@@ -40,6 +40,11 @@ const routes = [
     component: () => import("@/views/JudgeRegistrationList"),
   },
   {
+    path: "/admin/contest/scoreboard",
+    name: "Scoreboard",
+    component: () => import("@/views/ScoreBoard"),
+  },
+  {
     path: "/admin/contest/result",
     name: "ResultList",
     component: () => import("@/views/ResultList"),
