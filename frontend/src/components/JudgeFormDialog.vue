@@ -63,6 +63,19 @@
         ></v-text-field>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-autocomplete
+          v-model="selectedContests"
+          :items="contests"
+          chips
+          small-chips
+          label="Pertandingan yang Dihakimi (jika ada)"
+          multiple
+        ></v-autocomplete>
+      </v-col>
+    </v-row>
+
   </form-dialog>
 </template>
 
@@ -96,6 +109,8 @@ export default {
       confirmPassword: "",
       showPassword: false,
       showConfirmPassword: false,
+      selectedContests: [],
+      contests: [],
       rules: {
         required: (v) => !!v || "Ruangan ini wajib diisi.",
         minLength: (length) => (v) =>
@@ -136,7 +151,7 @@ export default {
           username: this.username,
           name: this.name,
           password: this.password,
-          school: this.school,
+          contests: this.selectedContests,
         },
       })
         .then((response) => {
@@ -161,7 +176,28 @@ export default {
     setItem(item) {
       this.username = item.username;
       this.name = item.name;
+      this.selectedContests = item.contests;
     },
+  },
+  async mounted() {
+    this.contests = await this.axios
+      .get("/api/admin/contest")
+      .then((response) => {
+        return response.data["data"].map((contest) => {
+          return {
+            text: contest["name"],
+            value: contest["id"],
+          };
+        });
+      })
+      .catch((error) => {
+        this.$swal.fire({
+          icon: "error",
+          title:
+            error.response.data["message"] ??
+            "Ralat yang tidak diketahui berlaku.",
+        });
+      });
   },
   computed: {
     passwordRules() {

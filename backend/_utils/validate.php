@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../_utils/io.php";
+require_once __DIR__ . "/../_utils/contest.php";
 
 function validate_username(string $username): void
 {
@@ -84,7 +85,7 @@ function validate_general_name(string $name): void
     }
 }
 
-function validate_date($date): void
+function validate_date(string $date): void
 {
     // Format: YYYY-MM-DD
     if (date_create_from_format("Y-m-d", $date) === false) {
@@ -96,5 +97,16 @@ function validate_contest_id($id): void
 {
     if ((!ctype_digit($id) && !is_int($id)) || ((int) $id) < 1) {
         json_write(400, "ID pertandingan tidak sah.");
+    }
+}
+
+function validate_contest_array($contests): void
+{
+    if (!is_array($contests)) {
+        json_write(400, "Pertandingan perlu dalam bentuk tatasusunan.");
+    }
+    foreach ($contests as $contest) {
+        validate_contest_id($contest);
+        check_contest_exists($contest, true);
     }
 }

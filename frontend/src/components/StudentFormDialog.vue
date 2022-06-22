@@ -191,6 +191,7 @@ export default {
       this.username = item.username;
       this.name = item.name;
       this.school = item.school;
+      this.selectedContests = item.contests;
     },
   },
   async mounted() {
@@ -218,7 +219,7 @@ export default {
       .then((response) => {
         return response.data["data"].map((contests) => {
           return {
-            text: `${contests["name"]}`,
+            text: contests["name"],
             value: contests["id"],
           };
         });

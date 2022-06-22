@@ -27,13 +27,7 @@ if ($school !== null && $school !== "") {
     check_school_exists($school, true);
 }
 if ($contests !== null) {
-    if (!is_array($contests)) {
-        json_write(400, "Pertandingan perlu dalam bentuk tatasusunan.");
-    }
-    foreach ($contests as $contest) {
-        validate_contest_id($contest);
-        check_contest_exists($contest, true);
-    }
+    validate_contest_array($contests);
 }
 check_student_exists($username, false);
 $password = hash_password($raw_password);
