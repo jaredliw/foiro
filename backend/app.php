@@ -13,6 +13,7 @@ $white_list = [
     "/admin/judge",
     "/admin/school",
     "/admin/contest",
+    "/admin/contest/student",
     "/admin/contest/judge",
     "/admin/contest/result",
 ];

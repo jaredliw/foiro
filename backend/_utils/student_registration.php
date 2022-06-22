@@ -15,3 +15,16 @@ function get_student_registration($contest_id): array
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+function register_student_to_contest($student_username, $contest_id)
+{
+    $stmt = MySQL::connection()->prepare("
+        INSERT INTO student_contest_lnk
+                    (student_username,
+                     contest_id)
+        VALUES      (?,
+                     ?);
+    ");
+    $stmt->bind_param("si", $student_username, $contest_id);
+    $stmt->execute();
+}
