@@ -4,19 +4,19 @@ require_once __DIR__ . "/../_utils/database.php";
 function get_results($contest_id): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT    RANK() OVER (ORDER BY SUM(r.score) DESC) AS `rank`,
-                  s.username,
+        SELECT    RANK() OVER (ORDER BY SUM(r.score) DESC) AS `rank`,    
+                  scl.student_username AS username,
                   s.name,
                   s.school AS school_code,
-                  s2.name  AS school_name
-        FROM      result   AS r
-        LEFT JOIN student  AS s
-        ON        student_username = username
-        LEFT JOIN school s2
-        ON        s.school = s2.code
-        WHERE     r.contest_id = ?
-        GROUP BY  s.username
-        ORDER BY  `rank`;
+                  sc.name AS school_name
+        FROM      student_contest_lnk AS scl
+        NATURAL LEFT JOIN result AS r
+        LEFT JOIN student AS s
+        ON        scl.student_username = s.username
+        LEFT JOIN school AS sc
+        ON        s.school = sc.code
+        WHERE     contest_id = ?
+        GROUP BY  student_username;
     ");
     $stmt->bind_param("i", $contest_id);
     $stmt->execute();
