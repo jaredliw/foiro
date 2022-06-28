@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="align-center"
+    class="align-center pa-0 pa-md-3"
     d-flex
     fluid
     justify-center
@@ -13,13 +13,13 @@
       style="height: fit-content"
     >
       <v-row>
-        <v-col class="pe-0" cols="6">
+        <v-col class="pe-0 d-none d-md-block" cols="6">
           <v-img src="../assets/img/cover.jpg" style="height: 100%"></v-img>
         </v-col>
-        <v-col class="ps-0" cols="6">
-          <v-container class="px-8">
+        <v-col class="ps-md-0" cols="12" md="6">
+          <v-container class="px-0 px-sm-8">
             <div class="mt-8 mb-4">
-              <v-card-title class="display-1 pt-0"> Log Masuk</v-card-title>
+              <v-card-title class="display-1 pt-0">Log Masuk</v-card-title>
               <v-card-subtitle class="subtitle-1 primary--text text--darken-3">
                 Sistem Pengurusan Pertandingan
               </v-card-subtitle>
@@ -53,22 +53,22 @@
                   <v-radio-group
                     v-model="role"
                     :disabled="is_loading_state"
-                    class="mt-1"
+                    class="mt-1 justify-content-around"
                     dense
                     row
+                    hide-details
                   >
-                    <v-radio
-                      class="me-auto"
-                      label="Pelajar"
-                      value="student"
-                    ></v-radio>
-                    <v-radio
-                      class="me-auto"
-                      label="Hakim"
-                      value="judge"
-                    ></v-radio>
+                    <v-radio label="Pelajar" value="student"></v-radio>
+                    <v-radio label="Hakim" value="judge"></v-radio>
                     <v-radio label="Admin" value="admin"></v-radio>
                   </v-radio-group>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <span class="text-caption text--secondary">
+                    Pengguna baharu? Daftar di <a href="/register">sini</a>.
+                  </span>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -91,6 +91,9 @@
 <script>
 export default {
   name: "Login",
+  metaInfo: {
+    title: "Log Masuk",
+  },
   data() {
     return {
       username: "",
