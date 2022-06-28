@@ -8,7 +8,7 @@ function user_dispatch(string $privilege): ?string
         case "judge":
             return "/judge/judge";
         case "admin":
-            return "/admin/user";
+            return "/admin/student";
         default:
             return null;
     }

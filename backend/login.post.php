@@ -1,24 +1,38 @@
 <?php
 require_once __DIR__ . "/_utils/database.php";
+require_once __DIR__ . "/_utils/credentials.php";
 require_once __DIR__ . "/_utils/io.php";
 require_once __DIR__ . "/_utils/login_logout.php";
+require_once __DIR__ . "/_utils/student.php";
+require_once __DIR__ . "/_utils/judge.php";
 
 session_start();
 
 $json = json_read();
 $username = compulsory_param($json->username);
 $raw_password = compulsory_param($json->password);
-$remember = isset($json->remember) && $json->remember === "on"; // todo, remember me
+$role = compulsory_param($json->role);
 
-$user = search_user_on_username_and_password(
-    $username,
-    hash_password($raw_password)
-);
-if ($user === null) {
-    json_write(403, "Nama pengguna atau kata laluan tidak sah.");
+$password = hash_password($raw_password);
+switch ($role) {
+    case "student":
+        $user = search_student_on_username_and_password($username, $password);
+        break;
+    case "judge":
+        $user = search_judge_on_username_and_password($username, $password);
+        break;
+    case "admin":
+        $user = $username === ADMIN_USERNAME && $password === hash_password(ADMIN_PASSWORD) ? true : null;
+        break;
+    default:
+        json_write(400, "Peranan pengguna tidak sah");
 }
 
-$role = $user["role"];
+/** @noinspection PhpUndefinedVariableInspection */
+if ($user === null) {
+    json_write(403, "Nama pengguna, kata laluan atau peranan pengguna tidak sah.");
+}
+
 $redirect_url = user_dispatch($role);
 if ($redirect_url === null) {
     /** @noinspection PhpUnhandledExceptionInspection */
