@@ -167,7 +167,7 @@ export default {
     return {
       search: "",
       selected: [],
-      is_loading: true,
+      is_loading: false,
       dialogUpdateMode: false,
       dialog: false,
       processedHeaders: [

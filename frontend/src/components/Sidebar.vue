@@ -23,7 +23,11 @@
 
     <v-list dense nav>
       <v-list-item-group mandatory>
-        <template v-for="item in navItems">
+        <template
+          v-for="item in navItems.filter((value) =>
+            value.accessibleBy.includes(myRole)
+          )"
+        >
           <v-list-group
             v-if="item.children"
             :prepend-icon="item.icon"
@@ -35,7 +39,9 @@
               </v-list-item-content>
             </template>
             <v-list-item
-              v-for="child in item.children"
+              v-for="child in item.children.filter((value) =>
+                value.accessibleBy.includes(myRole)
+              )"
               :key="child.text"
               link
               :href="child.href"
@@ -71,50 +77,66 @@ export default {
     return {
       myName: "",
       myUsername: "",
+      myRole: "",
       navItems: [
+        {
+          icon: "mdi-account-details-outline",
+          text: "Maklumat Diri",
+          href: "/dashboard", // Warning: always use absolute path
+          accessibleBy: ["student", "admin"],
+        },
         {
           icon: "mdi-account-school-outline",
           text: "Pelajar",
-          href: "/admin/student", // Warning: always use absolute path
+          href: "/student",
+          accessibleBy: ["admin"],
         },
         {
           icon: "mdi-account-tie-hat-outline",
           text: "Hakim",
-          href: "/admin/judge",
+          href: "/judge",
+          accessibleBy: ["admin"],
         },
         {
           icon: "mdi-town-hall",
           text: "Sekolah",
-          href: "/admin/school",
+          href: "/school",
+          accessibleBy: ["admin"],
         },
         {
           icon: "mdi-calendar-star",
           text: "Pertandingan",
+          accessibleBy: ["student", "admin"],
           children: [
             {
               icon: "mdi-newspaper",
               text: "Acara",
-              href: "/admin/contest",
+              href: "/contest",
+              accessibleBy: ["admin"],
             },
             {
               icon: "mdi-badge-account-horizontal-outline",
               text: "Pendaftaran Pelajar",
-              href: "/admin/contest/student",
+              href: "/contest/student",
+              accessibleBy: ["admin"],
             },
             {
               icon: "mdi-ballot-outline",
               text: "Pendaftaran Hakim",
-              href: "/admin/contest/judge",
+              href: "/contest/judge",
+              accessibleBy: ["admin"],
             },
             {
               icon: "mdi-counter",
               text: "Papan Markah",
-              href: "/admin/contest/scoreboard",
+              href: "/contest/scoreboard",
+              accessibleBy: ["admin"],
             },
             {
               icon: "mdi-note-search-outline",
               text: "Keputusan",
-              href: "/admin/contest/result",
+              href: "/contest/result",
+              accessibleBy: ["student", "admin"],
             },
           ],
         },
@@ -129,6 +151,7 @@ export default {
           console.log(response);
           this.myUsername = response.data["data"]["username"];
           this.myName = response.data["data"]["name"];
+          this.myRole = response.data["data"]["role"];
         })
         .catch(() => {
           this.$swal.fire({

@@ -36,6 +36,7 @@
       label="Pertandingan"
       class="px-6"
       v-model="contest"
+      no-data-text="Tiada rekod."
     ></v-select>
   </data-page>
 </template>
@@ -62,8 +63,8 @@ export default {
     },
   },
   watch: {
-    contest() {
-      this.$refs.dataPage.loadAll();
+    contest(newValue) {
+      if (newValue !== void 0) this.$refs.dataPage.loadAll();
     },
   },
   async mounted() {

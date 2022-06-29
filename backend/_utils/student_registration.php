@@ -28,17 +28,6 @@ function register_student_to_contest($student_username, $contest_id)
     $stmt->bind_param("si", $student_username, $contest_id);
     $stmt->execute();
 }
-function get_judge_registration(string $judge_username): array
-{
-    $stmt = MySQL::connection()->prepare("
-        SELECT contest_id
-        FROM   judge_contest_lnk
-        WHERE  judge_username = ?;
-    ");
-    $stmt->bind_param("s", $judge_username);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-}
 
 function get_student_registration(string $student_username): array
 {

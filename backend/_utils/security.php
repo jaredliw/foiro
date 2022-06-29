@@ -1,8 +1,8 @@
 <?php
-function check_access($role_required): void
+function check_access(string ...$role_required): void
 {
     session_start();
-    if (isset($_SESSION["role"]) && $_SESSION["role"] === $role_required) {
+    if (isset($_SESSION["role"]) && in_array($_SESSION["role"], $role_required)) {
         return;
     }
 

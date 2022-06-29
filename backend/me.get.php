@@ -14,15 +14,17 @@ $role = $_SESSION["role"];
 switch ($role) {
     case "student":
         $user = search_student_on_username($my_username);
+        $user["role"] = "student";
         break;
     case "judge":
         $user = search_judge_on_username($my_username);
+        $user["role"] = "judge";
         break;
     case "admin":
-        # todo, implement
         $user = [
-            "username" => "testing",
-            "name" => "Testing"
+            "username" => ADMIN_USERNAME,
+            "name" => "Admin",
+            "role" => "admin"
         ];
         break;
     default:

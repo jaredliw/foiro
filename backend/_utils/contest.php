@@ -23,6 +23,22 @@ function check_contest_exists(string $id, bool $expect_to_be): void
     }
 }
 
+function fetch_contests_participated_by_student(string $student_username): array
+{
+    $stmt = MySQL::connection()->prepare("
+        SELECT c.id,
+               c.`name`,
+               c.`date`
+        FROM   student_contest_lnk as scl
+        LEFT JOIN contest c
+        ON scl.contest_id = c.id
+        WHERE  scl.student_username = ?;
+    ");
+    $stmt->bind_param("s", $student_username);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
 function fetch_all_contests(): array
 {
     $stmt = MySQL::connection()->prepare("
