@@ -49,6 +49,11 @@ const routes = [
     name: "ResultList",
     component: () => import("@/views/ResultList"),
   },
+  {
+    path: "*",
+    name: "404",
+    component: () => import("@/views/404"),
+  },
 ];
 
 const router = new VueRouter({
