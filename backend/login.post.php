@@ -33,8 +33,7 @@ if ($user === null) {
     json_write(403, "Nama pengguna, kata laluan atau peranan pengguna tidak sah.");
 }
 
-$redirect_url = user_dispatch($role);
-if ($redirect_url === null) {
+if (!in_array($role, ["student", "judge", "admin"])) {
     /** @noinspection PhpUnhandledExceptionInspection */
     throw new Exception("Unrecognized role: " . $role . "."); // Error handler is set in app.php
 }
@@ -42,5 +41,5 @@ if ($redirect_url === null) {
 $_SESSION["username"] = $username;
 $_SESSION["role"] = $role;
 json_write(200, "Log masuk berjaya.", [
-    "redirect_url" => $redirect_url,
+    "redirect_url" => "/dashboard",
 ]);
