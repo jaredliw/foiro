@@ -1,112 +1,101 @@
 <template>
-  <main class="d-flex" style="min-height: 100vh">
-    <sidebar id="sidebar"></sidebar>
-
-    <v-container>
-      <v-row class="mb-2 mt-4 align-center">
-        <v-col id="header" class="me-auto" cols="6">
-          <h5 class="text-h5 font-weight-medium">{{ title }}</h5>
-        </v-col>
-        <v-col cols="6">
-          <div class="d-flex justify-end">
-            <v-btn class="me-3" v-if="!noImportCsv">
-              <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
-              <v-icon right>mdi-database-import</v-icon>
-            </v-btn>
-            <v-btn
-              class="darken-1"
-              color="success"
-              @click.stop="
-                dialog = true;
-                dialogUpdateMode = false;
-              "
-              v-if="!noCrud"
-            >
-              <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
-              <v-icon right>mdi-plus</v-icon>
-            </v-btn>
-            <component
-              :is="dialogComponent"
-              ref="dialog"
-              :dialog="dialog"
-              :updateMode="dialogUpdateMode"
-              v-on:close="dialog = false"
-              :api-url="apiUrl"
-              v-if="!noCrud"
-            ></component>
-          </div>
-        </v-col>
-      </v-row>
-      <div class="row">
-        <div class="col-12 mb-4">
-          <div class="data-table-container">
-            <slot></slot>
-            <v-data-table
-              v-model="selected"
-              :headers="noCrud ? headers : processedHeaders"
-              :item-key="itemKey"
-              :items="items"
-              :items-per-page="5"
-              :loading="is_loading"
-              :search="search"
-              class="elevation-1"
-              loading-text="Data sedang dimuatkan..."
-              multi-sort
-              show-select
-            >
-              <template v-slot:top>
-                <v-row no-gutters>
-                  <v-col cols="6">
-                    <v-text-field
-                      v-model="search"
-                      aria-label="Cari"
-                      class="mx-4"
-                      hide-details
-                      placeholder="Cari..."
-                      prepend-inner-icon="mdi-magnify"
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col class="d-flex justify-end align-end" cols="6">
-                    <v-btn
-                      :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
-                      class="mx-4"
-                      @click="exportCSV()"
-                    >
-                      <span class="d-none d-sm-inline text-uppercase">
-                        EKSPORT CSV
-                      </span>
-                      <v-icon right>mdi-database-export</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </template>
-              <template v-slot:item.actions="{ item }">
-                <v-icon class="mr-2" color="blue" small @click="editItem(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon color="red" small @click="deleteItem(item)">
-                  mdi-delete
-                </v-icon>
-              </template>
-              <template v-slot:no-data>
-                <v-card-text>Tiada rekod.</v-card-text>
-              </template>
-              <template v-slot:no-results>
-                <v-card-text>Tiada rekod dijumpai.</v-card-text>
-              </template>
-            </v-data-table>
-          </div>
+  <page :title="this.title">
+    <template v-slot:action-bar>
+      <v-btn class="me-3" v-if="!noImportCsv">
+        <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
+        <v-icon right>mdi-database-import</v-icon>
+      </v-btn>
+      <v-btn
+        class="darken-1"
+        color="success"
+        @click.stop="
+          dialog = true;
+          dialogUpdateMode = false;
+        "
+        v-if="!noCrud"
+      >
+        <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
+        <v-icon right>mdi-plus</v-icon>
+      </v-btn>
+      <component
+        :is="dialogComponent"
+        ref="dialog"
+        :dialog="dialog"
+        :updateMode="dialogUpdateMode"
+        v-on:close="dialog = false"
+        :api-url="apiUrl"
+        v-if="!noCrud"
+      ></component>
+    </template>
+    <v-row>
+      <v-col cols="12" class="mb-4">
+        <div class="data-table-container">
+          <slot></slot>
+          <v-data-table
+            v-model="selected"
+            :headers="noCrud ? headers : processedHeaders"
+            :item-key="itemKey"
+            :items="items"
+            :items-per-page="5"
+            :loading="is_loading"
+            :search="search"
+            class="elevation-1"
+            loading-text="Data sedang dimuatkan..."
+            multi-sort
+            show-select
+          >
+            <template v-slot:top>
+              <v-row no-gutters>
+                <v-col cols="6">
+                  <v-text-field
+                    v-model="search"
+                    aria-label="Cari"
+                    class="mx-4"
+                    hide-details
+                    placeholder="Cari..."
+                    prepend-inner-icon="mdi-magnify"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col class="d-flex justify-end align-end" cols="6">
+                  <v-btn
+                    :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
+                    class="mx-4"
+                    @click="exportCSV()"
+                  >
+                    <span class="d-none d-sm-inline text-uppercase">
+                      EKSPORT CSV
+                    </span>
+                    <v-icon right>mdi-database-export</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-icon class="mr-2" color="blue" small @click="editItem(item)">
+                mdi-pencil
+              </v-icon>
+              <v-icon color="red" small @click="deleteItem(item)">
+                mdi-delete
+              </v-icon>
+            </template>
+            <template v-slot:no-data>
+              <v-card-text>Tiada rekod.</v-card-text>
+            </template>
+            <template v-slot:no-results>
+              <v-card-text>Tiada rekod dijumpai.</v-card-text>
+            </template>
+          </v-data-table>
         </div>
-      </div>
-    </v-container>
-  </main>
+      </v-col>
+    </v-row>
+  </page>
 </template>
 
 <script>
 import Papa from "papaparse";
 import moment from "moment";
-import Sidebar from "@/components/Sidebar";
+import Page from "@/components/abstract/Page";
 import StudentFormDialog from "@/components/StudentFormDialog";
 import JudgeFormDialog from "@/components/JudgeFormDialog";
 import SchoolFormDialog from "@/components/SchoolFormDialog";
@@ -115,7 +104,7 @@ import ContestFormDialog from "@/components/ContestFormDialog";
 export default {
   name: "DataPage",
   components: {
-    Sidebar,
+    Page,
     StudentFormDialog,
     JudgeFormDialog,
     SchoolFormDialog,
@@ -286,41 +275,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* animation */
-main {
-  animation-name: fadeInFromTop;
-  animation-duration: 0.4s;
-  animation-delay: 50ms;
-  animation-timing-function: ease-out;
-}
-
-@keyframes fadeInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-#sidebar {
-  animation-name: fadeInFromLeft;
-  animation-duration: 0.4s;
-  animation-timing-function: ease-out;
-}
-
-@keyframes fadeInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-80px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-</style>
