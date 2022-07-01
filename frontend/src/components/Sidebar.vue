@@ -87,7 +87,7 @@ export default {
           icon: "mdi-account-details-outline",
           text: "Maklumat Diri",
           href: "/dashboard", // Warning: always use absolute path
-          accessibleBy: ["student", "admin"],
+          accessibleBy: ["student"],
         },
         {
           icon: "mdi-account-school-outline",

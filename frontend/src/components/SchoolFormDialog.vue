@@ -82,7 +82,8 @@ export default {
       })
         .then((response) => {
           this.fireSuccessToast(response.data["message"]);
-          // noinspection JSUnresolvedFunction
+          this.showPassword = false;
+          this.showConfirmPassword = false;
           this.$parent.$parent.loadAll();
           this.$refs.dialog.close();
         })

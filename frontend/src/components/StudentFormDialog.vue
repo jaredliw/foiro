@@ -8,13 +8,32 @@
   >
     <v-row>
       <v-col cols="6">
-        <username-field
-          :updateMode="updateMode"
+        <v-text-field
           v-model="username"
-        ></username-field>
+          :readonly="updateMode"
+          :rules="[
+            rules.required,
+            rules.minLength(3),
+            rules.maxLength(15),
+            rules.alnumUnderscoreOnly,
+          ]"
+          counter="15"
+          label="Nama Pengguna"
+          @keyup="lowercaseUsername"
+        ></v-text-field>
       </v-col>
       <v-col cols="6">
-        <name-field :updateMode="updateMode" v-model="name"></name-field>
+        <v-text-field
+          v-model="name"
+          :rules="[
+            rules.required,
+            rules.maxLength(80),
+            rules.alphaSpaceOnly,
+            rules.containsAlpha,
+          ]"
+          counter="80"
+          label="Nama"
+        ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -150,6 +169,9 @@ export default {
       })
         .then((response) => {
           this.fireSuccessToast(response.data["message"]);
+          // noinspection JSUnresolvedFunction
+          this.$parent.$parent.loadAll();
+          this.$refs.dialog.close();
         })
         .catch((error) => {
           this.fireErrorToast(error.response.data["message"]);
