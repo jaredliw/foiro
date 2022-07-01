@@ -45,6 +45,11 @@ const routes = [
     component: () => import("@/views/JudgeRegistrationList"),
   },
   {
+    path: "/contest/scoring",
+    name: "Scoring",
+    component: () => import("@/views/Scoring"),
+  },
+  {
     path: "/contest/scoreboard",
     name: "Scoreboard",
     component: () => import("@/views/ScoreBoard"),

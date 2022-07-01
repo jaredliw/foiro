@@ -1,5 +1,5 @@
 <?php
-function compulsory_param(?string $param): string
+function compulsory_param($param)
 {
     # Make sure the parameter is not null, throw 400 error if it is
     if ($param === null) {

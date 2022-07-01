@@ -4,7 +4,7 @@ require_once __DIR__ . "/../_utils/database.php";
 function get_results($contest_id): array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT            RANK() OVER (ORDER BY SUM(r.score) DESC) AS `rank`,    
+        SELECT            RANK() OVER (ORDER BY SUM(r.score) DESC) AS `rank`,
                           scl.student_username AS username,
                           s.name,
                           s.school AS school_code,
@@ -24,10 +24,11 @@ function get_results($contest_id): array
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-function get_score($contest_id): array
+function get_score($contest_id, ?string $judge_username = null): array
 {
     $stmt = MySQL::connection()->prepare("
         SELECT     scl.student_username,
+                   s.name AS student_name,
                    jcl.judge_username,
                    IFNULL(r.score, 0) AS score
         FROM       student_contest_lnk AS scl
@@ -35,10 +36,35 @@ function get_score($contest_id): array
         LEFT JOIN  result AS r
         ON         scl.student_username = r.student_username
                    AND jcl.judge_username = r.judge_username
+        LEFT JOIN  student s
+        ON         scl.student_username = s.username
         WHERE      scl.contest_id = jcl.contest_id
-                   AND jcl.contest_id = ?;
+                   AND jcl.contest_id = ?
+    " . ($judge_username !== null ? " AND jcl.judge_username = ?" : "") . "
+        ORDER BY   scl.student_username;
     ");
-    $stmt->bind_param("i", $contest_id);
+    if ($judge_username === null)  {
+        $stmt->bind_param("i", $contest_id);
+    } else {
+        $stmt->bind_param("is", $contest_id, $judge_username);
+    }
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function update_score($contest_id, string $judge_username, string $student_username, $score): void
+{
+    $stmt_insert = MySQL::connection()->prepare("
+        REPLACE INTO result(
+                           contest_id,
+                           judge_username,
+                           student_username,
+                           score)
+        VALUES            (?,
+                           ?,
+                           ?,
+                           ?);
+    ");
+    $stmt_insert->bind_param("issi", $contest_id, $judge_username, $student_username, $score);
+    $stmt_insert->execute();
 }

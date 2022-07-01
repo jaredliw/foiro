@@ -132,6 +132,12 @@ export default {
             },
             {
               icon: "mdi-counter",
+              text: "Pemarkahan",
+              href: "/contest/scoring",
+              accessibleBy: ["Hakim"],
+            },
+            {
+              icon: "mdi-counter",
               text: "Papan Markah",
               href: "/contest/scoreboard",
               accessibleBy: ["Admin"],

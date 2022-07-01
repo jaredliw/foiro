@@ -12,9 +12,7 @@
           </div>
         </v-col>
       </v-row>
-      <v-row>
-        <slot></slot>
-      </v-row>
+      <slot></slot>
     </v-container>
   </v-container>
 </template>
