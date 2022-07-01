@@ -33,64 +33,62 @@
     </template>
     <v-row>
       <v-col cols="12" class="mb-4">
-        <div class="data-table-container">
-          <slot></slot>
-          <v-data-table
-            v-model="selected"
-            :headers="noCrud ? headers : processedHeaders"
-            :item-key="itemKey"
-            :items="items"
-            :items-per-page="5"
-            :loading="is_loading"
-            :search="search"
-            class="elevation-1"
-            loading-text="Data sedang dimuatkan..."
-            multi-sort
-            show-select
-          >
-            <template v-slot:top>
-              <v-row no-gutters>
-                <v-col cols="6">
-                  <v-text-field
-                    v-model="search"
-                    aria-label="Cari"
-                    class="mx-4"
-                    hide-details
-                    placeholder="Cari..."
-                    prepend-inner-icon="mdi-magnify"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col class="d-flex justify-end align-end" cols="6">
-                  <v-btn
-                    :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
-                    class="mx-4"
-                    @click="exportCSV()"
-                  >
-                    <span class="d-none d-sm-inline text-uppercase">
-                      EKSPORT CSV
-                    </span>
-                    <v-icon right>mdi-database-export</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </template>
-            <template v-slot:item.actions="{ item }">
-              <v-icon class="mr-2" color="blue" small @click="editItem(item)">
-                mdi-pencil
-              </v-icon>
-              <v-icon color="red" small @click="deleteItem(item)">
-                mdi-delete
-              </v-icon>
-            </template>
-            <template v-slot:no-data>
-              <v-card-text>Tiada rekod.</v-card-text>
-            </template>
-            <template v-slot:no-results>
-              <v-card-text>Tiada rekod dijumpai.</v-card-text>
-            </template>
-          </v-data-table>
-        </div>
+        <slot></slot>
+        <v-data-table
+          v-model="selected"
+          :headers="noCrud ? headers : processedHeaders"
+          :item-key="itemKey"
+          :items="items"
+          :items-per-page="5"
+          :loading="is_loading"
+          :search="search"
+          class="elevation-1"
+          loading-text="Data sedang dimuatkan..."
+          multi-sort
+          show-select
+        >
+          <template v-slot:top>
+            <v-row no-gutters>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="search"
+                  aria-label="Cari"
+                  class="mx-4"
+                  hide-details
+                  placeholder="Cari..."
+                  prepend-inner-icon="mdi-magnify"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col class="d-flex justify-end align-end" cols="6">
+                <v-btn
+                  :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
+                  class="mx-4"
+                  @click="exportCSV()"
+                >
+                  <span class="d-none d-sm-inline text-uppercase">
+                    EKSPORT CSV
+                  </span>
+                  <v-icon right>mdi-database-export</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon class="mr-2" color="blue" small @click="editItem(item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon color="red" small @click="deleteItem(item)">
+              mdi-delete
+            </v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-card-text>Tiada rekod.</v-card-text>
+          </template>
+          <template v-slot:no-results>
+            <v-card-text>Tiada rekod dijumpai.</v-card-text>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </page>
