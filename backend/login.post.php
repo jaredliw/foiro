@@ -30,7 +30,7 @@ switch ($role) {
 
 /** @noinspection PhpUndefinedVariableInspection */
 if ($user === null) {
-    json_write(403, "Nama pengguna, kata laluan atau peranan pengguna tidak sah.");
+    json_write(403, "Log masuk gagal.");
 }
 
 if (!in_array($role, ["student", "judge", "admin"])) {

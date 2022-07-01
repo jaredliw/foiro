@@ -69,15 +69,8 @@
                   </v-radio-group>
                 </v-col>
               </v-row>
-              <v-row dense>
-                <v-col>
-                  <span class="text-caption text--secondary">
-                    Pengguna baharu? Daftar di <a href="/register">sini</a>.
-                  </span>
-                </v-col>
-              </v-row>
             </v-card-text>
-            <v-card-actions class="mt-10 mb-8">
+            <v-card-actions class="mt-12 mb-8">
               <v-btn
                 :loading="is_loading_state"
                 block
