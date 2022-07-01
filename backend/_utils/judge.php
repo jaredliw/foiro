@@ -2,7 +2,7 @@
 require_once __DIR__ . "/io.php";
 require_once __DIR__ . "/database.php";
 
-function search_judge_on_username(string $username): ?array
+function get_judge_profile(string $username): ?array
 {
     $stmt = MySQL::connection()->prepare("
         SELECT username,

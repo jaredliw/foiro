@@ -2,13 +2,17 @@
 require_once __DIR__ . "/io.php";
 require_once __DIR__ . "/database.php";
 
-function search_student_on_username(string $username): ?array
+function get_student_profile(string $username): ?array
 {
     $stmt = MySQL::connection()->prepare("
-        SELECT username,
-               `name`
-        FROM   student
-        WHERE  username = ?;
+        SELECT    s.username,
+                  s.`name`,
+                  s.school AS school_code,
+                  sc.`name` AS school_name
+        FROM      student s
+        LEFT JOIN school sc
+        ON        s.school = sc.code
+        WHERE     username = ?;
     ");
     $stmt->bind_param("s", $username);
     $stmt->execute();

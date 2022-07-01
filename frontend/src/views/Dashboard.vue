@@ -8,7 +8,7 @@
       <v-divider class="mb-3"></v-divider>
       <v-container>
         <v-row>
-          <v-col cols="3" class="d-flex align-center"> Nama Pengguna </v-col>
+          <v-col cols="3" class="d-flex align-center">Nama Pengguna</v-col>
           <v-col cols="7">
             <v-text-field
               outlined
@@ -34,10 +34,17 @@
         <v-row>
           <v-col cols="3" class="d-flex align-center">Peranan</v-col>
           <v-col cols="7">
-            <v-select outlined dense readonly hide-details></v-select>
+            <v-select
+              outlined
+              dense
+              readonly
+              hide-details
+              v-model="role"
+              :items="[role]"
+            ></v-select>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="role === 'Pelajar'">
           <v-col cols="3" class="d-flex align-center">Sekolah</v-col>
           <v-col cols="2">
             <v-text-field
@@ -67,8 +74,12 @@
               outlined
               dense
               readonly
+              chips
+              small-chips
+              multiple
               hide-details
               v-model="contests"
+              :items="contests"
             ></v-autocomplete>
           </v-col>
         </v-row>
@@ -103,6 +114,9 @@ export default {
         this.username = response.data["data"]["username"];
         this.name = response.data["data"]["name"];
         this.role = response.data["data"]["role"];
+        this.contests = response.data["data"]["contests"].map((item) => {
+          return item["name"];
+        });
       })
       .catch(() => {
         this.fireErrorToast("Data akaun tidak dapat dimuatkan.");

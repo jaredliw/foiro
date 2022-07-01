@@ -7,7 +7,7 @@ require_once __DIR__ . "/../_utils/contest.php";
 
 switch ($_SESSION["role"]) {
     case "admin":
-        $contests = fetch_contest_list();
+        $contests = fetch_all_contests();
         break;
     case "judge":
         $contests = fetch_contests_participated_by_judge($_SESSION["username"]);
