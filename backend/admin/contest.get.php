@@ -1,13 +1,19 @@
 <?php
 require_once __DIR__ . "/../_utils/security.php";
-check_access("student", "admin");
+check_access("student", "judge", "admin");
 
 require_once __DIR__ . "/../_utils/io.php";
 require_once __DIR__ . "/../_utils/contest.php";
 
-$contests =
-    $_SESSION["role"] === "student"
-        ? fetch_contests_participated_by_student($_SESSION["username"])
-        : fetch_all_contests();
+switch ($_SESSION["role"]) {
+    case "admin":
+        $contests = fetch_contest_list();
+        break;
+    case "judge":
+        $contests = fetch_contests_participated_by_judge($_SESSION["username"]);
+        break;
+    default:
+        $contests = fetch_contests_participated_by_student($_SESSION["username"]);
+}
 
 json_write(200, "Berjaya.", $contests);

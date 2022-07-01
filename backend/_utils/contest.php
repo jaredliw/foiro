@@ -39,6 +39,22 @@ function fetch_contests_participated_by_student(string $student_username): array
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
+function fetch_contests_participated_by_judge(string $judge_username): array
+{
+    $stmt = MySQL::connection()->prepare("
+        SELECT c.id,
+               c.`name`,
+               c.`date`
+        FROM   judge_contest_lnk as jcl
+        LEFT JOIN contest c
+        ON jcl.contest_id = c.id
+        WHERE  jcl.judge_username = ?;
+    ");
+    $stmt->bind_param("s", $judge_username);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
 function fetch_all_contests(): array
 {
     $stmt = MySQL::connection()->prepare("

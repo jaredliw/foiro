@@ -87,7 +87,7 @@ export default {
           icon: "mdi-account-details-outline",
           text: "Maklumat Diri",
           href: "/dashboard", // Warning: always use absolute path
-          accessibleBy: ["student"],
+          accessibleBy: ["student", "judge"],
         },
         {
           icon: "mdi-account-school-outline",
@@ -110,7 +110,7 @@ export default {
         {
           icon: "mdi-calendar-star",
           text: "Pertandingan",
-          accessibleBy: ["student", "admin"],
+          accessibleBy: ["student", "judge", "admin"],
           children: [
             {
               icon: "mdi-newspaper",
@@ -140,7 +140,7 @@ export default {
               icon: "mdi-note-search-outline",
               text: "Keputusan",
               href: "/contest/result",
-              accessibleBy: ["student", "admin"],
+              accessibleBy: ["student", "judge", "admin"],
             },
           ],
         },
