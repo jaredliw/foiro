@@ -1,11 +1,11 @@
 <template>
   <page :title="this.title">
     <template v-slot:action-bar>
-      <v-btn :class="{'me-3': !noPrintButton || !noCrud}" v-if="!noImportCsv">
+      <v-btn :class="{ 'me-3': !noPrintButton || !noCrud }" v-if="!noImportCsv">
         <span class="text-uppercase">IMPORT CSV</span>
         <v-icon right>mdi-database-import</v-icon>
       </v-btn>
-      <v-btn :class="{'me-3': !noCrud}" v-if="!noPrintButton" @click="print">
+      <v-btn :class="{ 'me-3': !noCrud }" v-if="!noPrintButton" @click="print">
         <span class="text-uppercase">CETAK</span>
         <v-icon right>mdi-printer</v-icon>
       </v-btn>
@@ -243,7 +243,7 @@ export default {
     },
     print() {
       window.print();
-    }
+    },
   },
   mounted() {
     // Localisation: Change English to Malay manually
