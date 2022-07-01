@@ -45,7 +45,7 @@
 import DataPage from "@/components/DataPage";
 
 export default {
-  name: "ResultList",
+  name: "Result",
   components: {
     DataPage,
   },
@@ -79,12 +79,7 @@ export default {
         });
       })
       .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
+        this.fireErrorToast(error.response.data["message"]);
       });
     this.contest = this.contests[0]?.value;
   },

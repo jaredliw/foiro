@@ -172,7 +172,7 @@ export default {
     };
   },
   methods: {
-    loadAll() {
+    async loadAll() {
       this.is_loading = true;
       this.axios
         .get(this.apiUrl, {
@@ -182,10 +182,7 @@ export default {
           this.items = response.data["data"];
         })
         .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Data pengguna tidak dapat dimuatkan.",
-          });
+          this.fireErrorToast("Data pengguna tidak dapat dimuatkan.");
         });
       this.is_loading = false;
     },
@@ -202,22 +199,15 @@ export default {
           },
         })
         .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            title: response.data["message"],
-          });
-          this.loadAll();
+          this.fireSuccessToast(response.data["message"]);
+          this.$parent.loadAll();
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "error",
-            title:
-              error.response.data["message"] ??
-              "Ralat yang tidak diketahui berlaku.",
-          });
+          this.fireErrorToast(error.response.data["message"]);
         });
     },
     exportCSV() {
+      // noinspection JSUnresolvedFunction
       let csvContent = Papa.unparse({
         fields: this.headers.map((header) => header.text),
         data: this.selected.map((user) => Object.values(user)),
@@ -262,10 +252,7 @@ export default {
       });
 
     if (sessionStorage.getItem("show_login_success_toast") === "1") {
-      this.$swal.fire({
-        icon: "success",
-        title: "Log masuk berjaya.",
-      });
+      this.fireSuccessToast("Log masuk berjaya.");
       sessionStorage.removeItem("show_login_success_toast");
     }
 

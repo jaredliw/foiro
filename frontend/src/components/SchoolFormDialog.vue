@@ -39,6 +39,7 @@
 
 <script>
 import FormDialog from "@/components/abstract/FormDialog";
+import Validation from "./utils/validation.js";
 
 export default {
   name: "SchoolFormDialog",
@@ -63,26 +64,7 @@ export default {
     return {
       code: "",
       name: "",
-      password: "",
-      confirmPassword: "",
-      school: null,
-      showPassword: false,
-      showConfirmPassword: false,
-      schools: [],
-      rules: {
-        required: (v) => !!v || "Ruangan ini wajib diisi.",
-        fixedLength: (length) => (v) =>
-          (v && v.length >= length) || `Panjangnya ${length} aksara.`,
-        maxLength: (length) => (v) =>
-          (v && v.length <= length) || `Panjang maksimum ${length} aksara.`,
-        schoolCodeFormat: (v) =>
-          (v && /^[A-Z]{3}\d{4}$/.test(v)) ||
-          "Kod sekolah tidak sah, contoh: ABC1234.",
-        asciiPrintableOnly: (v) =>
-          /^[ -~]+$/.test(v) ||
-          "Hanya abjad, nombor, ruang dan simbol dibenarkan.",
-        containsAlpha: (v) => /[A-Za-z]/.test(v) || "Mesti mengandungi abjad.",
-      },
+      rules: Validation.rules,
     };
   },
   methods: {
@@ -99,20 +81,13 @@ export default {
         },
       })
         .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            title: response.data["message"],
-          });
-          this.$parent.loadAll();
+          this.fireSuccessToast(response.data["message"]);
+          // noinspection JSUnresolvedFunction
+          this.$parent.$parent.loadAll();
           this.$refs.dialog.close();
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "error",
-            title:
-              error.response.data["message"] ??
-              "Ralat yang tidak diketahui berlaku.",
-          });
+          this.fireErrorToast(error.response.data["message"]);
         });
     },
     setItem(item) {

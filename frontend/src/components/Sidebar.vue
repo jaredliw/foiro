@@ -23,6 +23,10 @@
 
     <v-list dense nav>
       <v-list-item-group mandatory>
+        <!-- .v-list-item--active will be added to this dummy hidden item -->
+        <!-- We don't want to have active style applied on our list items (due
+        to its tree structure) -->
+        <v-list-item class="d-none"></v-list-item>
         <template
           v-for="item in navItems.filter((value) =>
             value.accessibleBy.includes(myRole)
@@ -148,16 +152,12 @@ export default {
       this.axios
         .get("/api/me")
         .then((response) => {
-          console.log(response);
           this.myUsername = response.data["data"]["username"];
           this.myName = response.data["data"]["name"];
           this.myRole = response.data["data"]["role"];
         })
         .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Data akaun anda tidak dapat dimuatkan.",
-          });
+          this.fireErrorToast("Data akaun tidak dapat dimuatkan.");
         });
     },
     logout() {
@@ -167,10 +167,7 @@ export default {
           this.$router.push("/login");
         })
         .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Ralat yang tidak diketahui berlaku.",
-          });
+          this.fireErrorToast();
         });
     },
   },

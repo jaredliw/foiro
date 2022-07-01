@@ -51,8 +51,8 @@ const routes = [
   },
   {
     path: "/contest/result",
-    name: "ResultList",
-    component: () => import("@/views/ResultList"),
+    name: "Result",
+    component: () => import("@/views/Result"),
   },
   {
     path: "*",

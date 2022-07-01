@@ -37,6 +37,7 @@
       label="Pertandingan"
       class="px-6"
       v-model="contest"
+      no-data-text="Tiada rekod."
     ></v-select>
   </data-page>
 </template>
@@ -80,12 +81,7 @@ export default {
         });
       })
       .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
+        this.fireErrorToast(error.response.data["message"]);
       });
     this.contest = this.contests[0]?.value;
 
@@ -104,12 +100,7 @@ export default {
         });
       })
       .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
+        this.fireErrorToast(error.response.data["message"]);
       });
   },
 };

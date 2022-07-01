@@ -16,9 +16,9 @@
 export default {
   name: "App",
   metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
+    // If no subcomponents specify a metaInfo.title, this title will be used
     title: "Laman Utama",
-    // all titles will be injected into this template
+    // All titles will be injected into this template
     titleTemplate: "%s | Sistem Pengurusan Pertandingan",
   },
 };

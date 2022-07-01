@@ -49,6 +49,7 @@
 
 <script>
 import FormDialog from "@/components/abstract/FormDialog";
+import Validation from "./utils/validation.js";
 import moment from "moment";
 
 export default {
@@ -76,15 +77,7 @@ export default {
       contest_id: null,
       name: "",
       date: this.getTodayDate(),
-      rules: {
-        required: (v) => !!v || "Ruangan ini wajib diisi.",
-        maxLength: (length) => (v) =>
-          (v && v.length <= length) || `Panjang maksimum ${length} aksara.`,
-        asciiPrintableOnly: (v) =>
-          /^[ -~]+$/.test(v) ||
-          "Hanya abjad, nombor, ruang dan simbol dibenarkan.",
-        containsAlpha: (v) => /[A-Za-z]/.test(v) || "Mesti mengandungi abjad.",
-      },
+      rules: Validation.rules,
     };
   },
   methods: {
@@ -106,20 +99,13 @@ export default {
         data: data,
       })
         .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            title: response.data["message"],
-          });
-          this.$parent.loadAll();
+          this.fireSuccessToast(response.data["message"]);
+          // noinspection JSUnresolvedFunction
+          this.$parent.$parent.loadAll();
           this.$refs.dialog.close();
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "error",
-            title:
-              error.response.data["message"] ??
-              "Ralat yang tidak diketahui berlaku.",
-          });
+          this.fireErrorToast(error.response.data["message"]);
         });
     },
     setItem(item) {

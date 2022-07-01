@@ -105,10 +105,7 @@ export default {
         this.role = response.data["data"]["role"];
       })
       .catch(() => {
-        this.$swal.fire({
-          icon: "error",
-          title: "Data akaun anda tidak dapat dimuatkan.",
-        });
+        this.fireErrorToast("Data akaun tidak dapat dimuatkan.");
       });
   },
 };

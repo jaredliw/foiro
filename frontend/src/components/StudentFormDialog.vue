@@ -8,33 +8,13 @@
   >
     <v-row>
       <v-col cols="6">
-        <!-- todo readonly-->
-        <v-text-field
+        <username-field
+          :updateMode="updateMode"
           v-model="username"
-          :readonly="updateMode"
-          :rules="[
-            rules.required,
-            rules.minLength(3),
-            rules.maxLength(15),
-            rules.alnumUnderscoreOnly,
-          ]"
-          counter="15"
-          label="Nama Pengguna"
-          @keyup="lowercaseUsername"
-        ></v-text-field>
+        ></username-field>
       </v-col>
       <v-col cols="6">
-        <v-text-field
-          v-model="name"
-          :rules="[
-            rules.required,
-            rules.maxLength(80),
-            rules.alphaSpaceOnly,
-            rules.containsAlpha,
-          ]"
-          counter="80"
-          label="Nama"
-        ></v-text-field>
+        <name-field :updateMode="updateMode" v-model="name"></name-field>
       </v-col>
     </v-row>
     <v-row>
@@ -169,22 +149,10 @@ export default {
         },
       })
         .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            title: response.data["message"],
-          });
-          this.showPassword = false;
-          this.showConfirmPassword = false;
-          this.$parent.loadAll();
-          this.$refs.dialog.close();
+          this.fireSuccessToast(response.data["message"]);
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "error",
-            title:
-              error.response.data["message"] ??
-              "Ralat yang tidak diketahui berlaku.",
-          });
+          this.fireErrorToast(error.response.data["message"]);
         });
     },
     setItem(item) {
@@ -206,12 +174,7 @@ export default {
         });
       })
       .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
+        this.fireErrorToast(error.response.data["message"]);
       });
 
     this.contests = await this.axios
@@ -225,12 +188,7 @@ export default {
         });
       })
       .catch((error) => {
-        this.$swal.fire({
-          icon: "error",
-          title:
-            error.response.data["message"] ??
-            "Ralat yang tidak diketahui berlaku.",
-        });
+        this.fireErrorToast(error.response.data["message"]);
       });
   },
   computed: {

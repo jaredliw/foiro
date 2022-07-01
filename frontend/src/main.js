@@ -19,6 +19,22 @@ Vue.use(VueSweetalert2, {
   showConfirmButton: false,
   timer: 2000,
 });
+Vue.mixin({
+  methods: {
+    fireSuccessToast(message) {
+      this.$swal.fire({
+        icon: "success",
+        title: message ?? "Berjaya.",
+      });
+    },
+    fireErrorToast(message) {
+      this.$swal.fire({
+        icon: "error",
+        title: message ?? "Ralat yang tidak diketahui berlaku.",
+      });
+    },
+  },
+});
 
 new Vue({
   router,
