@@ -1,9 +1,13 @@
 <template>
   <page :title="this.title">
     <template v-slot:action-bar>
-      <v-btn class="me-3" v-if="!noImportCsv">
-        <span class="d-none d-sm-inline text-uppercase">IMPORT CSV</span>
+      <v-btn :class="{'me-3': !noPrintButton || !noCrud}" v-if="!noImportCsv">
+        <span class="text-uppercase">IMPORT CSV</span>
         <v-icon right>mdi-database-import</v-icon>
+      </v-btn>
+      <v-btn :class="{'me-3': !noCrud}" v-if="!noPrintButton" @click="print">
+        <span class="text-uppercase">CETAK</span>
+        <v-icon right>mdi-printer</v-icon>
       </v-btn>
       <v-btn
         class="darken-1"
@@ -14,7 +18,7 @@
         "
         v-if="!noCrud"
       >
-        <span class="d-none d-sm-inline text-uppercase">TAMBAH</span>
+        <span class="text-uppercase">TAMBAH</span>
         <v-icon right>mdi-plus</v-icon>
       </v-btn>
       <component
@@ -136,6 +140,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    noPrintButton: {
+      type: Boolean,
+      default: true,
+    },
     // Params to be sent when requesting `apiUrl` with GET method
     getParamsFunc: {
       type: Function,
@@ -233,6 +241,9 @@ export default {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     },
+    print() {
+      window.print();
+    }
   },
   mounted() {
     // Localisation: Change English to Malay manually

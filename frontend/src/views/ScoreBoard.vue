@@ -29,6 +29,7 @@
     title="Papan Markah"
     :no-crud="true"
     :no-import-csv="true"
+    :no-print-button="false"
     ref="dataPage"
     :lazy-load="true"
   >
