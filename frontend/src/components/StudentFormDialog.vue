@@ -63,7 +63,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <v-select
           label="Sekolah (jika ada)"
           no-data-text="Tiada rekod."
@@ -75,7 +75,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <v-autocomplete
           v-model="selectedContests"
           :items="contests"
@@ -207,7 +207,7 @@ export default {
     confirmPasswordRules() {
       return this.updateMode && !this.confirmPassword
         ? []
-        : [this.rules.required, this.rules.passwordMatch];
+        : [this.rules.required, this.rules.passwordMatch(this.password)];
     },
   },
 };

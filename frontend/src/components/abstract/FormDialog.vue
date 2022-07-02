@@ -28,6 +28,7 @@ export default {
   props: {
     dialog: {
       type: Boolean,
+      required: true,
     },
     formTitle: {
       type: String,
@@ -35,6 +36,7 @@ export default {
     },
     save: {
       type: Function,
+      required: true,
     },
   },
   methods: {

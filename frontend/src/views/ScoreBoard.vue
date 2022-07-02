@@ -66,7 +66,24 @@ export default {
     },
   },
   watch: {
-    contest() {
+    async contest() {
+      this.judge_headers = await this.axios
+        .get("/api/admin/contest/judge", {
+          params: {
+            contest_id: this.contest,
+          },
+        })
+        .then((response) => {
+          return response.data["data"].map((judge, index) => {
+            return {
+              text: `Markah ${index + 1}: Hakim '${judge["name"]}'`,
+              value: `scores.${judge["username"]}`,
+            };
+          });
+        })
+        .catch((error) => {
+          this.fireErrorToast(error.response.data["message"]);
+        });
       this.$refs.dataPage.loadAll();
     },
   },
@@ -85,24 +102,6 @@ export default {
         this.fireErrorToast(error.response.data["message"]);
       });
     this.contest = this.contests[0]?.value;
-
-    this.judge_headers = await this.axios
-      .get("/api/admin/contest/judge", {
-        params: {
-          contest_id: this.contest,
-        },
-      })
-      .then((response) => {
-        return response.data["data"].map((judge, index) => {
-          return {
-            text: `Markah ${index + 1}: Hakim '${judge["name"]}'`,
-            value: `scores.${judge["username"]}`,
-          };
-        });
-      })
-      .catch((error) => {
-        this.fireErrorToast(error.response.data["message"]);
-      });
   },
 };
 </script>

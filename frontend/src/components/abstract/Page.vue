@@ -33,7 +33,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Papan Pemuka",
+      title: this.title,
     };
   },
 };

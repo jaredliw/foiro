@@ -178,7 +178,7 @@ export default {
     confirmPasswordRules() {
       return this.updateMode && !this.confirmPassword
         ? []
-        : [this.rules.required, this.rules.passwordMatch];
+        : [this.rules.required, this.rules.passwordMatch(this.password)];
     },
   },
 };
