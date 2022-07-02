@@ -26,6 +26,7 @@ module.exports = {
     schoolCodeFormat: (v) =>
       (v && /^[A-Z]{3}\d{4}$/.test(v)) ||
       "Kod sekolah tidak sah, contoh: ABC1234.",
-    passwordMatch: (target) => (v) => v === target || "Kata laluan tidak sepadan.",
+    passwordMatch: (target) => (v) =>
+      v === target || "Kata laluan tidak sepadan.",
   },
 };

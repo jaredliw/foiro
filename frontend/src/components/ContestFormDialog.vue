@@ -116,7 +116,7 @@ export default {
   },
   watch: {
     dialog(valOfDialog) {
-      if (valOfDialog === true) {
+      if (valOfDialog === true && !this.updateMode) {
         this.date = this.getTodayDate();
       }
     },

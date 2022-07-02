@@ -110,7 +110,6 @@ export default {
     this.axios
       .get("/api/me")
       .then((response) => {
-        console.log(response);
         this.username = response.data["data"]["username"];
         this.name = response.data["data"]["name"];
         this.role = response.data["data"]["role"];

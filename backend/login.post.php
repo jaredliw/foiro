@@ -9,7 +9,8 @@ require_once __DIR__ . "/_utils/judge.php";
 session_start();
 
 $json = json_read();
-$username = compulsory_param($json->username);
+$username = strtolower(compulsory_param($json->username));
+
 $raw_password = compulsory_param($json->password);
 $role = compulsory_param($json->role);
 
@@ -41,5 +42,5 @@ if (!in_array($role, ["student", "judge", "admin"])) {
 $_SESSION["username"] = $username;
 $_SESSION["role"] = $role;
 json_write(200, "Log masuk berjaya.", [
-    "redirect_url" => "/dashboard",
+    "redirect_url" => $role === "admin" ? "/student" : "/dashboard",
 ]);
