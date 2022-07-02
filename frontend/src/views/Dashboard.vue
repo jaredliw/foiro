@@ -116,6 +116,8 @@ export default {
         this.contests = response.data["data"]["contests"].map((item) => {
           return item["name"];
         });
+        this.schoolCode = response.data["data"]["school_code"] ?? "";
+        this.schoolName = response.data["data"]["school_name"] ?? "";
       })
       .catch(() => {
         this.fireErrorToast("Data akaun tidak dapat dimuatkan.");
