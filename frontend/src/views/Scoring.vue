@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Page from "@/components/abstract/Page";
+import Page from "@/components/Page";
 import ContestSelector from "@/components/ContestSelector";
 
 export default {

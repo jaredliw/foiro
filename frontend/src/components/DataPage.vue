@@ -1,10 +1,18 @@
 <template>
-  <page :title="this.title">
+  <page :title="title">
     <template v-slot:action-bar>
-      <v-btn :class="{ 'me-3': !noPrintButton || !noCrud }" v-if="!noImportCsv">
+      <v-btn
+        :class="{ 'me-3': !noPrintButton || !noCrud }"
+        v-if="!noImportCsv"
+        @click.stop="uploadFileDialog = true"
+      >
         <span class="text-uppercase">IMPORT CSV</span>
         <v-icon right>mdi-database-import</v-icon>
       </v-btn>
+      <upload-file-dialog
+        :dialog="uploadFileDialog"
+        v-on:close="uploadFileDialog = false"
+      ></upload-file-dialog>
       <v-btn :class="{ 'me-3': !noCrud }" v-if="!noPrintButton" @click="print">
         <span class="text-uppercase">CETAK</span>
         <v-icon right>mdi-printer</v-icon>
@@ -35,6 +43,7 @@
       <v-col cols="12" class="mb-4">
         <slot></slot>
         <v-data-table
+          ref="dataTable"
           v-model="selected"
           :headers="noCrud ? headers : processedHeaders"
           :item-key="itemKey"
@@ -97,11 +106,12 @@
 <script>
 import Papa from "papaparse";
 import moment from "moment";
-import Page from "@/components/abstract/Page";
+import Page from "@/components/Page";
 import StudentFormDialog from "@/components/StudentFormDialog";
 import JudgeFormDialog from "@/components/JudgeFormDialog";
 import SchoolFormDialog from "@/components/SchoolFormDialog";
 import ContestFormDialog from "@/components/ContestFormDialog";
+import UploadFileDialog from "@/components/UploadFileDialog";
 
 export default {
   name: "DataPage",
@@ -111,6 +121,7 @@ export default {
     JudgeFormDialog,
     SchoolFormDialog,
     ContestFormDialog,
+    UploadFileDialog,
   },
   props: {
     title: {
@@ -165,6 +176,7 @@ export default {
       is_loading: false,
       dialogUpdateMode: false,
       dialog: false,
+      uploadFileDialog: false,
       processedHeaders: [
         ...this.headers,
         {
@@ -190,6 +202,7 @@ export default {
         .catch(() => {
           this.fireErrorToast("Data pengguna tidak dapat dimuatkan.");
         });
+      this.$refs.dataTable.page = 1;
       this.is_loading = false;
     },
     editItem(item) {
@@ -206,7 +219,7 @@ export default {
         })
         .then((response) => {
           this.fireSuccessToast(response.data["message"]);
-          this.$parent.loadAll();
+          this.loadAll();
         })
         .catch((error) => {
           this.fireErrorToast(error.response.data["message"]);

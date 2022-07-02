@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import FormDialog from "@/components/abstract/FormDialog";
+import FormDialog from "@/components/FormDialog";
 import Validation from "./utils/validation.js";
 
 export default {

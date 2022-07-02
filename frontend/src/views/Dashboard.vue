@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import Page from "@/components/abstract/Page";
+import Page from "@/components/Page";
 
 export default {
   name: "Dashboard",
