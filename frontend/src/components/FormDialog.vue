@@ -15,7 +15,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close()">Batal</v-btn>
+        <v-btn color="blue darken-1" text @click="closeHandler()">Batal</v-btn>
         <v-btn color="blue darken-1" text @click="saveHandler()">Terus</v-btn>
       </v-card-actions>
     </v-card>
@@ -38,6 +38,10 @@ export default {
       type: Function,
       required: true,
     },
+    close: {
+      type: Function,
+      default: () => {},
+    }
   },
   methods: {
     saveHandler() {
@@ -46,8 +50,9 @@ export default {
         this.save();
       }
     },
-    close() {
+    closeHandler() {
       this.$refs.form.reset();
+      this.close();
       this.$emit("close");
     },
   },
