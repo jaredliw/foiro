@@ -1,13 +1,35 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import axios from "axios";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/",
+    beforeEnter: (to, from, next) => {
+      next({ name: "Login" });
+    },
+  },
+  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/Login"),
+    beforeEnter: async (to, from, next) => {
+      let destination = await axios.get("/api/me")
+        .then((response) => {
+          return { path: response.data["data"]["url"] };
+        })
+        .catch(function () {
+          return null;
+        });
+
+      if (destination === null) {
+        next();
+      } else {
+        next(destination);
+      }
+    },
   },
   {
     path: "/dashboard",

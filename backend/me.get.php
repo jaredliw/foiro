@@ -18,17 +18,20 @@ switch ($_SESSION["role"]) {
         $user = get_student_profile($my_username);
         $user["contests"] = fetch_contests_participated_by_student($my_username);
         $user["role"] = "Pelajar";
+        $user["url"] = "/dashboard";
         break;
     case "judge":
         $user = get_judge_profile($my_username);
         $user["contests"] = fetch_contests_participated_by_judge($my_username);
         $user["role"] = "Hakim";
+        $user["url"] = "/dashboard";
         break;
     case "admin":
         $user = [
             "username" => ADMIN_USERNAME,
             "name" => "Administrator",
-            "role" => "Admin"
+            "role" => "Admin",
+            "url" => "/student",
         ];
         break;
     default:
