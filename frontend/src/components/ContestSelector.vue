@@ -1,9 +1,9 @@
 <template>
   <v-select
-    :items="contests"
-    label="Pertandingan"
-    class="px-6"
     v-model="contest"
+    :items="contests"
+    class="px-6"
+    label="Pertandingan"
     no-data-text="Tiada rekod."
   ></v-select>
 </template>

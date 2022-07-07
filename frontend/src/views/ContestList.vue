@@ -15,9 +15,9 @@
       },
     ]"
     api-url="/api/admin/contest"
+    dialog-component="contest-form-dialog"
     item-key="id"
     title="Senarai Pertandingan"
-    dialog-component="contest-form-dialog"
   ></data-page>
 </template>
 

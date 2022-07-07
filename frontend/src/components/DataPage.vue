@@ -2,8 +2,8 @@
   <page :title="title">
     <template v-slot:action-bar>
       <v-btn
-        :class="{ 'me-3': !noPrintButton || !noCrud }"
         v-if="!noImportCsv"
+        :class="{ 'me-3': !noPrintButton || !noCrud }"
         @click.stop="uploadFileDialog = true"
       >
         <span class="text-uppercase">IMPORT CSV</span>
@@ -13,34 +13,34 @@
         :dialog="uploadFileDialog"
         v-on:close="uploadFileDialog = false"
       ></upload-file-dialog>
-      <v-btn :class="{ 'me-3': !noCrud }" v-if="!noPrintButton" @click="print">
+      <v-btn v-if="!noPrintButton" :class="{ 'me-3': !noCrud }" @click="print">
         <span class="text-uppercase">CETAK</span>
         <v-icon right>mdi-printer</v-icon>
       </v-btn>
       <v-btn
+        v-if="!noCrud"
         class="darken-1"
         color="success"
         @click.stop="
           dialog = true;
           dialogUpdateMode = false;
         "
-        v-if="!noCrud"
       >
         <span class="text-uppercase">TAMBAH</span>
         <v-icon right>mdi-plus</v-icon>
       </v-btn>
       <component
         :is="dialogComponent"
+        v-if="!noCrud"
         ref="dialog"
+        :api-url="apiUrl"
         :dialog="dialog"
         :updateMode="dialogUpdateMode"
         v-on:close="dialog = false"
-        :api-url="apiUrl"
-        v-if="!noCrud"
       ></component>
     </template>
     <v-row>
-      <v-col cols="12" class="mb-4">
+      <v-col class="mb-4" cols="12">
         <slot></slot>
         <v-data-table
           ref="dataTable"

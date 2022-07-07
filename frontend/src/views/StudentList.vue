@@ -19,9 +19,9 @@
       },
     ]"
     api-url="/api/admin/student"
+    dialog-component="student-form-dialog"
     item-key="username"
     title="Senarai Pelajar"
-    dialog-component="student-form-dialog"
   ></data-page>
 </template>
 

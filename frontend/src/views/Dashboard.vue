@@ -1,6 +1,6 @@
 <template>
   <page title="Papan Pemuka">
-    <v-col cols="12" class="mb-4">
+    <v-col class="mb-4" cols="12">
       <h6 class="text-h6 font-weight-regular">Maklumat Diri</h6>
       <p class="caption text--secondary">
         Sila menghubungi admin untuk mengemas kini data akaun.
@@ -8,78 +8,78 @@
       <v-divider class="mb-3"></v-divider>
       <v-container>
         <v-row>
-          <v-col cols="3" class="d-flex align-center">Nama Pengguna</v-col>
+          <v-col class="d-flex align-center" cols="3">Nama Pengguna</v-col>
           <v-col cols="7">
             <v-text-field
-              outlined
-              dense
-              readonly
-              hide-details
               v-model="username"
+              dense
+              hide-details
+              outlined
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="3" class="d-flex align-center">Nama</v-col>
+          <v-col class="d-flex align-center" cols="3">Nama</v-col>
           <v-col cols="7">
             <v-text-field
-              outlined
-              dense
-              readonly
-              hide-details
               v-model="name"
+              dense
+              hide-details
+              outlined
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="3" class="d-flex align-center">Peranan</v-col>
+          <v-col class="d-flex align-center" cols="3">Peranan</v-col>
           <v-col cols="7">
             <v-select
-              outlined
-              dense
-              readonly
-              hide-details
               v-model="role"
               :items="[role]"
+              dense
+              hide-details
+              outlined
+              readonly
             ></v-select>
           </v-col>
         </v-row>
         <v-row v-if="role === 'Pelajar'">
-          <v-col cols="3" class="d-flex align-center">Sekolah</v-col>
+          <v-col class="d-flex align-center" cols="3">Sekolah</v-col>
           <v-col cols="2">
             <v-text-field
-              outlined
-              dense
-              readonly
-              hide-details
               v-model="schoolCode"
+              dense
+              hide-details
+              outlined
+              readonly
             ></v-text-field>
           </v-col>
           <v-col cols="5">
             <v-text-field
-              outlined
-              dense
-              readonly
-              hide-details
               v-model="schoolName"
+              dense
+              hide-details
+              outlined
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="3" class="d-flex align-center">
+          <v-col class="d-flex align-center" cols="3">
             Pertandingan Terlibat
           </v-col>
           <v-col cols="7">
             <v-autocomplete
-              outlined
-              dense
-              readonly
-              chips
-              small-chips
-              multiple
-              hide-details
               v-model="contests"
               :items="contests"
+              chips
+              dense
+              hide-details
+              multiple
+              outlined
+              readonly
+              small-chips
             ></v-autocomplete>
           </v-col>
         </v-row>

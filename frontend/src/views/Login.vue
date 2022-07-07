@@ -60,8 +60,8 @@
                     :disabled="is_loading_state"
                     class="mt-1 justify-content-around"
                     dense
-                    row
                     hide-details
+                    row
                   >
                     <v-radio label="Pelajar" value="student"></v-radio>
                     <v-radio label="Hakim" value="judge"></v-radio>

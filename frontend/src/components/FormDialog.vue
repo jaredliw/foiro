@@ -41,7 +41,7 @@ export default {
     close: {
       type: Function,
       default: () => {},
-    }
+    },
   },
   methods: {
     saveHandler() {

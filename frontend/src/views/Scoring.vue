@@ -22,11 +22,11 @@
                 <td>{{ item.student_name }}</td>
                 <td style="max-width: 3ch">
                   <v-text-field
-                    type="number"
-                    min="0"
-                    hide-details
-                    class="pb-3 pt-2 mb-1"
                     v-model="item.score"
+                    class="pb-3 pt-2 mb-1"
+                    hide-details
+                    min="0"
+                    type="number"
                   ></v-text-field>
                 </td>
               </tr>
@@ -36,7 +36,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" class="d-flex justify-end">
+      <v-col class="d-flex justify-end" cols="12">
         <v-btn class="darken-1" color="success" @click="save">
           <span class="text-uppercase">SIMPAN</span>
           <v-icon right>mdi-content-save</v-icon>

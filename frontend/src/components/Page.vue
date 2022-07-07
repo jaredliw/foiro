@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid fill-height class="pa-0">
+  <v-container class="pa-0" fill-height fluid>
     <sidebar id="sidebar"></sidebar>
-    <v-container id="main" fill-height class="align-content-start">
+    <v-container id="main" class="align-content-start" fill-height>
       <v-row class="mb-2 mt-4 align-center">
         <v-col cols="6">
           <h5 class="text-h5 font-weight-medium">{{ title }}</h5>
@@ -42,9 +42,9 @@ export default {
 <style scoped>
 /* animation */
 #main {
-  animation-name: fadeInFromTop;
-  animation-duration: 0.4s;
   animation-delay: 50ms;
+  animation-duration: 0.4s;
+  animation-name: fadeInFromTop;
   animation-timing-function: ease-out;
 }
 
@@ -60,8 +60,8 @@ export default {
 }
 
 #sidebar {
-  animation-name: fadeInFromLeft;
   animation-duration: 0.4s;
+  animation-name: fadeInFromLeft;
   animation-timing-function: ease-out;
 }
 

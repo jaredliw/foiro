@@ -1,25 +1,28 @@
 <template>
   <form-dialog
     ref="dialog"
-    :dialog="dialog"
-    form-title="Import CSV"
-    :save="importToDatabase"
     :close="resetAll"
+    :dialog="dialog"
+    :save="importToDatabase"
+    form-title="Import CSV"
     v-on:close="$emit('close')"
   >
     <v-row>
       <v-col cols="12">
         <span class="caption text--secondary">
           Petunjuk: Format fail CSV anda haruslah mengikut
-          <a href="/csv/pelajar.csv" download>templat ini</a>.
+          <a download href="/csv/pelajar.csv">templat ini</a>.
         </span>
       </v-col>
     </v-row>
     <v-row
+      :class="{ 'lighten-2': dragStateCounter > 0 }"
+      align="center"
       class="d-flex flex-column pb-6 grey lighten-4"
       dense
-      align="center"
       justify="center"
+      style="cursor: pointer"
+      @click="$refs.fileInput.click()"
       @drop.prevent="
         dragStateCounter = 0;
         onDrop($event);
@@ -27,47 +30,41 @@
       @dragenter.prevent="dragStateCounter++"
       @dragover.prevent
       @dragleave.prevent="dragStateCounter--"
-      @click="$refs.fileInput.click()"
-      :class="{ 'lighten-2': dragStateCounter > 0 }"
-      style="cursor: pointer"
     >
-      <v-icon
-        :class="[dragStateCounter > 0 ? 'mt-3, mb-9' : 'mt-8']"
-        size="60"
-        >mdi-cloud-upload</v-icon
-      >
+      <v-icon :class="[dragStateCounter > 0 ? 'mt-3, mb-9' : 'mt-8']" size="60"
+        >mdi-cloud-upload
+      </v-icon>
       <p class="subtitle-1 text--secondary">
         Klik atau lepaskan fail anda di sini.
       </p>
       <input
         ref="fileInput"
-        type="file"
-        class="d-none"
         accept=".csv"
-        @click="$refs.fileInput.value = null"
+        class="d-none"
+        type="file"
         @change="onFileChange"
-      /><!-- Clear value everytime the input is clicked, or else @change won't be triggered if the same file is chosen. -->
+        @click="$refs.fileInput.value = null"
+      />
+      <!-- Clear value everytime the input is clicked, or else @change won't be triggered if the same file is chosen. -->
     </v-row>
-    <v-row dense v-if="uploadedFile !== null">
+    <v-row v-if="uploadedFile !== null" dense>
       <v-col cols="12">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
               {{ uploadedFile.name }}
               <span class="ml-3 text--secondary">
-                {{
-                  formatFileSize(uploadedFile.size, (si = false))
-                }}
+                {{ formatFileSize(uploadedFile.size, (si = false)) }}
               </span>
             </v-list-item-title>
           </v-list-item-content>
           <v-list-item-action class="my-0">
             <v-btn
+              icon
               @click.stop="
                 uploadedFile = null;
                 csvContent = null;
               "
-              icon
             >
               <v-icon>mdi-close-circle</v-icon>
             </v-btn>
@@ -149,17 +146,17 @@ export default {
         return;
       }
       if (this.errorFlag) {
-        this.fireErrorToast("Tidak dapat proses fail yang dimuat naik.")
+        this.fireErrorToast("Tidak dapat proses fail yang dimuat naik.");
         return;
       }
 
       let filtered = [];
       let keys = {
         "Nama Pengguna": "username",
-        "Nama": "name",
+        Nama: "name",
         "Kata Laluan": "password",
         "Kod Sekolah": "school",
-      }
+      };
       for (let row of this.csvContent) {
         let item = {};
         for (let [key, value] of Object.entries(keys)) {

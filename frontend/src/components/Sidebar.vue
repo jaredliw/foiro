@@ -34,8 +34,8 @@
         >
           <v-list-group
             v-if="item.children"
-            :prepend-icon="item.icon"
             :key="item.text"
+            :prepend-icon="item.icon"
           >
             <template v-slot:activator>
               <v-list-item-content>
@@ -47,8 +47,8 @@
                 value.accessibleBy.includes(myRole)
               )"
               :key="child.text"
-              link
               :href="child.href"
+              link
             >
               <v-list-item-icon>
                 <v-icon>{{ child.icon }}</v-icon>
@@ -57,7 +57,7 @@
             </v-list-item>
           </v-list-group>
 
-          <v-list-item v-else :href="item.href" :key="item.text">
+          <v-list-item v-else :key="item.text" :href="item.href">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>

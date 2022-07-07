@@ -1,5 +1,7 @@
 <template>
   <data-page
+    ref="dataPage"
+    :get-params-func="params"
     :headers="[
       {
         text: 'Nama Pengguna Pelajar',
@@ -10,20 +12,18 @@
         value: 'name',
       },
     ]"
-    api-url="/api/admin/contest/student"
-    :get-params-func="params"
-    item-key="username"
-    title="Pendaftaran Pelajar"
+    :lazy-load="true"
     :no-crud="true"
     :no-import-csv="true"
-    ref="dataPage"
-    :lazy-load="true"
+    api-url="/api/admin/contest/student"
+    item-key="username"
+    title="Pendaftaran Pelajar"
   >
     <v-select
-      :items="contests"
-      label="Pertandingan"
-      class="px-6"
       v-model="contest"
+      :items="contests"
+      class="px-6"
+      label="Pertandingan"
     ></v-select>
   </data-page>
 </template>

@@ -27,9 +27,9 @@
           v-model="menu"
           :close-on-content-click="false"
           :nudge-right="40"
-          transition="scale-transition"
-          offset-y
           min-width="auto"
+          offset-y
+          transition="scale-transition"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field

@@ -16,7 +16,8 @@ const routes = [
     name: "Login",
     component: () => import("@/views/Login"),
     beforeEnter: async (to, from, next) => {
-      let destination = await axios.get("/api/me")
+      let destination = await axios
+        .get("/api/me")
         .then((response) => {
           return { path: response.data["data"]["url"] };
         })

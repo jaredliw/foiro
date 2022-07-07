@@ -15,9 +15,9 @@
       },
     ]"
     api-url="/api/admin/school"
+    dialog-component="school-form-dialog"
     item-key="code"
     title="Senarai Sekolah"
-    dialog-component="school-form-dialog"
   ></data-page>
 </template>
 

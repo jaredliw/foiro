@@ -65,11 +65,11 @@
     <v-row>
       <v-col cols="12">
         <v-select
+          v-model="school"
+          :items="schools"
+          append-outer-icon="mdi-close"
           label="Sekolah (jika ada)"
           no-data-text="Tiada rekod."
-          :items="schools"
-          v-model="school"
-          append-outer-icon="mdi-close"
           @click:append-outer="school = null"
         ></v-select>
       </v-col>
@@ -80,9 +80,9 @@
           v-model="selectedContests"
           :items="contests"
           chips
-          small-chips
           label="Pertandingan yang Disertai (jika ada)"
           multiple
+          small-chips
         ></v-autocomplete>
       </v-col>
     </v-row>

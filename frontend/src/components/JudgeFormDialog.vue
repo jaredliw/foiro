@@ -68,9 +68,9 @@
           v-model="selectedContests"
           :items="contests"
           chips
-          small-chips
           label="Pertandingan yang Dihakimi (jika ada)"
           multiple
+          small-chips
         ></v-autocomplete>
       </v-col>
     </v-row>

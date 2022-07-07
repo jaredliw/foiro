@@ -1,5 +1,7 @@
 <template>
   <data-page
+    ref="dataPage"
+    :get-params-func="params"
     :headers="[
       {
         text: 'Kedudukan',
@@ -22,21 +24,19 @@
         value: 'school_name',
       },
     ]"
-    api-url="/api/admin/contest/result"
-    :get-params-func="params"
-    item-key="username"
-    title="Keputusan Pertandingan"
+    :lazy-load="true"
     :no-crud="true"
     :no-import-csv="true"
     :no-print-button="false"
-    ref="dataPage"
-    :lazy-load="true"
+    api-url="/api/admin/contest/result"
+    item-key="username"
+    title="Keputusan Pertandingan"
   >
     <v-select
-      :items="contests"
-      label="Pertandingan"
-      class="px-6"
       v-model="contest"
+      :items="contests"
+      class="px-6"
+      label="Pertandingan"
       no-data-text="Tiada rekod."
     ></v-select>
   </data-page>
