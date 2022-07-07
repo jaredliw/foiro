@@ -2,15 +2,16 @@
   <v-container
     class="align-center pa-0 pa-md-3"
     d-flex
+    fill-height
     fluid
     justify-center
-    style="height: 100vh"
   >
-    <v-card
+    <component
+      :is="$vuetify.breakpoint.xs ? 'div' : 'v-card'"
       class="container--fluid"
       elevation="8"
+      height="fit-content"
       max-width="800"
-      style="height: fit-content"
     >
       <v-row>
         <v-col class="pe-0 d-none d-md-block" cols="6">
@@ -21,7 +22,7 @@
             @load="is_loading_img = false"
           ></v-img>
         </v-col>
-        <v-col class="ps-md-0" cols="12" md="6">
+        <v-col class="px-0 px-sm-3 ps-md-0" cols="12" md="6">
           <v-container class="px-0 px-sm-8">
             <div class="mt-8 mb-4">
               <v-card-title class="display-1 pt-0">Log Masuk</v-card-title>
@@ -82,7 +83,7 @@
           </v-container>
         </v-col>
       </v-row>
-    </v-card>
+    </component>
   </v-container>
 </template>
 

@@ -30,6 +30,14 @@ export default {
 @import "~@mdi/font/css/materialdesignicons.min.css";
 @import "~vuetify/dist/vuetify.min.css";
 
+html {
+  /* Vuetify uses a slightly modified version of ress reset which by default turns on the html scrollbar to normalize
+  behavior between browsers. We disable this functionality here. */
+  overflow-y: auto;
+  /* Smallest screen size supported. */
+  min-width: 320px;
+}
+
 .swal2-title {
   font-family: Roboto, sans-serif !important;
   font-weight: 400 !important;
