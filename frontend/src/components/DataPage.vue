@@ -6,16 +6,22 @@
         :class="{ 'me-3': !noPrintButton || !noCrud }"
         @click.stop="uploadFileDialog = true"
       >
-        <span class="text-uppercase">IMPORT CSV</span>
-        <v-icon right>mdi-database-import</v-icon>
+        <span class="text-uppercase" v-if="$vuetify.breakpoint.smAndUp">
+          IMPORT CSV
+        </span>
+        <v-icon :right="$vuetify.breakpoint.smAndUp">
+          mdi-database-import
+        </v-icon>
       </v-btn>
       <upload-file-dialog
         :dialog="uploadFileDialog"
         v-on:close="uploadFileDialog = false"
       ></upload-file-dialog>
       <v-btn v-if="!noPrintButton" :class="{ 'me-3': !noCrud }" @click="print">
-        <span class="text-uppercase">CETAK</span>
-        <v-icon right>mdi-printer</v-icon>
+        <span class="text-uppercase" v-if="$vuetify.breakpoint.smAndUp">
+          CETAK
+        </span>
+        <v-icon :right="$vuetify.breakpoint.smAndUp">mdi-printer</v-icon>
       </v-btn>
       <v-btn
         v-if="!noCrud"
@@ -26,8 +32,10 @@
           dialogUpdateMode = false;
         "
       >
-        <span class="text-uppercase">TAMBAH</span>
-        <v-icon right>mdi-plus</v-icon>
+        <span class="text-uppercase" v-if="$vuetify.breakpoint.smAndUp">
+          TAMBAH
+        </span>
+        <v-icon :right="$vuetify.breakpoint.smAndUp">mdi-plus</v-icon>
       </v-btn>
       <component
         :is="dialogComponent"
@@ -58,7 +66,7 @@
         >
           <template v-slot:top>
             <v-row no-gutters>
-              <v-col cols="6">
+              <v-col cols="10" md="6">
                 <v-text-field
                   v-model="search"
                   aria-label="Cari"
@@ -69,16 +77,21 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col class="d-flex justify-end align-end" cols="6">
+              <v-col class="d-flex justify-end align-end" cols="2" md="6">
                 <v-btn
                   :style="{ opacity: selected.length >= 1 ? 1 : 0 }"
                   class="mx-4"
                   @click="exportCSV()"
                 >
-                  <span class="d-none d-sm-inline text-uppercase">
+                  <span
+                    class="d-none d-sm-inline text-uppercase"
+                    v-if="$vuetify.breakpoint.smAndUp"
+                  >
                     EKSPORT CSV
                   </span>
-                  <v-icon right>mdi-database-export</v-icon>
+                  <v-icon :right="$vuetify.breakpoint.smAndUp"
+                    >mdi-database-export</v-icon
+                  >
                 </v-btn>
               </v-col>
             </v-row>
@@ -260,7 +273,7 @@ export default {
     // Localisation: Change English to Malay manually
     document.getElementsByClassName(
       "v-data-footer__select"
-    )[0].childNodes[0].nodeValue = "Bil. baris per halaman:";
+    )[0].childNodes[0].nodeValue = "Bil. baris:";
     document
       .getElementsByClassName("v-data-footer__pagination")[0]
       .childNodes[0].addEventListener("DOMSubtreeModified", (event) => {

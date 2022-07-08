@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer expand-on-hover permanent>
+  <v-navigation-drawer
+    :expand-on-hover="$vuetify.breakpoint.smAndUp"
+    :permanent="$vuetify.breakpoint.smAndUp"
+    :temporary="$vuetify.breakpoint.xsOnly"
+    :absolute="$vuetify.breakpoint.xsOnly"
+    v-model="state"
+  >
     <v-list>
       <v-list-item class="px-2">
         <v-list-item-avatar class="my-1">
@@ -79,6 +85,7 @@ export default {
   },
   data() {
     return {
+      state: false,
       myName: "",
       myUsername: "",
       myRole: "",
@@ -154,6 +161,9 @@ export default {
     };
   },
   methods: {
+    triggerOpen() {
+      this.state = true;
+    },
     getUserInfo() {
       this.axios
         .get("/api/me")

@@ -1,12 +1,19 @@
 <template>
   <v-container class="pa-0" fill-height fluid>
-    <sidebar id="sidebar"></sidebar>
+    <sidebar id="sidebar" ref="sidebar"></sidebar>
     <v-container id="main" class="align-content-start" fill-height>
       <v-row class="mb-2 mt-4 align-center">
-        <v-col cols="6">
+        <v-col cols="7" md="6" class="d-flex align-content-center">
+          <v-btn
+            icon
+            @click.stop="$refs.sidebar.triggerOpen()"
+            v-if="$vuetify.breakpoint.xsOnly"
+          >
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
           <h5 class="text-h5 font-weight-medium">{{ title }}</h5>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="5" md="6">
           <div class="d-flex justify-end">
             <slot name="action-bar"></slot>
           </div>
@@ -34,6 +41,11 @@ export default {
   metaInfo() {
     return {
       title: this.title,
+    };
+  },
+  data() {
+    return {
+      navigationDrawer: false,
     };
   },
 };
