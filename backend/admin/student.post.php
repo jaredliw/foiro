@@ -44,7 +44,7 @@ function main(object $data) {
 $json = json_read();
 $bulk = @$json->bulk ?? false;
 if ($bulk) {
-    $students = compulsory_param(@$json->students);
+    $students = compulsory_param(@$json->items);
     if (!is_array($students)) {
         json_write(400, "Rekod perlu dalam bentuk tatasusunan.");
     }

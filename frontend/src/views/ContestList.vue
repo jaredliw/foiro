@@ -18,6 +18,11 @@
     dialog-component="contest-form-dialog"
     item-key="id"
     title="Senarai Pertandingan"
+    template-href="/csv/pertandingan.csv"
+    :key-mappings="{
+      'Nama Pertandingan': 'name',
+      'Tarikh': 'date',
+    }"
   ></data-page>
 </template>
 

@@ -7,11 +7,11 @@
     form-title="Import CSV"
     v-on:close="$emit('close')"
   >
-    <v-row>
+    <v-row v-if="templateHref">
       <v-col cols="12">
         <span class="caption text--secondary">
           Petunjuk: Format fail CSV anda haruslah mengikut
-          <a download href="/csv/pelajar.csv">templat ini</a>.
+          <a download :href="templateHref">templat ini</a>.
         </span>
       </v-col>
     </v-row>
@@ -90,6 +90,17 @@ export default {
       type: Boolean,
       required: true,
     },
+    templateHref: {
+      type: String,
+    },
+    apiUrl: {
+      type: String,
+      required: true,
+    },
+    keyMappings: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -122,10 +133,10 @@ export default {
       }
       this.uploadedFile = file;
 
-      this.doneProcessing = false;
       Papa.parse(file, {
         header: true,
         dynamicTyping: true,
+        skipEmptyLines: true,
         complete: (results) => {
           if (results.error) {
             this.errorFlag = true;
@@ -151,27 +162,24 @@ export default {
       }
 
       let filtered = [];
-      let keys = {
-        "Nama Pengguna": "username",
-        Nama: "name",
-        "Kata Laluan": "password",
-        "Kod Sekolah": "school",
-      };
       for (let row of this.csvContent) {
         let item = {};
-        for (let [key, value] of Object.entries(keys)) {
+        for (let [key, value] of Object.entries(this.keyMappings)) {
           item[value] = row[key];
         }
         filtered.push(item);
       }
 
       this.axios
-        .post("/api/admin/student", {
+        .post(this.apiUrl, {
           bulk: true,
-          students: filtered,
+          items: filtered,
         })
         .then((response) => {
           this.fireSuccessToast(response.data["message"]);
+          this.$parent.$parent.loadAll();
+          this.resetAll();
+          this.$emit('close');
         })
         .catch((error) => {
           this.fireErrorToast(error.response.data["message"]);

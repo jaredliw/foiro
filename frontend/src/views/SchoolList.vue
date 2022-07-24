@@ -18,6 +18,11 @@
     dialog-component="school-form-dialog"
     item-key="code"
     title="Senarai Sekolah"
+    template-href="/csv/sekolah.csv"
+    :key-mappings="{
+      'Kod Sekolah': 'code',
+      'Nama Sekolah': 'name',
+    }"
   ></data-page>
 </template>
 

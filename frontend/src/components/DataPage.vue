@@ -16,7 +16,10 @@
       </v-btn>
       <upload-file-dialog
         :dialog="uploadFileDialog"
-        v-on:close="uploadFileDialog = false"
+        v-on:close="uploadFileDialog = false; loadAll();"
+        :template-href="templateHref"
+        :api-url="apiUrl"
+        :key-mappings="keyMappings"
       ></upload-file-dialog>
       <v-btn
         v-if="!noPrintButton"
@@ -183,6 +186,13 @@ export default {
     lazyLoad: {
       type: Boolean,
       default: false,
+    },
+    templateHref: {
+      type: String,
+    },
+    keyMappings: {
+      type: Object,
+      required: true,
     },
   },
   metaInfo() {

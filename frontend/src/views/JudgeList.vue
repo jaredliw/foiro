@@ -18,6 +18,12 @@
     dialog-component="judge-form-dialog"
     item-key="username"
     title="Senarai Hakim"
+    template-href="/csv/hakim.csv"
+    :key-mappings="{
+      'Nama Pengguna': 'username',
+      Nama: 'name',
+      'Kata Laluan': 'password',
+    }"
   ></data-page>
 </template>
 

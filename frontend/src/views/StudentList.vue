@@ -22,6 +22,13 @@
     dialog-component="student-form-dialog"
     item-key="username"
     title="Senarai Pelajar"
+    template-href="/csv/pelajar.csv"
+    :key-mappings="{
+      'Nama Pengguna': 'username',
+      Nama: 'name',
+      'Kata Laluan': 'password',
+      'Kod Sekolah': 'school',
+    }"
   ></data-page>
 </template>
 
