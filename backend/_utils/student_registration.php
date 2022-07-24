@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../_utils/database.php";
+require_once __DIR__ . "/database.php";
 
 function get_students_of_contest($contest_id): array
 {
@@ -46,7 +46,7 @@ function unregister_student_from_contest(string $student_username, $contest_id):
     $stmt = MySQL::connection()->prepare("
         DELETE FROM student_contest_lnk
         WHERE  student_username = ?
-               AND contest_id = ?; 
+               AND contest_id = ?;
     ");
     $stmt->bind_param("si", $student_username, $contest_id);
     $stmt->execute();

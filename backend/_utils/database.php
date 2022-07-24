@@ -1,8 +1,6 @@
 <?php
 require __DIR__ . "/credentials.php";
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // todo: remove this line in prod mode
-
 class MySQL
 {
     private static $connection;

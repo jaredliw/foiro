@@ -1,7 +1,7 @@
 <?php
 # Security concerns, do not report error to the client
-//error_reporting(0);
-//ini_set('display_errors', 0);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 require_once __DIR__ . "/_utils/router.php";
 
@@ -9,14 +9,14 @@ $white_list = [
     "/login",
     "/logout",
     "/me",
-    "/admin/student",
-    "/admin/judge",
-    "/admin/school",
-    "/admin/contest",
-    "/admin/contest/student",
-    "/admin/contest/judge",
-    "/admin/contest/scoring",
-    "/admin/contest/result",
+    "/student",
+    "/judge",
+    "/school",
+    "/contest",
+    "/contest/student",
+    "/contest/judge",
+    "/contest/scoring",
+    "/contest/result",
 ];
 
 route(join(" ", $white_list));

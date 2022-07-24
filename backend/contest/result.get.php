@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . "/../../_utils/security.php";
+require_once __DIR__ . "/../_utils/security.php";
 check_access("student", "judge", "admin");
 
-require_once __DIR__ . "/../../_utils/io.php";
-require_once __DIR__ . "/../../_utils/result.php";
-require_once __DIR__ . "/../../_utils/validate.php";
-require_once __DIR__ . "/../../_utils/student_registration.php";
-require_once __DIR__ . "/../../_utils/judge_registration.php";
+require_once __DIR__ . "/../_utils/io.php";
+require_once __DIR__ . "/../_utils/result.php";
+require_once __DIR__ . "/../_utils/validate.php";
+require_once __DIR__ . "/../_utils/student_registration.php";
+require_once __DIR__ . "/../_utils/judge_registration.php";
 
 $contest_id = compulsory_param(@$_GET["contest_id"]);
 validate_contest_id($contest_id);

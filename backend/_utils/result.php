@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../_utils/database.php";
+require_once __DIR__ . "/database.php";
 
 function get_results($contest_id): array
 {

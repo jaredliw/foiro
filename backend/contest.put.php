@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__ . "/../_utils/security.php";
+require_once __DIR__ . "/_utils/security.php";
 check_access("admin");
 
-require_once __DIR__ . "/../_utils/io.php";
-require_once __DIR__ . "/../_utils/contest.php";
-require_once __DIR__ . "/../_utils/validate.php";
+require_once __DIR__ . "/_utils/io.php";
+require_once __DIR__ . "/_utils/contest.php";
+require_once __DIR__ . "/_utils/validate.php";
 
 // Read
 $json = json_read();

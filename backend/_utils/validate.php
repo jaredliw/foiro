@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../_utils/io.php";
-require_once __DIR__ . "/../_utils/contest.php";
+require_once __DIR__ . "/io.php";
+require_once __DIR__ . "/contest.php";
 
 function validate_username(string $username): void
 {

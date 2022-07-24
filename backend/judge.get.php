@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__ . "/../_utils/security.php";
+require_once __DIR__ . "/_utils/security.php";
 check_access("admin");
 
-require_once __DIR__ . "/../_utils/io.php";
-require_once __DIR__ . "/../_utils/judge.php";
-require_once __DIR__ . "/../_utils/judge_registration.php";
+require_once __DIR__ . "/_utils/io.php";
+require_once __DIR__ . "/_utils/judge.php";
+require_once __DIR__ . "/_utils/judge_registration.php";
 
 $judges = fetch_all_judges();
 

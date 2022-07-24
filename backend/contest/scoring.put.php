@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . "/../../_utils/security.php";
+require_once __DIR__ . "/../_utils/security.php";
 check_access("judge");
 
-require_once __DIR__ . "/../../_utils/sql.php";
-require_once __DIR__ . "/../../_utils/io.php";
-require_once __DIR__ . "/../../_utils/validate.php";
-require_once __DIR__ . "/../../_utils/result.php";
+require_once __DIR__ . "/../_utils/sql.php";
+require_once __DIR__ . "/../_utils/io.php";
+require_once __DIR__ . "/../_utils/validate.php";
+require_once __DIR__ . "/../_utils/result.php";
 
 $json = json_read();
 $contest_id = compulsory_param(@$json->contest_id);

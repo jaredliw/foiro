@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . "/../_utils/security.php";
+require_once __DIR__ . "/_utils/security.php";
 check_access("admin");
 
-require_once __DIR__ . "/../_utils/io.php";
-require_once __DIR__ . "/../_utils/school.php";
+require_once __DIR__ . "/_utils/io.php";
+require_once __DIR__ . "/_utils/school.php";
 
 $json = json_read();
 $school_code = compulsory_param(@$json->code);
