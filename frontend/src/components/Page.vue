@@ -1,19 +1,25 @@
 <template>
   <v-container class="pa-0" fill-height fluid>
     <sidebar id="sidebar" ref="sidebar"></sidebar>
-    <v-container id="main" class="align-content-start" fill-height>
+    <v-container id="main" fill-height :class="$vuetify.breakpoint.smOnly ? 'pa-3 align-content-start' : 'align-content-start'">
       <v-row class="mb-2 mt-4 align-center">
-        <v-col cols="7" md="6" class="d-flex align-content-center">
+        <v-col
+          :cols="noActionBar ? 12 : 7"
+          :md="noActionBar ? 12 : 6"
+          class="d-flex align-content-center"
+        >
           <v-btn
             icon
             @click.stop="$refs.sidebar.triggerOpen()"
-            v-if="$vuetify.breakpoint.xsOnly"
+            v-if="$vuetify.breakpoint.mdAndDown"
           >
             <v-icon>mdi-menu</v-icon>
           </v-btn>
-          <h5 class="text-h5 font-weight-medium">{{ title }}</h5>
+          <h5 class="text-h5 font-weight-medium text-truncate align-self-center">
+            {{ title }}
+          </h5>
         </v-col>
-        <v-col cols="5" md="6">
+        <v-col cols="5" :md="6" v-if="!noActionBar">
           <div class="d-flex justify-end">
             <slot name="action-bar"></slot>
           </div>
@@ -37,6 +43,10 @@ export default {
       type: String,
       required: true,
     },
+    noActionBar: {
+      type: Boolean,
+      default: false,
+    }
   },
   metaInfo() {
     return {

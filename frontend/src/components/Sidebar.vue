@@ -1,9 +1,9 @@
 <template>
   <v-navigation-drawer
-    :expand-on-hover="$vuetify.breakpoint.smAndUp"
-    :permanent="$vuetify.breakpoint.smAndUp"
-    :temporary="$vuetify.breakpoint.xsOnly"
-    :absolute="$vuetify.breakpoint.xsOnly"
+    :expand-on-hover="$vuetify.breakpoint.mdAndUp"
+    :permanent="$vuetify.breakpoint.mdAndUp"
+    :temporary="$vuetify.breakpoint.smAndDown"
+    :absolute="$vuetify.breakpoint.smAndDown"
     v-model="state"
   >
     <v-list>
