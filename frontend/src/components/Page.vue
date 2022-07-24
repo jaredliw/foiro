@@ -1,7 +1,15 @@
 <template>
   <v-container class="pa-0" fill-height fluid>
     <sidebar id="sidebar" ref="sidebar"></sidebar>
-    <v-container id="main" fill-height :class="$vuetify.breakpoint.smOnly ? 'pa-3 align-content-start' : 'align-content-start'">
+    <v-container
+      id="main"
+      fill-height
+      :class="
+        $vuetify.breakpoint.smOnly
+          ? 'pa-3 align-content-start'
+          : 'align-content-start'
+      "
+    >
       <v-row class="mb-2 mt-4 align-center">
         <v-col
           :cols="noActionBar ? 12 : 7"
@@ -15,7 +23,9 @@
           >
             <v-icon>mdi-menu</v-icon>
           </v-btn>
-          <h5 class="text-h5 font-weight-medium text-truncate align-self-center">
+          <h5
+            class="text-h5 font-weight-medium text-truncate align-self-center"
+          >
             {{ title }}
           </h5>
         </v-col>
@@ -46,7 +56,7 @@ export default {
     noActionBar: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   metaInfo() {
     return {

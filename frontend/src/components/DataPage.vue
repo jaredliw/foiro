@@ -16,7 +16,10 @@
       </v-btn>
       <upload-file-dialog
         :dialog="uploadFileDialog"
-        v-on:close="uploadFileDialog = false; loadAll();"
+        v-on:close="
+          uploadFileDialog = false;
+          loadAll();
+        "
         :template-href="templateHref"
         :api-url="apiUrl"
         :key-mappings="keyMappings"

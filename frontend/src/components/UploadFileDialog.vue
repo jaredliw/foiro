@@ -179,7 +179,7 @@ export default {
           this.fireSuccessToast(response.data["message"]);
           this.$parent.$parent.loadAll();
           this.resetAll();
-          this.$emit('close');
+          this.$emit("close");
         })
         .catch((error) => {
           this.fireErrorToast(error.response.data["message"]);

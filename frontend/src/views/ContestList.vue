@@ -21,7 +21,7 @@
     template-href="/csv/pertandingan.csv"
     :key-mappings="{
       'Nama Pertandingan': 'name',
-      'Tarikh': 'date',
+      Tarikh: 'date',
     }"
   ></data-page>
 </template>
