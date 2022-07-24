@@ -14,7 +14,7 @@
         value: 'date',
       },
     ]"
-    api-url="/api/admin/contest"
+    api-url="/api/contest"
     dialog-component="contest-form-dialog"
     item-key="id"
     title="Senarai Pertandingan"

@@ -14,7 +14,7 @@
         value: 'student_count',
       },
     ]"
-    api-url="/api/admin/school"
+    api-url="/api/school"
     dialog-component="school-form-dialog"
     item-key="code"
     title="Senarai Sekolah"

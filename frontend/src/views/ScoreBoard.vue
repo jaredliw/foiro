@@ -29,7 +29,7 @@
     :no-crud="true"
     :no-import-csv="true"
     :no-print-button="false"
-    api-url="/api/admin/contest/result"
+    api-url="/api/contest/result"
     item-key="username"
     title="Papan Markah"
   >
@@ -68,7 +68,7 @@ export default {
   watch: {
     async contest() {
       this.judge_headers = await this.axios
-        .get("/api/admin/contest/judge", {
+        .get("/api/contest/judge", {
           params: {
             contest_id: this.contest,
           },
@@ -89,7 +89,7 @@ export default {
   },
   async mounted() {
     this.contests = await this.axios
-      .get("/api/admin/contest")
+      .get("/api/contest")
       .then((response) => {
         return response.data["data"].map((contest) => {
           return {

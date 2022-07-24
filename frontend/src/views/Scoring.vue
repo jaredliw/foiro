@@ -65,7 +65,7 @@ export default {
   watch: {
     async contest() {
       this.students = await this.axios
-        .get("/api/admin/contest/scoring", {
+        .get("/api/contest/scoring", {
           params: {
             contest_id: this.contest,
           },
@@ -81,7 +81,7 @@ export default {
   methods: {
     save() {
       this.axios
-        .put("/api/admin/contest/scoring", {
+        .put("/api/contest/scoring", {
           contest_id: this.contest,
           records: this.students,
         })

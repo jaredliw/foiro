@@ -18,7 +18,7 @@
         value: 'participation_count',
       },
     ]"
-    api-url="/api/admin/student"
+    api-url="/api/student"
     dialog-component="student-form-dialog"
     item-key="username"
     title="Senarai Pelajar"

@@ -14,7 +14,7 @@
         value: 'involved_count',
       },
     ]"
-    api-url="/api/admin/judge"
+    api-url="/api/judge"
     dialog-component="judge-form-dialog"
     item-key="username"
     title="Senarai Hakim"

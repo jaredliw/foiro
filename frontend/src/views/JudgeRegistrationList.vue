@@ -15,7 +15,7 @@
     :lazy-load="true"
     :no-crud="true"
     :no-import-csv="true"
-    api-url="/api/admin/contest/judge"
+    api-url="/api/contest/judge"
     item-key="username"
     title="Pendaftaran Hakim"
   >
@@ -57,7 +57,7 @@ export default {
   },
   async mounted() {
     this.contests = await this.axios
-      .get("/api/admin/contest")
+      .get("/api/contest")
       .then((response) => {
         return response.data["data"].map((contest) => {
           return {

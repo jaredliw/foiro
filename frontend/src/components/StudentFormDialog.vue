@@ -162,7 +162,7 @@ export default {
   },
   async mounted() {
     this.schools = await this.axios
-      .get("/api/admin/school")
+      .get("/api/school")
       .then((response) => {
         return response.data["data"].map((school) => {
           return {
@@ -176,7 +176,7 @@ export default {
       });
 
     this.contests = await this.axios
-      .get("/api/admin/contest")
+      .get("/api/contest")
       .then((response) => {
         return response.data["data"].map((contests) => {
           return {

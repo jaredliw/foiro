@@ -28,7 +28,7 @@
     :no-crud="true"
     :no-import-csv="true"
     :no-print-button="false"
-    api-url="/api/admin/contest/result"
+    api-url="/api/contest/result"
     item-key="username"
     title="Keputusan Pertandingan"
   >
@@ -70,7 +70,7 @@ export default {
   },
   async mounted() {
     this.contests = await this.axios
-      .get("/api/admin/contest")
+      .get("/api/contest")
       .then((response) => {
         return response.data["data"].map((contest) => {
           return {
